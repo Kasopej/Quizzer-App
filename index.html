@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"
+        integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous">
+        </script>
+    <link rel="stylesheet" href="style/bootstrap.min.css">
+    <link rel="stylesheet" href="style/styles.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <nav class="nav bg-dark nav-light">
+        <div class="nav-brand">
+            <img src="assets/images/smartflow-logo.png" alt="Smartflow logo">
+        </div>
+    </nav>
+    <main class="container-fluid p-4 text-center">
+        <h1 class="my-4 welcome-message">Welcome to smartflow software solutions candidate assessment!</h1>
+        <form action="">
+            <fieldset id="test-setup">
+                <legend class="border-bottom border-danger d-inline-block mb-4">Setup Test</legend>
+                <p><label for="language-options">Choose Language: </label>
+                    <select name="language" id="language-options">
+                        <option value="">--Select a language</option>
+                        <option value="javascript">Javascript</option>
+                        <option value="C++">C++</option>
+                        <option value="python">Python</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="easy">Difficulty: Easy</label><input type="radio" name="" id="easy">
+                </p>
+                <p>
+                    <label for="medium">Difficulty: Medium</label><input type="radio" name="" id="medium">
+                </p>
+                <p>
+                    <label for="hard">Difficulty: Hard</label><input type="radio" name="" id="hard">
+                </p>
+            </fieldset>
+            <button class="btn btn-danger text-white" type="button">Proceed</button>
+        </form>
+    </main>
+
+
+
+    <script src="app/app.js"></script>
+    <script src="app/jquery-slim.min.js"></script>
+    <script src="app/popper.min.js"></script>
+    <script src="app/bootstrap.min.js"></script>
+    <script src="fontawesome-free-5.11.2-web/js/all.js"></script>
+</body>
+
+</html>
