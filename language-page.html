@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style/bootstrap.min.css">
+    <link rel="stylesheet" href="style/styles.css">
+    <title>Candidate Assessment | Language Specific Options</title>
+</head>
+
+<body>
+
+    <nav class="nav bg-dark nav-light">
+        <div class="nav-brand">
+            <img src="assets/images/smartflow-logo.png" alt="Smartflow logo">
+        </div>
+    </nav>
+    <main class="text-center">
+        <section class="d-flex justify-content-end px-2">
+            <a href="index.html"><button class="btn btn-danger">Setup new test</button></a>
+        </section>
+        <section>
+            <div>
+                <img src="" alt="">
+                <h2>Assessment</h2>
+            </div>
+            <form class="language-specific-options" action="">
+                <fieldset>
+                    <legend class="mb-3">Javascript Quiz Options</legend>
+                    <label for="questions-quantity">Number of questions: </label>
+                    <input type="number" value="1" id="questions-quantity" min="0">
+                </fieldset>
+                <div class="mt-4">
+                    <button type="button" class="btn mx-1" data-toggle="modal" data-target="#quiz-link-modal">Timed
+                        Quiz</button>
+                    <button type="button" class="btn mx-1" data-toggle="modal" data-target="#quiz-link-modal">Untimed
+                        Quiz</button>
+                </div>
+            </form>
+        </section>
+        <div id="quiz-link-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <script src="app/app.js"></script>
+    <script src="app/jquery-slim.min.js"></script>
+    <script src="app/popper.min.js"></script>
+    <script src="app/bootstrap.min.js"></script>
+    <script src="fontawesome-free-5.11.2-web/js/all.js"></script>
+</body>
+
+</html>

@@ -10,7 +10,7 @@
         </script>
     <link rel="stylesheet" href="style/bootstrap.min.css">
     <link rel="stylesheet" href="style/styles.css">
-    <title>Document</title>
+    <title>Smartflow Solutions Candidate Assessment</title>
 </head>
 
 <body>
@@ -24,7 +24,7 @@
         <h1 class="my-4 welcome-message">Welcome to smartflow software solutions candidate assessment!</h1>
         <form action="">
             <fieldset id="test-setup">
-                <legend class="border-bottom border-danger d-inline-block mb-4">Setup Test</legend>
+                <legend class="border-bottom border-danger d-inline-block mb-4 px-3">Setup Test</legend>
                 <p><label for="language-options">Choose Language: </label>
                     <select name="language" id="language-options">
                         <option value="">--Select a language</option>
@@ -33,17 +33,22 @@
                         <option value="python">Python</option>
                     </select>
                 </p>
-                <p>
+                <p class="radios">
                     <label for="easy">Difficulty: Easy</label><input type="radio" name="" id="easy">
                 </p>
-                <p>
+                <p class="radios">
                     <label for="medium">Difficulty: Medium</label><input type="radio" name="" id="medium">
                 </p>
-                <p>
+                <p class="radios">
                     <label for="hard">Difficulty: Hard</label><input type="radio" name="" id="hard">
                 </p>
             </fieldset>
-            <button class="btn btn-danger text-white" type="button">Proceed</button>
+            <a href="#" class="px-1">
+                <button class="btn btn-danger text-white" type="button">Proceed</button>
+            </a>
+            <a href="language-page.html" class="px-1">
+                <button class="btn btn-light text-danger border-dark" type="button">Clear</button>
+            </a>
         </form>
     </main>
 
