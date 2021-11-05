@@ -21,3 +21,4 @@ a:hover{text-decoration: none;}
 .answer-options label{display: block; margin: 0; padding: 5px;}
 .answer-options label:hover, .answer-options input:hover{cursor: pointer;}
 .answer-options input {margin: 0 7px; color: black;}
+.hidden{display: none;}
