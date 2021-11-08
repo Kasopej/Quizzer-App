@@ -3,7 +3,7 @@ export default class setupDataController {
         this._configurationDataMap = new Map();
         return this._configurationDataMap;
     }
-    addToLocalStorage(key, value) {
+    addToLocalStorage(key, value = undefined) {
         localStorage.setItem(JSON.stringify(key), JSON.stringify(value))
     }
 }

@@ -1,6 +1,6 @@
-import API_CallerClass from './API_Controllers.js'
-import UI_ControllerClass from './UI_Controllers.js'
-import setupDataControllerClass from './setupData.js'
+import API_CallerClass from '../modules/API_Controllers.js'
+import UI_ControllerClass from '../modules/UI_Controllers.js'
+import setupDataControllerClass from '../modules/setupData.js'
 
 const UI_Controller = new UI_ControllerClass();
 const API_Caller = new API_CallerClass();
@@ -22,7 +22,7 @@ let saveSelectedOptions = function () {
         .set('difficulty', Array.from(UI_Controller.getElenents("input[type = 'radio' ")).find(radioElement => {
             return radioElement.checked;
         })?.value)
-
+    console.log(configDataMap);
     setupDataController.addToLocalStorage('storedConfigDataMap', Object.fromEntries(configDataMap.entries()))
     location = location.origin + UI_Controller.getAttribute(this, 'href');
 }
