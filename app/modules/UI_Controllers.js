@@ -8,14 +8,14 @@ export default class UI_ControllerClass {
     getAttribute(element, attributeName) {
         return element.getAttribute(attributeName);
     }
-    getElenents(selector) {
+    getElements(selector) {
         return document.querySelectorAll(selector)
     }
     attachElements(parent, children) {
         parent.append(children)
     }
-    attachText(elements, texts) {
-        elements.innerText = texts;
+    attachText(element, text) {
+        element.innerText = text;
     }
     addEventListener(element, event, fn) {
         element.addEventListener(event, fn)

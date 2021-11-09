@@ -22,7 +22,7 @@
     </nav>
     <main class="text-center">
         <section class="d-flex justify-content-end px-2">
-            <a href="index.html"><button class="btn btn-danger">Setup new test</button></a>
+            <a href="index.html" id="newTestBtn"><button class="btn btn-danger">Setup new test</button></a>
         </section>
         <section>
             <div>
@@ -31,7 +31,7 @@
             </div>
             <form class="language-specific-options" action="">
                 <fieldset>
-                    <legend class="mb-3">Javascript Quiz Options</legend>
+                    <legend class="mb-3">Category Quiz Options</legend>
                     <p>
                         <label for="questions-quantity">Number of questions: </label>
                         <input type="number" value="1" id="questions-quantity" min="0">
@@ -60,7 +60,7 @@
         </div>
     </main>
 
-    <script src="app/scripts/language-setup.js"></script>
+    <script type="module" src="app/scripts/category-setup.js"></script>
     <script src="app/bootstrap/jquery-slim.min.js"></script>
     <script src="app/bootstrap/popper.min.js"></script>
     <script src="app/bootstrap/bootstrap.min.js"></script>
