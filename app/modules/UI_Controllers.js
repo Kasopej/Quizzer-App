@@ -17,7 +17,14 @@ export default class UI_ControllerClass {
     attachText(element, text) {
         element.innerText = text;
     }
-    addEventListener(element, event, fn) {
-        element.addEventListener(event, fn)
+    addEventListener(Element, event, fn) {
+        if (Array.isArray(Element)) {
+            const elements = Element;
+            elements.forEach(element => {
+                element.addEventListener(event, fn)
+            })
+            return;
+        }
+        Element.addEventListener(event, fn)
     }
 }

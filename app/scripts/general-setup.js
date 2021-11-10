@@ -6,8 +6,9 @@ const UI_Controller = new UI_ControllerClass();
 const API_Caller = new API_CallerClass();
 const selectElement = UI_Controller.getElements('#language-options')[0];
 const setupDataController = new setupDataControllerClass();
+const fetchBaseURL = 'https://opentdb.com/api_category.php';
 
-API_Caller.getAllCategories().then(categories => {
+API_Caller.getAllCategories(fetchBaseURL).then(categories => {
     categories.forEach((category) => {
         let optionElement = (UI_Controller.createElement('option'));
         UI_Controller.attachText(optionElement, category.name)
