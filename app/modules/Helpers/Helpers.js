@@ -35,4 +35,7 @@ export class URL_Generator_Helper extends CommandHelper {
     generateQuizLink() {
 
     }
+    generateDynamicQueryURL() {
+
+    }
 }
