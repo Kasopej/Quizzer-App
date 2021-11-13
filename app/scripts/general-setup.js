@@ -13,7 +13,7 @@ console.log(QuizzerLocalData.getData('Quiz Categories'));
 const UI_Interface = new UI_InterfaceClass()
 QuizzerLocalData.getData('Quiz Categories').forEach(categoryObj => {
     const optionElement = UI_Interface.createElements('option')
-    UI_Interface.setAttribute();
+    UI_Interface.setAttributes([optionElement], ['value'], [categoryObj.id]);
     UI_Interface.attachText();
 })
 
