@@ -1,4 +1,6 @@
-export class UI_Interface {
+import { UI_CommandHelperClass } from "../Helpers/Helpers.js";
+
+export default class UI_InterfaceClass {
     createElements() {
 
     }
@@ -6,6 +8,12 @@ export class UI_Interface {
 
     }
     setAttribute() {
+
+    }
+    attachText() {
+
+    }
+    attachElements() {
 
     }
     removeElements() {

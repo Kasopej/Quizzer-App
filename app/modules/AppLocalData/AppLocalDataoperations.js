@@ -1,4 +1,10 @@
-export class QuizzerOperations {
+export class AppLocalDataOperationsClass {
+
+}
+export class QuizzerLocalDataOperationsClass extends AppLocalDataOperationsClass {
+    formatDataEntries(entries) {
+
+    }
     checkAnswer() {
 
     }
@@ -9,6 +15,9 @@ export class QuizzerOperations {
 
     }
     calculateScores() {
+
+    }
+    filterCategories() {
 
     }
 }

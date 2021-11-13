@@ -1,14 +1,12 @@
-export class CommandHelper {
+import UI_InterfaceClass from "../UI/UI_Interface.js";
+export class CommandHelperClass {
+
 }
 
-export class APICommandHelper extends CommandHelper {
-    loadData(url) {
-
-    }
-    addData(url, data) {
-
-    }
-    deleteData(url, data) {
-
+export class UI_CommandHelperClass extends CommandHelperClass {
+    constructor() {
+        super();
+        this.UI_Interface = new UI_InterfaceClass()
     }
 }
+
