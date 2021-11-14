@@ -8,6 +8,12 @@ export class AppLocalDataClass {
     clearData() {
         this._data = undefined;
     }
+    getConfigData() {
+        return this._configData
+    }
+    setConfigData() {
+
+    }
 }
 
 export class quizzerLocalDataClass extends AppLocalDataClass {
@@ -31,5 +37,11 @@ export class quizzerLocalDataClass extends AppLocalDataClass {
         entries.forEach(entry => {
             this._configData.set(entry[0], entry[1])
         })
+    }
+    getConfigData(key) {
+        if (arguments.length == 1) {
+            return super.getConfigData().get(key)
+        }
+        else return super.getConfigData()
     }
 }
