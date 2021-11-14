@@ -13,10 +13,10 @@ export default class UI_InterfaceClass {
             return this.helper.helpCreateMultipleElements(this, tagNames)
         }
     }
-    getElements() {
-
+    getElements(selector) {
+        return document.querySelectorAll(selector);
     }
-    setAttributes(elements = [], attributes = [], values = []) {
+    setAttributes = (elements = [], attributes = [], values = []) => {
         if (!(elements.length > 1) && !(values.length > 1)) {
             console.log('Simple set attribute operation');
             elements[0].setAttribute(attributes[0], values[0]);
@@ -25,11 +25,11 @@ export default class UI_InterfaceClass {
             this.helper.helpSetAttributesMultiple(this, elements, attributes, values)
         }
     }
-    attachText() {
-
+    attachText(element, text) {
+        element.innerText = text;
     }
-    attachElements() {
-
+    attachElements(parent, children) {
+        parent.append(children)
     }
     removeElements() {
 
@@ -37,7 +37,7 @@ export default class UI_InterfaceClass {
     addClassToElements() {
 
     }
-    addEventListenerToElements() {
-
+    addEventListenerToElements(element, event, handler) {
+        element.addEventListener(event, handler);
     }
 }

@@ -13,7 +13,8 @@ export class AppLocalDataClass {
 export class quizzerLocalDataClass extends AppLocalDataClass {
     constructor() {
         super();
-        this._data = new Map()
+        this._data = new Map();
+        this._configData = new Map()
     }
     getData(key) {
         if (arguments.length == 1) {
@@ -24,6 +25,11 @@ export class quizzerLocalDataClass extends AppLocalDataClass {
     setData(...entries) {
         entries.forEach(entry => {
             this._data.set(entry[0], entry[1])
+        })
+    }
+    setConfigData = (...entries) => {
+        entries.forEach(entry => {
+            this._configData.set(entry[0], entry[1])
         })
     }
 }
