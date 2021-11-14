@@ -8,6 +8,8 @@
     <script src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"
         integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous">
         </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsonwebtoken/8.5.1/index.js"></script>
     <link rel="stylesheet" href="style/bootstrap.min.css">
     <link rel="stylesheet" href="style/styles.css">
     <title>Candidate Assessment | Language Specific Options</title>
@@ -34,7 +36,7 @@
                     <legend class="mb-3">Category Quiz Options</legend>
                     <p>
                         <label for="questions-quantity">Number of questions: </label>
-                        <input type="number" value="1" id="questions-quantity" min="0">
+                        <input type="number" value="1" id="questions-quantity" min="1">
                     </p>
                     <p>
                         <label for="candidate-name">Candidate's Name: </label>

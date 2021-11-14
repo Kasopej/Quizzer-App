@@ -25,6 +25,9 @@ export default class UI_InterfaceClass {
             this.helper.helpSetAttributesMultiple(this, elements, attributes, values)
         }
     }
+    getAttribute(element, attributeName) {
+        return element.getAttribute(attributeName);
+    }
     attachText(element, text) {
         element.innerText = text;
     }

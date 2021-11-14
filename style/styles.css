@@ -7,8 +7,9 @@ input[type="radio"]:hover{transform: scale(1.2); border: solid 1px black;}
 a:hover{text-decoration: none;}
 .btn:focus{box-shadow: none;}
 
-/* Styling used in language-page.html */
+/* Styling used in category-page.html */
 .language-specific-options button:hover{background-color: #dc3545;}
+.modal-dialog{word-wrap: break-word;}
 
 
 /* Styling used in quiz.html */
