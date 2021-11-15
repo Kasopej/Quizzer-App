@@ -1,4 +1,4 @@
-import { UI_CommandHelperClass } from "../Helpers/Helpers.js";
+import { UI_CommandHelperClass } from "../util/CommandHelpers.js";
 
 export default class UI_InterfaceClass {
     constructor() {
@@ -6,7 +6,6 @@ export default class UI_InterfaceClass {
     }
     createElements(...tagNames) {
         if (tagNames.length == 1) {
-            console.log('One Element created');
             return document.createElement(tagNames[0])
         }
         else {
@@ -18,7 +17,6 @@ export default class UI_InterfaceClass {
     }
     setAttributes = (elements = [], attributes = [], values = []) => {
         if (!(elements.length > 1) && !(values.length > 1)) {
-            console.log('Simple set attribute operation');
             elements[0].setAttribute(attributes[0], values[0]);
         }
         else {

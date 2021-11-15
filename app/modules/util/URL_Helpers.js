@@ -1,4 +1,4 @@
-export class URL_Generator_Helper {
+export class URL_HelperClass {
     generateTokenLink(data) {
         function base64url(source) {
             // Encode in classical base64
@@ -38,15 +38,24 @@ export class URL_Generator_Helper {
         console.log(signedToken)
         return signedToken;
     }
-    generateDynamicQueryURL(params = []) {
-        let query = '?';
-        params.forEach((parameter, index) => {
-            if (!index) {
-                query = query + parameter
+    generateQuery(params = []) {
+        let query = '';
+        params.forEach((parameterEntry, index) => {
+            if (index < params.length - 1) {
+                query = query + parameterEntry[0] + '=' + parameterEntry[1] + '&';
                 return;
             }
-            query = query + '+' + parameter
+            query = query + parameterEntry[0] + '=' + parameterEntry[1];
         })
         return query;
+    }
+    getParamsFromQueryString(paramStr) {
+        let params = {};
+        var paramArr = paramStr.split("&");
+        for (let i = 0; i < paramArr.length; i++) {
+            let tempArr = paramArr[i].split("=");
+            params[tempArr[0]] = tempArr[1];
+        }
+        return params;
     }
 }

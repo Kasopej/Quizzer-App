@@ -4,7 +4,6 @@ export class CommandHelperClass {
 
 export class UI_CommandHelperClass extends CommandHelperClass {
     helpCreateMultipleElements(caller, tagNames) {
-        console.log(caller);
         const listOfNewElements = [];
         tagNames.forEach(tagName => {
             listOfNewElements.push(caller.createElements(tagName))

@@ -2,7 +2,7 @@ import { quizzerLocalDataClass } from "../modules/AppLocalData/AppLocalData.js";
 import UI_InterfaceClass from "../modules/UI/UI_Interface.js";
 import { limitNumericalEntry } from "../modules/util/HandlersHelpers.js";
 import { qtyOfQuestionsInCategoryURL } from "../modules/util/URL.js";
-import { URL_Generator_Helper } from "../modules/util/URL_Helpers.js";
+import { URL_HelperClass } from "../modules/util/URL_Helpers.js";
 import API_ServiceClass from "../Services/API_Service.js";
 import { LocalDataPersistenceClass } from "../Services/PersistentService.js";
 
@@ -12,13 +12,13 @@ const UI_Interface = new UI_InterfaceClass();
 const API_Service = new API_ServiceClass();
 const localDataQuizzerConfigDataObj = localDataPersistenceService.getData('Quizzer Config Data')
 let selectedCategoryName, selectedCategoryId;
-const URL_Generator = new URL_Generator_Helper();
+const URL_Helper = new URL_HelperClass();
 
 
 if (localDataQuizzerConfigDataObj) {
     Object.entries(localDataQuizzerConfigDataObj).forEach(entryArray => QuizzerLocalData.setConfigData(entryArray))
-    selectedCategoryName = QuizzerLocalData.getConfigData('Selected Category Name');
-    selectedCategoryId = QuizzerLocalData.getConfigData('Selected Category Id');
+    selectedCategoryName = QuizzerLocalData.getConfigData('selectedCategoryName');
+    selectedCategoryId = QuizzerLocalData.getConfigData('selectedCategoryId');
 }
 else { location.replace(location.origin) }
 
@@ -33,10 +33,10 @@ UI_Interface.addEventListenerToElements(qtyOfQuestionsSelected, 'input', functio
 UI_Interface.addEventListenerToElements(UI_Interface.getElements('[data-toggle = "modal"]')[0], 'click', function () {
     let candidateName = UI_Interface.getElements('#candidate-name')[0].value;
     if (candidateName) {
-        QuizzerLocalData.setConfigData(['Candidate Name', candidateName], ['timing', this.innerText], ['Number of Questions', qtyOfQuestionsSelected.value])
+        QuizzerLocalData.setConfigData(['candidateName', candidateName], ['timing', this.innerText], ['numberOfQuestions', qtyOfQuestionsSelected.value])
         console.log(QuizzerLocalData.getConfigData());
-        //UI_Interface.attachText(UI_Interface.getElements('#quiz-link-modal .modal-body p')[0], location.origin + '/quiz?' + URL_Generator.generateTokenLink(Object.fromEntries(QuizzerLocalData.getConfigData().entries())))
-        UI_Interface.attachText(UI_Interface.getElements('#quiz-link-modal .modal-body p')[0], location.origin + '/quiz.html' + URL_Generator.generateDynamicQueryURL(Object.values(Object.fromEntries(QuizzerLocalData.getConfigData().entries()))))
+        //UI_Interface.attachText(UI_Interface.getElements('#quiz-link-modal .modal-body p')[0], location.origin + '/quiz?' + URL_Helper.generateTokenLink(Object.fromEntries(QuizzerLocalData.getConfigData().entries())))
+        UI_Interface.attachText(UI_Interface.getElements('#quiz-link-modal .modal-body p')[0], location.origin + '/quiz.html?' + URL_Helper.generateQuery(Array.from(QuizzerLocalData.getConfigData().entries())))
 
 
     }

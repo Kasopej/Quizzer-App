@@ -26,10 +26,10 @@ QuizzerLocalData.getData('Quiz Categories').forEach(categoryObj => {
 function save_UI_Config_Entries(event) {
     const selectedCategoryElement = UI_Interface.getElements(`#language-options option:nth-of-type(${selectElement.selectedIndex + 1})`)[0];
 
-    save_UI_Entries(QuizzerLocalData.setConfigData, 'Selected Category Name', selectedCategoryElement.innerText);
-    save_UI_Entries(QuizzerLocalData.setConfigData, 'Selected Category Id', selectedCategoryElement.value);
+    save_UI_Entries(QuizzerLocalData.setConfigData, 'selectedCategoryName', selectedCategoryElement.innerText);
+    save_UI_Entries(QuizzerLocalData.setConfigData, 'selectedCategoryId', selectedCategoryElement.value);
 
-    save_UI_Entries(QuizzerLocalData.setConfigData, 'Selected Difficulty', Array.from(UI_Interface.getElements("input[type = 'radio']")).find(radioElement => radioElement.checked)?.value);
+    save_UI_Entries(QuizzerLocalData.setConfigData, 'selectedDifficulty', Array.from(UI_Interface.getElements("input[type = 'radio']")).find(radioElement => radioElement.checked)?.value);
 
     localDataPersistenceService.saveData('Quizzer Config Data', Object.fromEntries(QuizzerLocalData.getConfigData().entries()));
     Router.goToRoute(UI_Interface.getAttribute(this, 'href'))
