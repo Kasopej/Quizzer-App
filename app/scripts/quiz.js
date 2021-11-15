@@ -8,10 +8,10 @@ const API_Service = new API_ServiceClass()
 const UI_Interface = new UI_InterfaceClass()
 
 const params = URL_Helper.getParamsFromQueryString(location.search.substr(1))
-const questions = await API_Service.fetchData(`${QuestionsURL}amount=${params.numberOfQuestions}&category=${params.selectedCategoryId}`)
+const questions = await API_Service.fetchData(`${QuestionsURL}amount=${params.numberOfQuestions}&category=${params.selectedCategoryId}`).then(data => data.results)
 let questionIndex = 0;
-console.log(questions);
 
-UI_Interface.attachText([UI_Interface.getElements('.card-text')[0]], [questions.results[questionIndex].question])
+
+UI_Interface.attachText([UI_Interface.getElements('.card-text')[0]], [questions[questionIndex].question])
 
 

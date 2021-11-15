@@ -1,4 +1,4 @@
-import { quizzerLocalDataClass } from "../modules/AppLocalData/AppLocalData.js";
+import { QuizzerDataClass } from "../modules/AppData/AppData.js";
 import UI_InterfaceClass from "../modules/UI/UI_Interface.js";
 import { limitNumericalEntry } from "../modules/util/HandlersHelpers.js";
 import { qtyOfQuestionsInCategoryURL } from "../modules/util/URL.js";
@@ -7,7 +7,7 @@ import API_ServiceClass from "../Services/API_Service.js";
 import { LocalDataPersistenceClass } from "../Services/PersistentService.js";
 
 const localDataPersistenceService = new LocalDataPersistenceClass();
-const QuizzerLocalData = new quizzerLocalDataClass();
+const quizzerData = new QuizzerDataClass();
 const UI_Interface = new UI_InterfaceClass();
 const API_Service = new API_ServiceClass();
 const localDataQuizzerConfigDataObj = localDataPersistenceService.getData('Quizzer Config Data')
@@ -16,9 +16,9 @@ const URL_Helper = new URL_HelperClass();
 
 
 if (localDataQuizzerConfigDataObj) {
-    Object.entries(localDataQuizzerConfigDataObj).forEach(entryArray => QuizzerLocalData.setConfigData(entryArray))
-    selectedCategoryName = QuizzerLocalData.getConfigData('selectedCategoryName');
-    selectedCategoryId = QuizzerLocalData.getConfigData('selectedCategoryId');
+    Object.entries(localDataQuizzerConfigDataObj).forEach(entryArray => quizzerData.setConfigData(entryArray))
+    selectedCategoryName = quizzerData.getConfigData('selectedCategoryName');
+    selectedCategoryId = quizzerData.getConfigData('selectedCategoryId');
 }
 else { location.replace(location.origin) }
 
@@ -35,9 +35,9 @@ UI_Interface.addEventListenerToElements(Array.from(UI_Interface.getElements('[da
     [function () {
         let [candidateName, numberOfQuestions] = UI_Interface.getInputValue([UI_Interface.getElements('#candidate-name')[0], selectQuestionsQtyElement]);
         if (candidateName) {
-            QuizzerLocalData.setConfigData(['candidateName', candidateName], ['timing', this.innerText], ['numberOfQuestions', numberOfQuestions]);
-            //UI_Interface.attachText(UI_Interface.getElements('#quiz-link-modal .modal-body p')[0], location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(QuizzerLocalData.getConfigData().entries()))))
-            UI_Interface.attachText([UI_Interface.getElements('#quiz-link-modal .modal-body p')[0]], [location.origin + '/quiz.html?' + URL_Helper.generateQuery(Array.from(QuizzerLocalData.getConfigData().entries()))]);
+            quizzerData.setConfigData(['candidateName', candidateName], ['timing', this.innerText], ['numberOfQuestions', numberOfQuestions]);
+            //UI_Interface.attachText(UI_Interface.getElements('#quiz-link-modal .modal-body p')[0], location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries()))))
+            UI_Interface.attachText([UI_Interface.getElements('#quiz-link-modal .modal-body p')[0]], [location.origin + '/quiz.html?' + URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries()))]);
         }
     }]
 )

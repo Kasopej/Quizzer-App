@@ -1,7 +1,7 @@
-export class AppLocalDataOperationsClass {
+export class AppDataOperationsClass {
 
 }
-export class QuizzerLocalDataOperationsClass extends AppLocalDataOperationsClass {
+export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     formatDataEntries(entries) {
 
     }

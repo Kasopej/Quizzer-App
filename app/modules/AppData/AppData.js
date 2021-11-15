@@ -1,4 +1,4 @@
-export class AppLocalDataClass {
+export class AppDataClass {
     getData() {
         return this._data
     }
@@ -16,7 +16,7 @@ export class AppLocalDataClass {
     }
 }
 
-export class quizzerLocalDataClass extends AppLocalDataClass {
+export class QuizzerDataClass extends AppDataClass {
     constructor() {
         super();
         this._data = new Map();
