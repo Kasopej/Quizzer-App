@@ -16,18 +16,37 @@ export default class UI_InterfaceClass {
         return document.querySelectorAll(selector);
     }
     setAttributes = (elements = [], attributes = [], values = []) => {
-        if (!(elements.length > 1) && !(values.length > 1)) {
+        if (!(elements.length > 1) && !(attributes.length > 1) && !(values.length > 1)) {
             elements[0].setAttribute(attributes[0], values[0]);
         }
         else {
-            this.helper.helpSetAttributesMultiple(this, elements, attributes, values)
+            this.helper.helpSetEntriesOnMultipleElements(this, 'setAttributes', elements, attributes, values)
         }
     }
-    getAttribute(element, attributeName) {
-        return element.getAttribute(attributeName);
+    getAttributeFromElements(elements = [], attributeName) {
+        let attributeValuesArr = []
+        elements.forEach(element => {
+            attributeValuesArr.push(element.getAttribute(attributeName))
+        })
+        return attributeValuesArr;
     }
-    attachText(element, text) {
-        element.innerText = text;
+    getInputValue(elements = []) {
+        let inputValuesArr = []
+        elements.forEach(element => {
+            inputValuesArr.push(element.value)
+        })
+        return inputValuesArr;
+    }
+    attachText = (elements = [], texts = []) => {
+        if (elements.length == 1) {
+            if (texts.length == 1) {
+                elements[0].innerText = texts[0];
+                return;
+            }
+            console.log('Unsupported Operation: Cannot set multiple values on a single element');
+            return;
+        }
+        this.helper.helpSetValuesOnMultipleElements(this, 'attachText', elements, texts)
     }
     attachElements(parent, children) {
         parent.append(children)
@@ -38,7 +57,12 @@ export default class UI_InterfaceClass {
     addClassToElements() {
 
     }
-    addEventListenerToElements(element, event, handler) {
-        element.addEventListener(event, handler);
+    addEventListenerToElements(elements, events, handlers) {
+        if (!(elements.length > 1) && !(events.length > 1) && !(handlers.length > 1)) {
+            elements[0].addEventListener(events[0], handlers[0]);
+        }
+        else {
+            this.helper.helpSetEntriesOnMultipleElements(this, 'addEventListenerToElements', elements, events, handlers)
+        }
     }
 }

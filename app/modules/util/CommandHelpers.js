@@ -10,26 +10,27 @@ export class UI_CommandHelperClass extends CommandHelperClass {
         })
         return listOfNewElements;
     }
-    helpSetAttributesMultiple(caller, elements, attributes, values) {
+    helpSetEntriesOnMultipleElements(caller, method, elements, keys, values) {
         if (elements.length == 1) {
-            attributes.forEach((attribute, index) => {
-                caller.setAttributes(elements[0], attribute, values[index])
+            keys.forEach((key, index) => {
+                caller[method]([elements[0]], [key], [values[index]])
             })
         }
         else {
-            //First case: set single attribute with single attribute value for multiple elements
-            if (attributes.length == 1) {
-                let valueIndex = 0
-                elements.forEach((element, index) => {
-                    valueIndex = (index < values.length) ? index : valueIndex;
-                    caller.setAttributes(element, attributes[0], values[valueIndex])
-                })
-            }
-            else {
-                console.log('Unsupported Operation: You cannot set multiple attributes on multiple elements in the same call');
-            }
+            //First case: set single attribute for multiple elements
+            let valueIndex = 0;
+            elements.forEach((element, index) => {
+                valueIndex = (index < values.length) ? index : valueIndex;
+                caller[method]([element], [keys[valueIndex]], [values[valueIndex]])
+            })
         }
-
+    }
+    helpSetValuesOnMultipleElements(caller, method, elements, values) {
+        let valueIndex = 0;
+        elements.forEach((element, index) => {
+            valueIndex = (index < values.length) ? index : valueIndex;
+            caller[method]([element], [values[valueIndex]])
+        })
     }
 }
 

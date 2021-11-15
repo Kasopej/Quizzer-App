@@ -32,7 +32,7 @@ function save_UI_Config_Entries(event) {
     save_UI_Entries(QuizzerLocalData.setConfigData, 'selectedDifficulty', Array.from(UI_Interface.getElements("input[type = 'radio']")).find(radioElement => radioElement.checked)?.value);
 
     localDataPersistenceService.saveData('Quizzer Config Data', Object.fromEntries(QuizzerLocalData.getConfigData().entries()));
-    Router.goToRoute(UI_Interface.getAttribute(this, 'href'))
+    Router.goToRoute(UI_Interface.getAttribute([this], 'href')[0])
 
     event.preventDefault()
 }

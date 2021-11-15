@@ -22,22 +22,22 @@ if (localDataQuizzerConfigDataObj) {
 }
 else { location.replace(location.origin) }
 
-UI_Interface.attachText(UI_Interface.getElements('.language-specific-options fieldset legend')[0], selectedCategoryName + ' Quiz Setup');
+UI_Interface.attachText([UI_Interface.getElements('.language-specific-options fieldset legend')[0]], [selectedCategoryName + ' Quiz Setup']);
 const qtyOfAvailableQuestionsInCategory = await API_Service.fetchData(qtyOfQuestionsInCategoryURL + selectedCategoryId).then(data => data.category_question_count.total_question_count);
 
-const qtyOfQuestionsSelected = UI_Interface.getElements('#questions-quantity')[0];
-UI_Interface.addEventListenerToElements(qtyOfQuestionsSelected, 'input', function () {
+const selectQuestionsQtyElement = UI_Interface.getElements('#questions-quantity')[0];
+UI_Interface.addEventListenerToElements([selectQuestionsQtyElement], ['input'], [function () {
     limitNumericalEntry.call(this, qtyOfAvailableQuestionsInCategory, 'max')
-});
+}]
+);
 
-UI_Interface.addEventListenerToElements(UI_Interface.getElements('[data-toggle = "modal"]')[0], 'click', function () {
-    let candidateName = UI_Interface.getElements('#candidate-name')[0].value;
-    if (candidateName) {
-        QuizzerLocalData.setConfigData(['candidateName', candidateName], ['timing', this.innerText], ['numberOfQuestions', qtyOfQuestionsSelected.value])
-        console.log(QuizzerLocalData.getConfigData());
-        //UI_Interface.attachText(UI_Interface.getElements('#quiz-link-modal .modal-body p')[0], location.origin + '/quiz?' + URL_Helper.generateTokenLink(Object.fromEntries(QuizzerLocalData.getConfigData().entries())))
-        UI_Interface.attachText(UI_Interface.getElements('#quiz-link-modal .modal-body p')[0], location.origin + '/quiz.html?' + URL_Helper.generateQuery(Array.from(QuizzerLocalData.getConfigData().entries())))
-
-
-    }
-})
+UI_Interface.addEventListenerToElements(Array.from(UI_Interface.getElements('[data-toggle = "modal"]')), ['click'],
+    [function () {
+        let [candidateName, numberOfQuestions] = UI_Interface.getInputValue([UI_Interface.getElements('#candidate-name')[0], selectQuestionsQtyElement]);
+        if (candidateName) {
+            QuizzerLocalData.setConfigData(['candidateName', candidateName], ['timing', this.innerText], ['numberOfQuestions', numberOfQuestions]);
+            //UI_Interface.attachText(UI_Interface.getElements('#quiz-link-modal .modal-body p')[0], location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(QuizzerLocalData.getConfigData().entries()))))
+            UI_Interface.attachText([UI_Interface.getElements('#quiz-link-modal .modal-body p')[0]], [location.origin + '/quiz.html?' + URL_Helper.generateQuery(Array.from(QuizzerLocalData.getConfigData().entries()))]);
+        }
+    }]
+)

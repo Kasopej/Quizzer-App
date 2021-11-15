@@ -12,6 +12,6 @@ const questions = await API_Service.fetchData(`${QuestionsURL}amount=${params.nu
 let questionIndex = 0;
 console.log(questions);
 
-UI_Interface.attachText(UI_Interface.getElements('.card-text')[0], questions.results[questionIndex].question)
+UI_Interface.attachText([UI_Interface.getElements('.card-text')[0]], [questions.results[questionIndex].question])
 
 
