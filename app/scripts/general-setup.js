@@ -18,7 +18,7 @@ quizzerData.setData(['Quiz Categories', await API_Service.fetchData(CategoriesUR
 quizzerData.getData('Quiz Categories').forEach(categoryObj => {
     const optionElement = UI_Interface.createElements('option')
     UI_Interface.setAttributes([optionElement], ['value'], [categoryObj.id]);
-    UI_Interface.attachText(optionElement, categoryObj.name);
+    UI_Interface.attachText([optionElement], [categoryObj.name]);
     UI_Interface.attachElements(selectElement, optionElement);
 
 })
@@ -36,6 +36,6 @@ function save_UI_Config_Entries(event) {
 
     event.preventDefault()
 }
-UI_Interface.addEventListenerToElements(UI_Interface.getElements('#proceedBtn')[0], 'click', save_UI_Config_Entries)
+UI_Interface.addEventListenerToElements([UI_Interface.getElements('#proceedBtn')[0]], ['click'], [save_UI_Config_Entries])
 
 

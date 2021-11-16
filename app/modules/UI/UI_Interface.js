@@ -48,8 +48,22 @@ export default class UI_InterfaceClass {
         }
         this.helper.helpSetValuesOnMultipleElements(this, 'attachText', elements, texts)
     }
+    attachHTML = (elements = [], htmlStrings = []) => {
+        if (elements.length == 1) {
+            if (htmlStrings.length == 1) {
+                elements[0].innerHTML = htmlStrings[0];
+                return;
+            }
+            console.log('Unsupported Operation: Cannot set multiple values on a single element');
+            return;
+        }
+        this.helper.helpSetValuesOnMultipleElements(this, 'attachText', elements, htmlStrings)
+    }
     attachElements(parent, children) {
         parent.append(children)
+    }
+    replaceChildren(parent, children) {
+        parent.replaceChildren(...children)
     }
     removeElements() {
 
@@ -57,7 +71,7 @@ export default class UI_InterfaceClass {
     addClassToElements() {
 
     }
-    addEventListenerToElements(elements, events, handlers) {
+    addEventListenerToElements(elements = [], events = [], handlers = []) {
         if (!(elements.length > 1) && !(events.length > 1) && !(handlers.length > 1)) {
             elements[0].addEventListener(events[0], handlers[0]);
         }
