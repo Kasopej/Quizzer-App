@@ -20,28 +20,39 @@ if (!localDataQuestions) {
     const questions = await API_Service.fetchData(`${QuestionsURL}amount=${params.numberOfQuestions}&category=${params.selectedCategoryId}`).then(data => data.results);
     quizzerData.setData(['questions data', QuizzerMiddleWare.convertIncomingQuestionDataArray(questions)]);
     localDataPersistenceService.saveData('questions data', quizzerData.getData('questions data'));
-    console.log('Getting --- API');
 }
 else {
     quizzerData.setData(['questions data', localDataQuestions]);
-    console.log(quizzerData.getData(), 'got from --- localStorage');
 }
 
 let questionIndex = 0;
 let questionsData = quizzerData.getData('questions data');
-let questionObj = questionsData[questionIndex];
+//let questionObj = questionsData[questionIndex];
 
 
 function renderQuizOnUI() {
-    UI_Interface.attachText([UI_Interface.getElements('.card-text')[0]], [questionObj.question])
-    let elementsNeeded = 'p'.repeat(questionObj.answers.length);
+    UI_Interface.attachText([UI_Interface.getElements('.card-text')[0]], [questionsData[questionIndex].question])
+    UI_Interface.attachText([UI_Interface.getElements('.card-title')[0]], [`Q${questionIndex + 1}`])
+    let elementsNeeded = 'p'.repeat(questionsData[questionIndex].answers.length);
     let elementsCreated = UI_Interface.createElements(...elementsNeeded.split(''));
     elementsCreated.forEach((element, index) => {
-        UI_Interface.attachHTML([element], [`<label><input type="radio" name="option" id="${index + 1}">${questionObj.answers[index].answer}</label>`])
+        UI_Interface.attachHTML([element], [`<label><input type="radio" name="option" id="${index + 1}">${questionsData[questionIndex].answers[index].answer}</label>`])
     })
     UI_Interface.replaceChildren(UI_Interface.getElements('.answer-options')[0], elementsCreated)
 }
 
+UI_Interface.addEventListenerToElements([UI_Interface.getElements('#prev-btn')[0]], ['click'], [function (event) {
+    questionIndex = (questionIndex > 0) ? --questionIndex : questionIndex;
+    renderQuizOnUI();
+    event.preventDefault();
+}]
+);
+UI_Interface.addEventListenerToElements([UI_Interface.getElements('#next-btn')[0]], ['click'], [function (event) {
+    questionIndex = (questionIndex < questionsData.length - 1) ? ++questionIndex : questionIndex;
+    renderQuizOnUI();
+    event.preventDefault();
+}]
+);
 renderQuizOnUI()
 
 
