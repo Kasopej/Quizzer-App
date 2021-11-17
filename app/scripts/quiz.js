@@ -35,19 +35,22 @@ else {
 let questionIndex = 0;
 let questionsData = quizzerData.getData('questions data');
 quizzerDataOperation.calcTotalTime();
-console.log(quizzerDataOperation._totalTime);
 quizzerDataOperation.updateAndRenderTimeLeft(UI_Interface.getElements('.timer span')[0]);
 
 
 function renderQuizOnUI() {
+    console.log('question data: ' + JSON.stringify(questionsData[questionIndex]))
     UI_Interface.attachText([UI_Interface.getElements('.card-text')[0]], [questionsData[questionIndex].question])
     UI_Interface.attachText([UI_Interface.getElements('.card-title')[0]], [`Q${questionIndex + 1}`])
     let elementsNeeded = 'p'.repeat(questionsData[questionIndex].answers.length);
     let elementsCreated = UI_Interface.createElements(...elementsNeeded.split(''));
     elementsCreated.forEach((element, index) => {
-        UI_Interface.attachHTML([element], [`<label><input type="radio" name="option" id="${index + 1}">${questionsData[questionIndex].answers[index].answer}</label>`])
+        UI_Interface.attachHTML([element], [`<label><input type="radio" name="option" value="${index + 1}" id="${index + 1}">${questionsData[questionIndex].answers[index].answer}</label>`])
     })
     UI_Interface.replaceChildren(UI_Interface.getElements('.answer-options')[0], elementsCreated)
+    UI_Interface.addEventListenerToElements(Array.from(UI_Interface.getElements('.answer-options input')), ['change'], [function () {
+        quizzerDataOperation.checkAnswer(UI_Interface.getInputValue([this])[0], questionIndex)
+    }]);
 }
 
 UI_Interface.addEventListenerToElements([UI_Interface.getElements('#prev-btn')[0]], ['click'], [function (event) {
@@ -62,6 +65,11 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#next-btn')[0
     event.preventDefault();
 }]
 );
+UI_Interface.addEventListenerToElements([UI_Interface.getElements('#submit-btn')[0]], ['click'], [function (event) {
+    let totalScore = quizzerDataOperation.calculateScores();
+    alert(totalScore);
+    event.preventDefault();
+}])
 renderQuizOnUI()
 
 
