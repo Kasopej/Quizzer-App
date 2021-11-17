@@ -51,18 +51,15 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
         }, 1000)
     }
     checkAnswer(selectedOption, questionId) {
-        console.log('Logging selected');
         if (selectedOption == this.data.getData('questions data')[questionId].answerId) {
             let score = 1;
             this.data.getData('selected options').set(questionId, selectedOption - 1);
             this.data.getData('scores').set(questionId, score);
-            console.log('selected option: ' + this.data.getData('selected options').get(questionId));
             return;
         }
         let score = 0;
         this.data.getData('selected options').set(questionId, selectedOption - 1);
         this.data.getData('scores').set(questionId, score);
-        console.log('selected option: ' + this.data.getData('selected options').get(questionId));
     }
     getAnswer() {
 

@@ -52,9 +52,7 @@ function renderQuizOnUI() {
         quizzerDataOperation.checkAnswer(UI_Interface.getInputValue([this])[0], questionIndex)
     }]);
     let previouslySelectedOptionIndex = quizzerData.getData('selected options').get(questionIndex);
-    console.log('Rendering: ' + previouslySelectedOptionIndex);
     if (previouslySelectedOptionIndex != undefined) {
-        console.log('Has been answered');
         UI_Interface.setAttributes([optionElementsArray[previouslySelectedOptionIndex]], ['checked'], ['']);
     }
 }
