@@ -6,6 +6,6 @@ export default class RouterService {
         location = location.origin
     }
     redirect(route) {
-        location.replace = location.origin + route;
+        location.replace(location.origin + '/' + route);
     }
 }

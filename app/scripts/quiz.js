@@ -34,9 +34,10 @@ else {
 
 let questionIndex = 0;
 let questionsData = quizzerData.getData('questions data');
-quizzerDataOperation.calcTotalTime();
-quizzerDataOperation.updateAndRenderTimeLeft(UI_Interface.getElements('.timer span')[0]);
-
+if (quizzerDataOperation.checkIfQuizIsTimed()) {
+    quizzerDataOperation.calcTotalTime();
+    quizzerDataOperation.updateAndRenderTimeLeft(UI_Interface.getElements('.timer span')[0]);
+}
 
 function renderQuizOnUI() {
     console.log('question data: ' + JSON.stringify(questionsData[questionIndex]))
@@ -66,10 +67,7 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#next-btn')[0
 }]
 );
 UI_Interface.addEventListenerToElements([UI_Interface.getElements('#submit-btn')[0]], ['click'], [function (event) {
-    let totalScore = quizzerDataOperation.calculateScores();
-    alert(totalScore);
+    quizzerDataOperation.calculateScores();
     event.preventDefault();
 }])
 renderQuizOnUI()
-
-

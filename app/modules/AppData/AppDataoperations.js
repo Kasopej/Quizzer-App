@@ -1,3 +1,4 @@
+import RouterService from "../../Services/Router.js";
 import UI_InterfaceClass from "../UI/UI_Interface.js";
 
 export class AppDataOperationsClass {
@@ -8,12 +9,12 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
         super();
         this.data = data;
         this.UI_Interface = new UI_InterfaceClass();
+        this.router = new RouterService();
         this.data.setData(['scores', new Map()]);
     }
-    getDifficultyAndQuantityFromData() {
-        const difficulty = this.data.getConfigData('selectedDifficulty');
-        const quantity = this.data.getConfigData('numberOfQuestions');
-        return { difficulty, quantity }
+    checkIfQuizIsTimed() {
+        let timing = this.data.getConfigData('timing').slice(0, -7);
+        return timing = (timing == 'Timed') ? true : false;
     }
     calcTotalTime() {
         const difficulty = this.data.getConfigData('selectedDifficulty');
@@ -42,7 +43,10 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
             let unselectedIndex = (selectedIndex == 0) ? 1 : 0;
             this.UI_Interface.attachText([element], [`${minutes}m : ${seconds}s`]);
             this.UI_Interface.replacedClassOnElements([element], [colorClasses[unselectedIndex], colorClasses[selectedIndex]]);
-            if (this._totalTime == 0) { clearInterval(timerId) }
+            if (this._totalTime == 0) {
+                clearInterval(timerId);
+                this.calculateScores();
+            }
         }, 1000)
     }
     formatDataEntries(entries) {
@@ -54,12 +58,10 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
             console.log('Corrext!');
             let score = 1;
             this.data.getData('scores').set(questionId, score)
-            console.log(this.data.getData('scores').values());
             return;
         }
         let score = 0;
         this.data.getData('scores').set(questionId, score);
-        console.log(this.data.getData('scores').values());
     }
     getAnswer() {
 
@@ -68,9 +70,12 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
 
     }
     calculateScores() {
-        let totalScore = Array.from(this.data.getData('scores').values()).reduce((a, b) => a + b);
+        let totalScore = Array.from(this.data.getData('scores').values()).reduce((a, b) => { return a + b }, 0);
+        let candidateName = this.data.getConfigData('candidateName').replace('%20', ' ');
         this.data.setData(['total score', totalScore]);
-        return `You scored ${this.data.getData('total score')} / ${this.data.getData('questions data').length}`
+        alert(`Dear ${candidateName}, you scored ${this.data.getData('total score')} / ${this.data.getData('questions data').length}`);
+        this.router.redirect('quiz-finished.html')
+
     }
     filterCategories() {
 
