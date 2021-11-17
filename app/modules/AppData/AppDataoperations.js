@@ -11,6 +11,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
         this.UI_Interface = new UI_InterfaceClass();
         this.router = new RouterService();
         this.data.setData(['scores', new Map()]);
+        this.data.setData(['selected options', new Map()]);
     }
     checkIfQuizIsTimed() {
         let timing = this.data.getConfigData('timing').slice(0, -7);
@@ -49,19 +50,19 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
             }
         }, 1000)
     }
-    formatDataEntries(entries) {
-
-    }
-    checkAnswer(selectedOptionId, questionId) {
-        console.log(`option: ${selectedOptionId}, question: ${questionId}`);
-        if (selectedOptionId == this.data.getData('questions data')[questionId].answerId) {
-            console.log('Corrext!');
+    checkAnswer(selectedOption, questionId) {
+        console.log('Logging selected');
+        if (selectedOption == this.data.getData('questions data')[questionId].answerId) {
             let score = 1;
-            this.data.getData('scores').set(questionId, score)
+            this.data.getData('selected options').set(questionId, selectedOption - 1);
+            this.data.getData('scores').set(questionId, score);
+            console.log('selected option: ' + this.data.getData('selected options').get(questionId));
             return;
         }
         let score = 0;
+        this.data.getData('selected options').set(questionId, selectedOption - 1);
         this.data.getData('scores').set(questionId, score);
+        console.log('selected option: ' + this.data.getData('selected options').get(questionId));
     }
     getAnswer() {
 
