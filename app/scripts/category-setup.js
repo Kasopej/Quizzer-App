@@ -36,7 +36,7 @@ UI_Interface.addEventListenerToElements(Array.from(UI_Interface.getElements('[da
         let [candidateName, numberOfQuestions] = UI_Interface.getInputValue([UI_Interface.getElements('#candidate-name')[0], selectQuestionsQtyElement]);
         if (candidateName) {
             quizzerData.setConfigData(['candidateName', candidateName], ['timing', this.innerText], ['numberOfQuestions', numberOfQuestions]);
-            //UI_Interface.attachText(UI_Interface.getElements('#quiz-link-modal .modal-body p')[0], location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries()))))
+            //UI_Interface.attachText([UI_Interface.getElements('#quiz-link-modal .modal-body p')[0]], [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))])
             UI_Interface.attachText([UI_Interface.getElements('#quiz-link-modal .modal-body p')[0]], [location.origin + '/quiz.html?' + URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries()))]);
             return;
         }
