@@ -10,7 +10,8 @@ a:hover{text-decoration: none;}
 /* Styling used in category-page.html */
 .language-specific-options button:hover{background-color: #dc3545;}
 .modal-dialog{word-wrap: break-word;}
-
+.black-text{color: black;}
+.red-text{color: red;}
 
 /* Styling used in quiz.html */
 .timer {margin-bottom: 40px;}

@@ -68,8 +68,8 @@ export default class UI_InterfaceClass {
     removeElements() {
 
     }
-    addClassToElements() {
-
+    replacedClassOnElements(elements = [], classTokens = []) {
+        elements.forEach(element => element.classList.replace(classTokens[0], classTokens[1]))
     }
     addEventListenerToElements(elements = [], events = [], handlers = []) {
         if (!(elements.length > 1) && !(events.length > 1) && !(handlers.length > 1)) {
