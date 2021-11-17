@@ -38,6 +38,10 @@ UI_Interface.addEventListenerToElements(Array.from(UI_Interface.getElements('[da
             quizzerData.setConfigData(['candidateName', candidateName], ['timing', this.innerText], ['numberOfQuestions', numberOfQuestions]);
             //UI_Interface.attachText(UI_Interface.getElements('#quiz-link-modal .modal-body p')[0], location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries()))))
             UI_Interface.attachText([UI_Interface.getElements('#quiz-link-modal .modal-body p')[0]], [location.origin + '/quiz.html?' + URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries()))]);
+            return;
         }
-    }]
-)
+        UI_Interface.attachText([UI_Interface.getElements('#quiz-link-modal .modal-body p')[0]], ['You need to enter a candidate name']);
+    }
+    ]
+);
+UI_Interface.addEventListenerToElements([UI_Interface.getElements('#newTestBtn')[0]], ['click'], [localDataPersistenceService.clear])

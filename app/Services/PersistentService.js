@@ -9,6 +9,9 @@ export class LocalDataPersistenceClass extends PersistenceServiceClass {
     getData(key) {
         return JSON.parse(localStorage.getItem(key));
     }
+    clear() {
+        localStorage.clear();
+    }
 }
 
 export class sessionStoragePersistenceClass extends PersistenceServiceClass {
