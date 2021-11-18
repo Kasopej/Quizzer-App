@@ -1,4 +1,4 @@
-import { UI_CommandHelperClass } from "../util/CommandHelpers.js";
+import { UI_CommandHelperClass } from "../util/Helpers.js";
 
 export default class UI_InterfaceClass {
     constructor() {

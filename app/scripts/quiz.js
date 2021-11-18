@@ -3,7 +3,7 @@ import { QuizzerDataOperationsClass } from "../modules/AppData/AppDataoperations
 import { QuizzerMiddleWareClass } from "../modules/MiddleWare/MiddleWare.js";
 import UI_InterfaceClass from "../modules/UI/UI_Interface.js";
 import { QuestionsURL } from "../modules/util/URL.js";
-import { URL_HelperClass } from "../modules/util/URL_Helpers.js";
+import { URL_HelperClass } from "../modules/util/Helpers.js";
 import API_ServiceClass from "../Services/API_Service.js";
 import { sessionStoragePersistenceClass } from "../Services/PersistentService.js";
 
@@ -13,10 +13,11 @@ const API_Service = new API_ServiceClass()
 const UI_Interface = new UI_InterfaceClass()
 const QuizzerMiddleWare = new QuizzerMiddleWareClass();
 const quizzerData = new QuizzerDataClass();
+const quizzerDataOperation = new QuizzerDataOperationsClass(quizzerData);
 const sessionStoragePersistenceService = new sessionStoragePersistenceClass();
 const sessionStorageQuestions = sessionStoragePersistenceService.getData('questions data');
 const sessionStorageConfigData = sessionStoragePersistenceService.getData('quizzer config data');
-const quizzerDataOperation = new QuizzerDataOperationsClass(quizzerData);
+
 
 if (!sessionStorageQuestions && !sessionStorageConfigData) {
     const params = URL_Helper.getParamsFromQueryString(location.search.substr(1));
@@ -41,7 +42,6 @@ if (quizzerDataOperation.checkIfQuizIsTimed()) {
 function renderQuizOnUI() {
     UI_Interface.attachText([UI_Interface.getElements('.card-text')[0]], [questionsData[questionIndex].question])
     UI_Interface.attachText([UI_Interface.getElements('.card-title')[0]], [`Q${questionIndex + 1}`])
-    //let elementsNeeded = 'p'.repeat(questionsData[questionIndex].answers.length);
     let elementsCreated = UI_Interface.createElements(...'p'.repeat(questionsData[questionIndex].answers.length).split(''));
     elementsCreated.forEach((element, index) => {
         UI_Interface.attachHTML([element], [`<label><input type="radio" name="option" value="${index + 1}" id="${index + 1}">${questionsData[questionIndex].answers[index].answer}</label>`])
@@ -61,7 +61,8 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#prev-btn')[0
     questionIndex = (questionIndex > 0) ? --questionIndex : questionIndex;
     renderQuizOnUI();
     event.preventDefault();
-}]
+}
+]
 );
 UI_Interface.addEventListenerToElements([UI_Interface.getElements('#next-btn')[0]], ['click'], [function (event) {
     questionIndex = (questionIndex < questionsData.length - 1) ? ++questionIndex : questionIndex;

@@ -1,8 +1,7 @@
 import { QuizzerDataClass } from "../modules/AppData/AppData.js";
 import UI_InterfaceClass from "../modules/UI/UI_Interface.js";
-import { limitNumericalEntry } from "../modules/util/HandlersHelpers.js";
+import { HandlerHelpersClass, URL_HelperClass } from "../modules/util/Helpers.js";
 import { qtyOfQuestionsInCategoryURL } from "../modules/util/URL.js";
-import { URL_HelperClass } from "../modules/util/URL_Helpers.js";
 import API_ServiceClass from "../Services/API_Service.js";
 import { LocalDataPersistenceClass } from "../Services/PersistentService.js";
 
@@ -10,9 +9,10 @@ const localDataPersistenceService = new LocalDataPersistenceClass();
 const quizzerData = new QuizzerDataClass();
 const UI_Interface = new UI_InterfaceClass();
 const API_Service = new API_ServiceClass();
+const HandlerHelpers = new HandlerHelpersClass()
+const URL_Helper = new URL_HelperClass();
 const localDataQuizzerConfigDataObj = localDataPersistenceService.getData('Quizzer Config Data')
 let selectedCategoryName, selectedCategoryId;
-const URL_Helper = new URL_HelperClass();
 
 
 if (localDataQuizzerConfigDataObj) {
@@ -27,7 +27,7 @@ const qtyOfAvailableQuestionsInCategory = await API_Service.fetchData(qtyOfQuest
 
 const selectQuestionsQtyElement = UI_Interface.getElements('#questions-quantity')[0];
 UI_Interface.addEventListenerToElements([selectQuestionsQtyElement], ['input'], [function () {
-    limitNumericalEntry.call(this, qtyOfAvailableQuestionsInCategory, 'max')
+    HandlerHelpers.limitNumericalEntry.call(this, qtyOfAvailableQuestionsInCategory, 'max')
 }]
 );
 
