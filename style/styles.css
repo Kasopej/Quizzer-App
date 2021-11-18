@@ -1,0 +1,26 @@
+/* ***General Styling*** */
+.welcome-message{padding: 0 15%;}
+#test-setup legend {width: fit-content;}
+label{padding: 0 5px;}
+label:hover{font-weight: bold;}
+input[type="radio"]:hover{transform: scale(1.2); border: solid 1px black;}
+a:hover{text-decoration: none;}
+.btn:focus{box-shadow: none;}
+
+/* Styling used in category-page.html */
+.language-specific-options button:hover{background-color: #dc3545;}
+.modal-dialog{word-wrap: break-word;}
+.black-text{color: black;}
+.red-text{color: red;}
+
+/* Styling used in quiz.html */
+.timer {margin-bottom: 40px;}
+.card {border: solid 1px blue; margin-bottom: 15px;}
+.answer-options{min-width: 100%; max-width: 100%;}
+.controls {width: 50%;}
+.answer-options p {background-color: blue; border-radius: 15px; padding: 5px; color: white;}
+.answer-options p:hover {background-color: green;}
+.answer-options label{display: block; margin: 0; padding: 5px;}
+.answer-options label:hover, .answer-options input:hover{cursor: pointer;}
+.answer-options input {margin: 0 7px; color: black;}
+.hidden{display: none;}
