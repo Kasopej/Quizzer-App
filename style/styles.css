@@ -21,7 +21,7 @@ a:hover{text-decoration: none;}
 .card {border: solid 1px blue; margin-bottom: 15px;}
 .answer-options{min-width: 100%; max-width: 100%;}
 .controls {width: 50%;}
-.answer-options p {background-color: blue; border-radius: 15px; padding: 5px; color: white;}
+.answer-options p {background-color: rgb(105, 101, 101); border-radius: 15px; padding: 5px; color: white;}
 .answer-options p:hover {background-color: green;}
 .answer-options label{display: block; margin: 0; padding: 5px;}
 .answer-options label:hover, .answer-options input:hover{cursor: pointer;}
