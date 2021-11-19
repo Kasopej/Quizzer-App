@@ -13,8 +13,8 @@ const API_Service = new API_ServiceClass();
 const quizzerData = new QuizzerDataClass();
 const selectElement = UI_Interface.getElements('#category-options')[0];
 const localDataPersistenceService = new LocalDataPersistenceClass();
-const Router = new RouterService();
-const HandlerHelpers = new HandlerHelpersClass();
+const router = new RouterService();
+const handlerHelpers = new HandlerHelpersClass();
 const quizzerDataOperation = new QuizzerDataOperationsClass(quizzerData);
 
 quizzerData.setData(['Quiz Categories', await API_Service.fetchData(CategoriesURL).then(data => data.trivia_categories)])
@@ -27,18 +27,19 @@ quizzerData.getData('Quiz Categories').forEach(categoryObj => {
 if (quizzerDataOperation.isDataAvailable(quizzerData, 'getData', 'Quiz Categories')) { UI_Interface.removeElement(UI_Interface.getElements('.category-options-spinner')[0]) }
 
 function save_UI_Config_Entries(event) {
-    const selectedCategoryElement = UI_Interface.getElements(`#category-options option:nth-of-type(${selectElement.selectedIndex + 1})`)[0];
+    if (selectElement.selectedIndex) {
+        const selectedCategoryElement = UI_Interface.getElements(`#category-options option:nth-of-type(${selectElement.selectedIndex + 1})`)[0];
 
-    HandlerHelpers.saveEntries(quizzerData.setConfigData, 'selectedCategoryName', selectedCategoryElement.innerText);
-    HandlerHelpers.saveEntries(quizzerData.setConfigData, 'selectedCategoryId', selectedCategoryElement.value);
+        handlerHelpers.saveEntries(quizzerData.setConfigData, 'selectedCategoryName', selectedCategoryElement.innerText);
+        handlerHelpers.saveEntries(quizzerData.setConfigData, 'selectedCategoryId', selectedCategoryElement.value);
 
-    HandlerHelpers.saveEntries(quizzerData.setConfigData, 'selectedDifficulty', Array.from(UI_Interface.getElements("input[type = 'radio']")).find(radioElement => radioElement.checked)?.value);
+        handlerHelpers.saveEntries(quizzerData.setConfigData, 'selectedDifficulty', Array.from(UI_Interface.getElements("input[type = 'radio']")).find(radioElement => radioElement.checked)?.value);
 
-    localDataPersistenceService.saveData('Quizzer Config Data', Object.fromEntries(quizzerData.getConfigData().entries()));
-    Router.goToRoute(UI_Interface.getAttributeFromElements([this], 'href')[0])
-
+        localDataPersistenceService.saveData('Quizzer Config Data', Object.fromEntries(quizzerData.getConfigData().entries()));
+        router.goToRoute(UI_Interface.getAttributeFromElements([this], 'href')[0])
+    }
     event.preventDefault()
 }
-UI_Interface.addEventListenerToElements([UI_Interface.getElements('#proceedBtn')[0]], ['click'], [save_UI_Config_Entries])
+UI_Interface.addEventListenerToElements([UI_Interface.getElements('#proceed-btn')[0]], ['click'], [save_UI_Config_Entries])
 
 

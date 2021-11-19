@@ -38,9 +38,14 @@ export class HandlerHelpersClass extends HelperClass {
     saveEntries(saveMethod, ...entries) {
         saveMethod(entries);
     }
-    limitNumericalEntry(limit, mode) {
-        if (mode == 'max') {
-            if (this.value > limit) { this.value = limit; }
+    limitNumericalEntry(limits = [], modes = []) {
+        for (let mode of modes) {
+            if (mode == 'max') {
+                this.value = this.value > limits[0] ? limits[0] : this.value;
+            }
+            else if (mode == 'min') {
+                this.value = this.value < limits[1] ? limits[1] : this.value;
+            }
         }
     }
 }

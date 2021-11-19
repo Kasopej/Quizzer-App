@@ -10,7 +10,7 @@ const localDataPersistenceService = new LocalDataPersistenceClass();
 const quizzerData = new QuizzerDataClass();
 const UI_Interface = new UI_InterfaceClass();
 const API_Service = new API_ServiceClass();
-const HandlerHelpers = new HandlerHelpersClass()
+const handlerHelpers = new HandlerHelpersClass()
 const URL_Helper = new URL_HelperClass();
 const clipBoardObj = new ClipboardClass();
 const localDataQuizzerConfigDataObj = localDataPersistenceService.getData('Quizzer Config Data')
@@ -29,7 +29,7 @@ const qtyOfAvailableQuestionsInCategory = await API_Service.fetchData(qtyOfQuest
 
 const selectQuestionsQtyElement = UI_Interface.getElements('#questions-quantity')[0];
 UI_Interface.addEventListenerToElements([selectQuestionsQtyElement], ['input'], [function () {
-    HandlerHelpers.limitNumericalEntry.call(this, qtyOfAvailableQuestionsInCategory, 'max')
+    handlerHelpers.limitNumericalEntry.call(this, [qtyOfAvailableQuestionsInCategory, 1], ['max', 'min'])
 }]
 );
 UI_Interface.attachText([UI_Interface.getElements('.category-specific-options small')[0]], [`Number of questions available: ${qtyOfAvailableQuestionsInCategory}`])
@@ -40,21 +40,27 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('.quiz-link-bt
         UI_Interface.replaceHTML([modalBodyElement], ['']);
 
         let [candidatesEmails, numberOfQuestions, timing] = UI_Interface.getInputValue([UI_Interface.getElements('#candidates-emails')[0], selectQuestionsQtyElement, Array.from(UI_Interface.getElements(".timing[type = 'radio']")).find(radioElement => radioElement.checked)]);
-        let candidatesEmailsArray = candidatesEmails.split(',');
+        candidatesEmails = candidatesEmails.trim();
+        const candidatesEmailsArray = candidatesEmails.split(',');
+        let invalidEmail = candidatesEmailsArray.find(email => !email.includes('@') || !email.includes('.') || email.includes('@.') || email.startsWith('@'));
 
-        if (candidatesEmails) {
+        if (candidatesEmails && !invalidEmail) {
             for (let candidateEmail of candidatesEmailsArray) {
                 candidateEmail = candidateEmail.trim()
-                quizzerData.setConfigData(['candidateEmail', candidateEmail], ['timing', timing], ['numberOfQuestions', numberOfQuestions]);
-                //UI_Interface.attachText([modalBodyElement, [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
-                let candidateEmailAnchorElement = UI_Interface.createElements('a');
-                UI_Interface.setAttributes([candidateEmailAnchorElement], ['href'], ['#']);
-                UI_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + '/quiz.html?' + URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries()))) }])
-                UI_Interface.attachElements(modalBodyElement, candidateEmailAnchorElement)
-                UI_Interface.attachText([candidateEmailAnchorElement], [`Click to copy link for Candidate (${candidateEmail})`]);
+                if (candidateEmail !== "") {
+                    quizzerData.setConfigData(['candidateEmail', candidateEmail], ['timing', timing], ['numberOfQuestions', numberOfQuestions]);
+                    //UI_Interface.attachText([modalBodyElement, [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
+                    let candidateEmailAnchorElement = UI_Interface.createElements('a');
+                    UI_Interface.setAttributes([candidateEmailAnchorElement], ['href'], ['#']);
+                    UI_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + '/quiz.html?' + URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries()))) }
+                    ]);
+                    UI_Interface.attachText([candidateEmailAnchorElement], [`Click to copy link for Candidate (${candidateEmail})`]);
+                    UI_Interface.attachElements(modalBodyElement, candidateEmailAnchorElement)
+                }
             }
+            return;
         }
-        else { UI_Interface.attachText([modalBodyElement], ['You need to enter at least one candidate email']); }
+        UI_Interface.attachText([modalBodyElement], ['Invalid entry, please enter one or more comma separated email addresses']);
     }
     ]
 );
