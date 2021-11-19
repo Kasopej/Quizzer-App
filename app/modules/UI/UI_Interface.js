@@ -80,6 +80,9 @@ export default class UI_InterfaceClass {
     replaceChildren(parent, children) {
         parent.replaceChildren(...children)
     }
+    removeElement(element) {
+        element.remove();
+    }
     replaceClassOnElements(elements = [], classTokens = []) {
         elements.forEach(element => element.classList.replace(classTokens[0], classTokens[1]))
     }

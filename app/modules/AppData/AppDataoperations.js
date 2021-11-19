@@ -2,7 +2,10 @@ import RouterService from "../../Services/Router.js";
 import UI_InterfaceClass from "../UI/UI_Interface.js";
 
 export class AppDataOperationsClass {
-
+    isDataAvailable(dataObject, getter, key) {
+        let dataAvailable;
+        return dataAvailable = (dataObject[getter](key) !== undefined) ? true : false;
+    }
 }
 export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     constructor(data) {

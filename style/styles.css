@@ -6,12 +6,15 @@ label:hover{font-weight: bold;}
 input[type="radio"]:hover{transform: scale(1.2); border: solid 1px black;}
 a:hover{text-decoration: none;}
 .btn:focus{box-shadow: none;}
+.category-options-spinner{width: 1.5rem; height: 1.5rem; border-width: 2px !important;}
 
 /* Styling used in category-page.html */
-.language-specific-options button:hover{background-color: #dc3545;}
+.category-specific-options button:hover{background-color: #dc3545;}
 .modal-dialog{word-wrap: break-word;}
 .black-text{color: black;}
 .red-text{color: red;}
+.category-specific-options small {margin-top: -5px; width: 50%;
+    margin-left: 31%;}
 
 /* Styling used in quiz.html */
 .timer {margin-bottom: 40px;}

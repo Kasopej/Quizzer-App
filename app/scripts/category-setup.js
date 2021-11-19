@@ -24,7 +24,7 @@ if (localDataQuizzerConfigDataObj) {
 }
 else { location.replace(location.origin) }
 
-UI_Interface.attachText([UI_Interface.getElements('.language-specific-options fieldset legend')[0]], [selectedCategoryName + ' Quiz Setup']);
+UI_Interface.attachText([UI_Interface.getElements('.category-specific-options fieldset legend')[0]], [selectedCategoryName + ' Quiz Setup']);
 const qtyOfAvailableQuestionsInCategory = await API_Service.fetchData(qtyOfQuestionsInCategoryURL + selectedCategoryId).then(data => data.category_question_count.total_question_count);
 
 const selectQuestionsQtyElement = UI_Interface.getElements('#questions-quantity')[0];
@@ -32,6 +32,7 @@ UI_Interface.addEventListenerToElements([selectQuestionsQtyElement], ['input'], 
     HandlerHelpers.limitNumericalEntry.call(this, qtyOfAvailableQuestionsInCategory, 'max')
 }]
 );
+UI_Interface.attachText([UI_Interface.getElements('.category-specific-options small')[0]], [`Number of questions available: ${qtyOfAvailableQuestionsInCategory}`])
 
 UI_Interface.addEventListenerToElements([UI_Interface.getElements('.quiz-link-btn')[0]], ['click'],
     [function () {

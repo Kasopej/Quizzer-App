@@ -8,7 +8,7 @@
     <script src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"
         integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous">
         </script>
-    <link rel="stylesheet" href="style/bootstrap.min.css">
+    <link rel="stylesheet" href="style/bootstrap4.4.min.css">
     <link rel="stylesheet" href="style/styles.css">
     <title>Smartflow Solutions Candidate Assessment</title>
 </head>
@@ -27,11 +27,16 @@
         <form action="">
             <fieldset id="test-setup">
                 <legend class="border-bottom border-danger d-inline-block mb-4 px-3">Setup Test</legend>
-                <p><label for="language-options">Choose Language: </label>
-                    <select name="language" id="language-options">
-                        <option disabled value="">--Select a language</option>
+                <p>
+                    <label for="category-options">Choose Category: </label>
+                    <select name="category" id="category-options">
+                        <option disabled value="">--Select a category</option>
                     </select>
+                    <span class="spinner-border category-options-spinner text-danger" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </span>
                 </p>
+
                 <p class="radios">
                     <label for="easy">Difficulty: Easy</label><input type="radio" name="difficulty" value="easy"
                         id="easy" checked>

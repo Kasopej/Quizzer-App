@@ -39,11 +39,11 @@ if (quizzerDataOperation.checkIfQuizIsTimed()) {
 }
 
 function renderQuizOnUI() {
-    UI_Interface.replaceHTML([UI_Interface.getElements('.card-text')[0]], [questionsData[questionIndex].question])
+    UI_Interface.replaceHTML([UI_Interface.getElements('.card-text')[0]], [decodeURI(questionsData[questionIndex].question)])
     UI_Interface.attachText([UI_Interface.getElements('.card-title')[0]], [`Q${questionIndex + 1} of ${questionsData.length}`])
     let elementsCreated = UI_Interface.createElements(...'p'.repeat(questionsData[questionIndex].answers.length).split(''));
     elementsCreated.forEach((element, index) => {
-        UI_Interface.replaceHTML([element], [`<label><input type="radio" name="option" value="${index + 1}" id="${index + 1}">${questionsData[questionIndex].answers[index].answer}</label>`]);
+        UI_Interface.replaceHTML([element], [`<label><input type="radio" name="option" value="${index + 1}" id="${index + 1}">${decodeURI(questionsData[questionIndex].answers[index].answer)}</label>`]);
     });
     UI_Interface.replaceChildren(UI_Interface.getElements('.answer-options')[0], elementsCreated);
     const optionElementsArray = Array.from(UI_Interface.getElements('.answer-options input'));
