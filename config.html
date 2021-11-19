@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="config.css">
+</head>
+<body>
+    <div class="mx-3 bg-white px-3 py-2 shadow contentcontainer">
+       <div class="d-flex justify-content-center align-center "><img src="images/smartflow-logo.png" alt="smartflow-logo"></div> 
+        <div>
+           <div class="my-3">
+            <h4 id="newurl" class="d-none">url</h4>
+            <h4 class="font-weight-bold weltext">Welcome to Smartflow Quiz Assessment Configuration Page!</h4>
+            <p>Carefully make your selection to generate link for Candidate.</p>
+           </div>
+            
+            <form class=" was-validated configForm" id="configForm">
+                <div class="form-group">
+                    <label for="usersemail">Candidates Email:</label>
+                    <textarea name="usersemail" id="usersemail" rows="2" class="form-control emailtxt" value="emails" title="separate each mail with a comma">
+                    </textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="amount">Number of Questions:</label>
+                    <input type="number" class="form-control" name="amount"
+                    id="amountofquestion" min="1" max="60" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                  </div>
+                  <div class="selectWrap my-2">
+                    <label for="category">Select Category:</label>
+                    <select name="category" class="custom-select" id="categorySelect">
+                    </select>
+                  </div>
+                 <div class="selectWrap my-2">
+                    <label for="difficulty">Select Difficulty:</label>
+                    <select name="difficulty" id="difficultySelect" class="custom-select">
+                      <option value="">Select Difficulty</option>
+                      <option value="easy">Easy</option>
+                      <option value="medium">Medium</option>
+                      <option value="hard">Hard</option>
+                       </select>
+                 </div>
+                 <div class="selectWrap my-2">
+                  <label for="type">Select Type:</label>
+                  <select name="type" id="typeSelect" class="custom-select">
+                    <option value="">Any type</option>
+                    <option value="multiple">Multi-Choice</option>
+                    <!-- <option value="boolean">True / False</option> -->
+                     </select>
+               </div>
+                  <div class="my-2">
+                    <button type="button" class="btn btn-block btn-primary" id="submitBtn">Generate Link</button>
+                
+                  </div>
+              </form>
+              <!-- <a href="#" id="submitBtn" class="btn btn-success">Generate link</a> -->
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="config.js"></script>
+</body>
+</html>

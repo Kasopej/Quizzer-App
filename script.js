@@ -300,31 +300,85 @@ let quizcontElm = document.getElementById('quiz');
 let submitbtn = document.getElementById('subbtn');
 let qnumber = document.getElementById('qnumber');
 const qLength = document.getElementById('qlength');
-
+const splashscreen = document.querySelector('.splashscreen');
+let apiQuestionBag;
 var currentquiz = 0;
+var responseArray;
 let score = 0;
 let answerArr = [];
-let answerMap = new Map()
-qLength.innerHTML = questionBag.length;
+let checkContent=false;
+let answerMap = new Map();
 
+document.addEventListener('DOMContentLoaded',(e)=>{
+ if(checkContent==false){
+    setTimeout(()=>{
+        splashscreen.classList.add('dsiplay-none')
+    }, 3000)
+ }
+   
+});
 
-loadQuestion();
-deSelect();
-getQuiz();
+async function fetchQuestion(){
+    let locationtUrl = location.search;
+    let searchurl = new URLSearchParams(locationtUrl);
+    let amount = searchurl.get('amount');
+    let category = searchurl.get('category');
+    let difficulty = searchurl.get('difficulty');
+    let type = searchurl.get('type');
+    let url = 'https://opentdb.com/api.php?'+ 'amount='+ amount +'&'+ 'category='+ category + '&'+'difficulty='+difficulty + '&'+ 'type=' + type;
+    console.log(url);
+    let res = await fetch(url);
+     await res.json().then( response =>{
+         responseArray =response.results;
+         console.log(responseArray);
+        for(let i = 0; i < responseArray.length; i++){
+         let answerARRAY= responseArray[i].answers = [];
+         answerARRAY.push({});
+         answerARRAY.push({});
+         answerARRAY.push({});
+         answerARRAY.push({});
+         for(let j = 0; j < answerARRAY.length; j++){
+              answerARRAY[j].id = j + 1;
+              answerARRAY[j].answer = response.results[i].incorrect_answers[j];
+              if(answerARRAY[j].answer == undefined){
+                  answerARRAY[j].answer = response.results[i].correct_answer;
+              }
+            responseArray[i].answerId= answerARRAY[j].id;
+         }
+         switch (response.results[i].difficulty) {
+            case 'easy':
+                response.results[i].difficulty=1;   
+                break;
+            case 'medium':
+                response.results[i].difficulty=2;   
+                    break;
+           case 'easy':
+                 response.results[i].difficulty=3;   
+                 break;
+            default:
+                break;
+        }
+        }
+    });
+    checkContent = false;
+    console.log(responseArray);
+    qLength.innerHTML = responseArray.length;
+    loadQuestion();
+    return  responseArray; 
+}
 
-function loadQuestion() {
+ function loadQuestion() {
     deSelect();
-    const quizQuestion = questionBag[currentquiz];
+    const quizQuestion = responseArray[currentquiz];
     quetsElm.innerText = quizQuestion.question;
     optionAElm.innerText = quizQuestion.answers[0].answer;
     optionBElm.innerText = quizQuestion.answers[1].answer;
     optionCElm.innerText = quizQuestion.answers[2].answer;
     optionDElm.innerText = quizQuestion.answers[3].answer;
     answerArr.push(quizQuestion.answerId);
-    // getSelectedRadioButtonID();
     let answer = getSelectedRadioButtonID();
     if (answer) {
-        if (answer == questionBag[currentquiz].answerId) {
+        if (answer == responseArray[currentquiz].answerId) {
             score++;
         }
    
@@ -335,14 +389,7 @@ function loadQuestion() {
         prevElm.style.display = "block";
         nextElm.style.display ="block";
     }
-    // console.log(questionBag.length + "questionbag");
-    // prevElm.style.display = "none";
-    // if (currentquiz + 1 === questionBag.length) {
-    //     nextElm.style.display = "none";
-    // } else {
-    //     nextElm.style.display = "block";
-    // }
-    if (currentquiz + 1 != questionBag.length) {
+    if (currentquiz + 1 != responseArray.length) {
         submitbtn.style.display = "none";
     } else {
         submitbtn.style.display = "block";
@@ -353,26 +400,13 @@ function loadQuestion() {
 }
 
 function getSelectedRadioButtonID() {
-    // console.log(answersEl);
     let answer;
     answersEl.forEach((answerEl) => {
         if (answerEl.checked) {
             answer = answerEl.id;
-            // console.log(
-            //     answer
-            // );
-
-            // get question index
-            // get value of question index in answer array
-            // replace value
-
-            // localStorage.setItem('correct', answer);
-        // answerArr.push(answer);
         answerMap.set(currentquiz, answer);
         }
     });
-    // console.log(answerArr);
-    // console.log(answerMap);
     return answer;
 }
 
@@ -385,22 +419,21 @@ function deSelect() {
 nextElm.addEventListener('click', () => {
     let answer = getSelectedRadioButtonID();
     if (answer) {
-        if (answer == questionBag[currentquiz].answerId) {
+        if (answer == responseArray[currentquiz].answerId) {
             score++;
         }
         console.log(answerArr);
         currentquiz++;
         qnumber.innerHTML = currentquiz + 1;
-        if (currentquiz < questionBag.length) {
+        if (currentquiz < responseArray.length) {
             localStorage.setItem('correct', answer);
             loadQuestion();
         }
     }
     let mychecked = answerMap.get(currentquiz);
-    // console.log(mychecked);
+    
     answersEl.forEach((answerEl) => {
-        // console.log(answerEl.id);
-        for (let i = currentquiz; i < questionBag.length; i++) {
+        for (let i = currentquiz; i < responseArray.length; i++) {
             if (mychecked == answerEl.id) {
                 answerEl.checked = true;
             }
@@ -416,13 +449,10 @@ prevElm.addEventListener('click', () => {
         currentquiz--;
         qnumber.innerHTML = currentquiz + 1;
         loadQuestion();
-        // localStorage.getItem("answer");
     }
     let mychecked = answerMap.get(currentquiz);
-    // console.log(mychecked);
     answersEl.forEach((answerEl) => {
-        // console.log(answerEl.id);
-        for (let i = currentquiz; i < questionBag.length; i++) {
+        for (let i = currentquiz; i < responseArray.length; i++) {
             if (mychecked == answerEl.id) {
                 answerEl.checked = true;
             }
@@ -432,13 +462,13 @@ prevElm.addEventListener('click', () => {
 });
  
 function submitAnswer() {
-    if (score > questionBag.length / 2) {
-        quizcontElm.innerHTML = `<h2>you score ${score} out of ${questionBag.length} qusetions Keep it up </h2>
+    if (score > responseArray.length / 2) {
+        quizcontElm.innerHTML = `<h2>you score ${score} out of ${responseArray.length} qusetions Keep it up </h2>
         <button onclick="location.reload()" style="width:100%">Reload...
         </button> `;
 
     } else {
-        quizcontElm.innerHTML = `<h2>you score ${score} out of ${questionBag.length} qusetions You can do better </h2>
+        quizcontElm.innerHTML = `<h2>you score ${score} out of ${responseArray.length} qusetions You can do better </h2>
         <button onclick="location.reload()" style="width:100%">Reload...
         </button> `;
     }
@@ -449,18 +479,6 @@ function submitAnswer() {
     }
     console.log(count);
     loadQuestion();
-    // let answer = getSelectedRadioButtonID();
-    // if(answer){
-    //     if(answer == questionBag[currentquiz].answerId){
-    //         score++;
-    //     }
-  
-
-//    for(let i = currentquiz; i < questionBag.length; i++){
-//        if(answerMap.set(currentquiz, answer)== questionBag[currentquiz].answerId){
-//            score++;
-//        }
-//    }
 console.log(count);
 }
 
@@ -479,13 +497,10 @@ var interval = setInterval(function() {
             submitAnswer();
             clearInterval(interval);
             document.getElementById('countdemo').innerHTML = 'Done';
-            // or...
-            // alert("You're out of time!");
         }
     }
 }, 1000);
 
-async function getQuiz() {
-    let quizt = await fetch('https://opentdb.com/api.php?amount=10');
-    console.log(quizt);
-}
+
+fetchQuestion();
+deSelect();
