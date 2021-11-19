@@ -13,7 +13,11 @@ export default class UI_InterfaceClass {
         }
     }
     getElements(selector) {
-        return document.querySelectorAll(selector);
+        let nodeListLength = 0;
+        const nodeList = document.querySelectorAll(selector);
+        [...nodeList].forEach(() => nodeListLength++)
+        if (nodeListLength) return nodeList;
+        return [];
     }
     setAttributes = (elements = [], attributes = [], values = []) => {
         if (!(elements.length > 1) && !(attributes.length > 1) && !(values.length > 1)) {
@@ -51,6 +55,17 @@ export default class UI_InterfaceClass {
     attachHTML = (elements = [], htmlStrings = []) => {
         if (elements.length == 1) {
             if (htmlStrings.length == 1) {
+                elements[0].insertAdjacentHTML('beforeend', htmlStrings[0]);
+                return;
+            }
+            console.log('Unsupported Operation: Cannot set multiple values on a single element');
+            return;
+        }
+        this.helper.helpSetValuesOnMultipleElements(this, 'attachText', elements, htmlStrings)
+    }
+    replaceHTML = (elements = [], htmlStrings = []) => {
+        if (elements.length == 1) {
+            if (htmlStrings.length == 1) {
                 elements[0].innerHTML = htmlStrings[0];
                 return;
             }
@@ -65,11 +80,14 @@ export default class UI_InterfaceClass {
     replaceChildren(parent, children) {
         parent.replaceChildren(...children)
     }
-    removeElements() {
-
-    }
-    replacedClassOnElements(elements = [], classTokens = []) {
+    replaceClassOnElements(elements = [], classTokens = []) {
         elements.forEach(element => element.classList.replace(classTokens[0], classTokens[1]))
+    }
+    addClassToElements(elements = [], classToken) {
+        elements.forEach(element => element.classList.toggle(classToken, true))
+    }
+    removeClassFromElements(elements = [], classToken) {
+        elements.forEach(element => element.classList.toggle(classToken, false))
     }
     addEventListenerToElements(elements = [], events = [], handlers = []) {
         if (!(elements.length > 1) && !(events.length > 1) && !(handlers.length > 1)) {

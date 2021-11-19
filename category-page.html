@@ -41,15 +41,20 @@
                         <input type="number" value="1" id="questions-quantity" min="1">
                     </p>
                     <p>
-                        <label for="candidate-name">Candidate's Name: </label>
-                        <input type="text" name="candidate-name" id="candidate-name" placeholder="Enter name">
+                        <label for="candidates-emails">Candidates' emails </label>
+                        <textarea type="text" name="candidates-emails" id="candidates-emails"
+                            placeholder="a@dev.com,b@app.com"></textarea>
+                    </p>
+                    <p>
+                        <label for="timed">Timed Quiz</label><input type="radio" name="timing" value="Timed Quiz"
+                            class="timing" id="timed" checked>
+                        <label for="untimed">Untimed Quiz</label><input type="radio" name="timing" value="Untimed Quiz"
+                            class="timing" id="untimed">
                     </p>
                 </fieldset>
                 <div class="mt-4">
-                    <button type="button" class="btn mx-1" data-toggle="modal" data-target="#quiz-link-modal">Timed
-                        Quiz</button>
-                    <button type="button" class="btn mx-1" data-toggle="modal" data-target="#quiz-link-modal">Untimed
-                        Quiz</button>
+                    <button type="button" class="btn mx-1 quiz-link-btn" data-toggle="modal"
+                        data-target="#quiz-link-modal">Generate Links</button>
                 </div>
             </form>
         </section>

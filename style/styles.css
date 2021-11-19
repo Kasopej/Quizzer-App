@@ -23,4 +23,6 @@ a:hover{text-decoration: none;}
 .answer-options label{display: block; margin: 0; padding: 5px;}
 .answer-options label:hover, .answer-options input:hover{cursor: pointer;}
 .answer-options input {margin: 0 7px; color: black;}
+.spinner-border-large {width: 4rem; height: 4rem;}
+#quiz-link-modal .modal-body p a {display: block; padding: 5px;}
 .hidden{display: none;}

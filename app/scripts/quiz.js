@@ -18,7 +18,6 @@ const sessionStoragePersistenceService = new sessionStoragePersistenceClass();
 const sessionStorageQuestions = sessionStoragePersistenceService.getData('questions data');
 const sessionStorageConfigData = sessionStoragePersistenceService.getData('quizzer config data');
 
-
 if (!sessionStorageQuestions && !sessionStorageConfigData) {
     const params = URL_Helper.getParamsFromQueryString(location.search.substr(1));
     quizzerData.setConfigData(...Object.entries(params));
@@ -40,11 +39,11 @@ if (quizzerDataOperation.checkIfQuizIsTimed()) {
 }
 
 function renderQuizOnUI() {
-    UI_Interface.attachText([UI_Interface.getElements('.card-text')[0]], [questionsData[questionIndex].question])
-    UI_Interface.attachText([UI_Interface.getElements('.card-title')[0]], [`Q${questionIndex + 1}`])
+    UI_Interface.replaceHTML([UI_Interface.getElements('.card-text')[0]], [questionsData[questionIndex].question])
+    UI_Interface.attachText([UI_Interface.getElements('.card-title')[0]], [`Q${questionIndex + 1} of ${questionsData.length}`])
     let elementsCreated = UI_Interface.createElements(...'p'.repeat(questionsData[questionIndex].answers.length).split(''));
     elementsCreated.forEach((element, index) => {
-        UI_Interface.attachHTML([element], [`<label><input type="radio" name="option" value="${index + 1}" id="${index + 1}">${questionsData[questionIndex].answers[index].answer}</label>`])
+        UI_Interface.replaceHTML([element], [`<label><input type="radio" name="option" value="${index + 1}" id="${index + 1}">${questionsData[questionIndex].answers[index].answer}</label>`]);
     });
     UI_Interface.replaceChildren(UI_Interface.getElements('.answer-options')[0], elementsCreated);
     const optionElementsArray = Array.from(UI_Interface.getElements('.answer-options input'));
@@ -55,6 +54,10 @@ function renderQuizOnUI() {
     if (previouslySelectedOptionIndex != undefined) {
         UI_Interface.setAttributes([optionElementsArray[previouslySelectedOptionIndex]], ['checked'], ['']);
     }
+
+    (!questionIndex) ? UI_Interface.addClassToElements([UI_Interface.getElements('#prev-btn')[0]], 'invisible') : UI_Interface.removeClassFromElements([UI_Interface.getElements('#prev-btn')[0]], 'invisible');
+
+    (questionIndex === questionsData.length - 1) ? UI_Interface.addClassToElements([UI_Interface.getElements('#next-btn')[0]], 'invisible') : UI_Interface.removeClassFromElements([UI_Interface.getElements('#next-btn')[0]], 'invisible');
 }
 
 UI_Interface.addEventListenerToElements([UI_Interface.getElements('#prev-btn')[0]], ['click'], [function (event) {

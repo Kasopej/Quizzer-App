@@ -43,7 +43,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
             let selectedIndex = Math.floor(Math.random() * 2);
             let unselectedIndex = (selectedIndex == 0) ? 1 : 0;
             this.UI_Interface.attachText([element], [`${minutes}m : ${seconds}s`]);
-            this.UI_Interface.replacedClassOnElements([element], [colorClasses[unselectedIndex], colorClasses[selectedIndex]]);
+            this.UI_Interface.replaceClassOnElements([element], [colorClasses[unselectedIndex], colorClasses[selectedIndex]]);
             if (this._totalTime == 0) {
                 clearInterval(timerId);
                 this.calculateScores();
@@ -69,7 +69,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     }
     calculateScores() {
         let totalScore = Array.from(this.data.getData('scores').values()).reduce((a, b) => { return a + b }, 0);
-        let candidateName = this.data.getConfigData('candidateName').replace('%20', ' ');
+        let candidateName = this.data.getConfigData('candidateEmail').replace('%20', ' ');
         this.data.setData(['total score', totalScore]);
         alert(`Dear ${candidateName}, you scored ${this.data.getData('total score')} / ${this.data.getData('questions data').length}`);
         this.router.redirect('quiz-finished.html')
