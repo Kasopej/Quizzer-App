@@ -13,7 +13,7 @@ export class ClipboardClass extends UserAgent {
         this.clipboard.writeText(text).then(this.successfulWriteAction).catch(this.failedWriteAction);
     }
     successfulWriteAction = () => {
-        alert('Copied!')
+        alert('Copied link!')
     }
     failedWriteAction = () => {
         alert('Not copied! Try again.')
