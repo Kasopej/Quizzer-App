@@ -1,18 +1,21 @@
 export class AppDataClass {
-    getData() {
-        return this._data
+    constructor(obj = {}) {
+        this._configData = obj;
     }
-    setData() {
+    updateData() {
 
     }
     clearData() {
         this._data = undefined;
     }
+    getData() {
+        return this._data
+    }
     getConfigData() {
         return this._configData
     }
-    setConfigData() {
-
+    set configData(obj = {}) {
+        this._configData = obj;
     }
 }
 
@@ -20,7 +23,16 @@ export class QuizzerDataClass extends AppDataClass {
     constructor() {
         super();
         this._data = new Map();
-        this._configData = new Map()
+    }
+    updateData(...entries) {
+        entries.forEach(entry => {
+            this._data.set(entry[0], entry[1])
+        })
+    }
+    updateConfigData = (...entries) => {
+        entries.forEach(entry => {
+            this._configData[entry[0]] = entry[1];
+        })
     }
     getData(key) {
         if (arguments.length == 1) {
@@ -28,20 +40,10 @@ export class QuizzerDataClass extends AppDataClass {
         }
         else return super.getData()
     }
-    setData(...entries) {
-        entries.forEach(entry => {
-            this._data.set(entry[0], entry[1])
-        })
-    }
-    setConfigData = (...entries) => {
-        entries.forEach(entry => {
-            this._configData.set(entry[0], entry[1])
-        })
-    }
     getConfigData(key) {
         if (arguments.length == 1) {
-            return super.getConfigData().get(key)
+            return super.getConfigData()[key];
         }
-        else return super.getConfigData()
+        else return super.getConfigData();
     }
 }

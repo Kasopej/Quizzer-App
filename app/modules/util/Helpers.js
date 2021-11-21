@@ -32,10 +32,24 @@ export class UI_CommandHelperClass extends HelperClass {
             caller[method]([element], [values[valueIndex]])
         })
     }
+    throwSetMultipleValuesOnSingleElementError(elements, method, values, errorClass) {
+        try {
+            throw new errorClass(`Unsupported operation: Cannot attach multiple ${method} values on one element at same time. Element count: ${elements.length} should correspond to values count: ${values.length}`);
+        } catch (error) {
+            if (error instanceof errorClass) console.log(error);
+        }
+    }
+    throwAttachEventListenerError(element, value, errorClass) {
+        try {
+            throw new errorClass(`Unsupported operation: Cannot set ${value} as event listener callback on element: ${element}, as it is neither a function neither does it implement EventListener interface`);
+        } catch (error) {
+            if (error instanceof errorClass) console.log(error);
+        }
+    }
 }
 
 export class HandlerHelpersClass extends HelperClass {
-    saveEntries(saveMethod, ...entries) {
+    helpSaveData(saveMethod, ...entries) {
         saveMethod(entries);
     }
     limitNumericalEntry(limits = [], modes = []) {

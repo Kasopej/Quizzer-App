@@ -13,8 +13,8 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
         this.data = data;
         this.UI_Interface = new UI_InterfaceClass();
         this.router = new RouterService();
-        this.data.setData(['scores', new Map()]);
-        this.data.setData(['selected options', new Map()]);
+        this.data.updateData(['scores', new Map()]);
+        this.data.updateData(['selected options', new Map()]);
     }
     checkIfQuizIsTimed() {
         let timing = this.data.getConfigData('timing').slice(0, -7);
@@ -49,7 +49,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
             this.UI_Interface.replaceClassOnElements([element], [colorClasses[unselectedIndex], colorClasses[selectedIndex]]);
             if (this._totalTime == 0) {
                 clearInterval(timerId);
-                this.calculateScores();
+                this.calculateScoresAndEndQuiz();
             }
         }, 1000)
     }
@@ -70,11 +70,11 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     getCategories() {
 
     }
-    calculateScores() {
+    calculateScoresAndEndQuiz() {
         let totalScore = Array.from(this.data.getData('scores').values()).reduce((a, b) => { return a + b }, 0);
-        let candidateName = this.data.getConfigData('candidateEmail').replace('%20', ' ');
-        this.data.setData(['total score', totalScore]);
-        alert(`Dear ${candidateName}, you scored ${this.data.getData('total score')} / ${this.data.getData('questions data').length}`);
+        let candidateEmail = this.data.getConfigData('candidateEmail').replace('%20', ' ');
+        this.data.updateData(['total score', totalScore]);
+        alert(`Dear ${candidateEmail}, you scored ${this.data.getData('total score')} / ${this.data.getData('questions data').length}`);
         this.router.redirect('quiz-finished.html')
 
     }

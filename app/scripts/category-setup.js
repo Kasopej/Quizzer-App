@@ -1,9 +1,10 @@
 import { QuizzerDataClass } from "../modules/AppData/AppData.js";
 import UI_InterfaceClass from "../modules/UI/UI_Interface.js";
 import { HandlerHelpersClass, URL_HelperClass } from "../modules/util/Helpers.js";
-import { qtyOfQuestionsInCategoryURL } from "../modules/util/URL.js";
+import { qtyOfQuestionsInCategoryURL, quizPageRelativePath } from "../modules/util/URL.js";
 import API_ServiceClass from "../Services/API_Service.js";
 import { LocalDataPersistenceClass } from "../Services/PersistentService.js";
+import RouterService from "../Services/Router.js";
 import { ClipboardClass } from "../Services/UserAgent.js";
 
 const localDataPersistenceService = new LocalDataPersistenceClass();
@@ -13,16 +14,17 @@ const API_Service = new API_ServiceClass();
 const handlerHelpers = new HandlerHelpersClass()
 const URL_Helper = new URL_HelperClass();
 const clipBoardObj = new ClipboardClass();
+const router = new RouterService()
 const localDataQuizzerConfigDataObj = localDataPersistenceService.getData('Quizzer Config Data')
 let selectedCategoryName, selectedCategoryId;
 
 
 if (localDataQuizzerConfigDataObj) {
-    Object.entries(localDataQuizzerConfigDataObj).forEach(entryArray => quizzerData.setConfigData(entryArray))
+    quizzerData.configData = localDataQuizzerConfigDataObj;
     selectedCategoryName = quizzerData.getConfigData('selectedCategoryName');
     selectedCategoryId = quizzerData.getConfigData('selectedCategoryId');
 }
-else { location.replace(location.origin) }
+else router.redirect();
 
 UI_Interface.attachText([UI_Interface.getElements('.category-specific-options fieldset legend')[0]], [selectedCategoryName + ' Quiz Setup']);
 const qtyOfAvailableQuestionsInCategory = await API_Service.fetchData(qtyOfQuestionsInCategoryURL + selectedCategoryId).then(data => data.category_question_count.total_question_count);
@@ -45,20 +47,22 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('.quiz-link-bt
         let invalidEmail = candidatesEmailsArray.find(email => !email.includes('@') || !email.includes('.') || email.includes('@.') || email.startsWith('@'));
 
         if (candidatesEmails && !invalidEmail) {
+            let emailValidationFail;
             for (let candidateEmail of candidatesEmailsArray) {
                 candidateEmail = candidateEmail.trim()
                 if (candidateEmail !== "") {
-                    quizzerData.setConfigData(['candidateEmail', candidateEmail], ['timing', timing], ['numberOfQuestions', numberOfQuestions]);
+                    if (candidateEmail.includes(' ')) emailValidationFail = true;
+                    quizzerData.updateConfigData(['candidateEmail', candidateEmail], ['timing', timing], ['numberOfQuestions', numberOfQuestions]);
                     //UI_Interface.attachText([modalBodyElement, [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
                     let candidateEmailAnchorElement = UI_Interface.createElements('a');
                     UI_Interface.setAttributes([candidateEmailAnchorElement], ['href'], ['#']);
-                    UI_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + '/quiz.html?' + URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries()))) }
+                    UI_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + quizPageRelativePath + URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())))) }
                     ]);
                     UI_Interface.attachText([candidateEmailAnchorElement], [`Click to copy link for Candidate (${candidateEmail})`]);
                     UI_Interface.attachElements(modalBodyElement, candidateEmailAnchorElement)
                 }
             }
-            return;
+            if (!emailValidationFail) return;
         }
         UI_Interface.attachText([modalBodyElement], ['Invalid entry, please enter one or more comma separated email addresses']);
     }

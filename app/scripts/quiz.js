@@ -11,7 +11,7 @@ import { sessionStoragePersistenceClass } from "../Services/PersistentService.js
 const URL_Helper = new URL_HelperClass()
 const API_Service = new API_ServiceClass()
 const UI_Interface = new UI_InterfaceClass()
-const QuizzerMiddleWare = new QuizzerMiddleWareClass();
+const quizzerMiddleWare = new QuizzerMiddleWareClass();
 const quizzerData = new QuizzerDataClass();
 const quizzerDataOperation = new QuizzerDataOperationsClass(quizzerData);
 const sessionStoragePersistenceService = new sessionStoragePersistenceClass();
@@ -20,15 +20,15 @@ const sessionStorageConfigData = sessionStoragePersistenceService.getData('quizz
 
 if (!sessionStorageQuestions && !sessionStorageConfigData) {
     const params = URL_Helper.getParamsFromQueryString(location.search.substr(1));
-    quizzerData.setConfigData(...Object.entries(params));
+    quizzerData.updateConfigData(...Object.entries(params));
     sessionStoragePersistenceService.saveData('quizzer config data', params);
     const questions = await API_Service.fetchData(`${QuestionsURL}amount=${params.numberOfQuestions}&category=${params.selectedCategoryId}`).then(data => data.results);
-    quizzerData.setData(['questions data', QuizzerMiddleWare.convertIncomingQuestionDataArray(questions)]);
+    quizzerData.updateData(['questions data', quizzerMiddleWare.convertIncomingQuestionDataArray(questions)]);
     sessionStoragePersistenceService.saveData('questions data', quizzerData.getData('questions data'));
 }
 else {
-    quizzerData.setData(['questions data', sessionStorageQuestions]);
-    quizzerData.setConfigData(...Object.entries(sessionStorageConfigData));
+    quizzerData.updateData(['questions data', sessionStorageQuestions]);
+    quizzerData.updateConfigData(...Object.entries(sessionStorageConfigData));
 }
 
 let questionIndex = 0;
@@ -50,9 +50,9 @@ function renderQuizOnUI() {
     UI_Interface.addEventListenerToElements(optionElementsArray, ['change'], [function () {
         quizzerDataOperation.checkAnswer(UI_Interface.getInputValue([this])[0], questionIndex)
     }]);
-    let previouslySelectedOptionIndex = quizzerData.getData('selected options').get(questionIndex);
-    if (previouslySelectedOptionIndex != undefined) {
-        UI_Interface.setAttributes([optionElementsArray[previouslySelectedOptionIndex]], ['checked'], ['']);
+    let selectedOptionIndex = quizzerData.getData('selected options').get(questionIndex);
+    if (selectedOptionIndex != undefined) {
+        UI_Interface.setAttributes([optionElementsArray[selectedOptionIndex]], ['checked'], ['']);
     }
 
     (!questionIndex) ? UI_Interface.addClassToElements([UI_Interface.getElements('#prev-btn')[0]], 'invisible') : UI_Interface.removeClassFromElements([UI_Interface.getElements('#prev-btn')[0]], 'invisible');
@@ -74,7 +74,7 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#next-btn')[0
 }]
 );
 UI_Interface.addEventListenerToElements([UI_Interface.getElements('#submit-btn')[0]], ['click'], [function (event) {
-    quizzerDataOperation.calculateScores();
+    quizzerDataOperation.calculateScoresAndEndQuiz();
     event.preventDefault();
 }])
 renderQuizOnUI()

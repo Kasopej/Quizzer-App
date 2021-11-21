@@ -5,7 +5,7 @@ export default class RouterService {
     routeToOrigin() {
         location = location.origin
     }
-    redirect(route) {
+    redirect(route = '') {
         location.replace(location.origin + '/' + route);
     }
 }
