@@ -25,7 +25,7 @@ export default class UI_InterfaceClass {
             const nodeList = document.querySelectorAll(selector);
             [...nodeList].forEach(() => nodeListLength++)
             if (nodeListLength) return nodeList;
-            throw new DOM_Operation_Error('No such HTML element found in DOM!')
+            throw new DOM_Operation_Error('No such HTML elements found in DOM!')
         } catch (error) {
             if (error instanceof DOM_Operation_Error) {
                 console.log(error);
