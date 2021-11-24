@@ -1,0 +1,42 @@
+/* 1UcB0d4vGa75kU754nOdKWX1fypMIHJjVbtR2Z1k */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #b8c6db;
+    background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 100%);
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.configForm{
+   display: flex;
+   flex-direction: column;
+}
+.configForm label{
+    font-weight: bold;
+}
+.emailTxt{
+    text-align: left;
+}
+.contentcontainer{
+    width: 50%;
+}
+@media(max-width:856px){
+    .contentcontainer{
+        width: 100%;
+    }
+}
+
+@media(max-width:500px){
+    .welcomeText{
+        font-size: 18px;
+    }
+}

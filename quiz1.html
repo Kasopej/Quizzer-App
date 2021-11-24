@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Project</title>
+    <link rel="stylesheet" href="style/quizstyle.css">
+    
+</head>
+
+<body>
+  <div class="splashScreen">
+      <h1 class="fadeIn">Smartflow Quiz is Loading...</h1>
+  </div>
+    <div class="quizcontainer" id="quiz">
+        <div class="logoParent"><img src="images/smartflow-logo.png" alt="Smartflow-logo">
+            <h3 id="timer"></h3>
+        </div>
+        <div class="quizquestionwrapp">
+            <div class="quiztracker">
+                <h2>Question</h2>
+                <h2 id="quizNumber">1</h2>
+                <span>Of</span>
+                <h2 id="quizLength"></h2>
+            </div>
+            <h2 id="question">Question text</h2>
+            <ul>            
+                <!-- <li>
+                    <input type="radio" id="1" name="answer" class="answer">
+                    <label for="1"><span id="a_text">Option</span></label>
+                </li>
+                <li>
+                    <input type="radio" id="2" name="answer" class="answer">
+                    <label for="2" id="b_text">Option</label>
+                </li>
+                <li>
+                    <input type="radio" id="3" name="answer" class="answer">
+                    <label for="3" id="c_text">Option</label>
+                </li>
+                <li>
+                    <input type="radio" id="4" name="answer" class="answer">
+                    <label for="4" id="d_text">Option</label>
+                </li> -->
+
+            </ul>
+        </div>
+        <div class="controlsParent">
+            <button type="button" id="prev" class="">Prev</button>
+            <button type="button" id="next" class="nextBtn">Next</button>
+            <button type="submit" id="subbtn" class="submitBtn" onclick="submitAnswer()">Submit</button>
+        </div>
+    </div>
+    <script src="script/script.js"></script>
+</body>
+
+</html>
