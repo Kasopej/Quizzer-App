@@ -30,10 +30,11 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
             case 'medium':
                 this._totalTime = quantity * 20;
                 break;
-            case 'medium':
+            case 'hard':
                 this._totalTime = quantity * 30;
                 break;
             default:
+                //Implement default timing
                 break;
         }
     }
