@@ -1,67 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style/config.css">
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style/config.css">
 </head>
+
 <body>
-    <div class="mx-3 bg-white px-3 py-2 shadow contentcontainer">
-       <div class="d-flex justify-content-center align-center "><img src="images/smartflow-logo.png" alt="smartflow-logo"></div> 
-        <div>
-           <div class="my-3">
-            <h4 class="font-weight-bold welcomeText">Welcome to Smartflow Quiz Assessment Configuration Page!</h4>
-            <p>Carefully make your selection to generate link for Candidate.</p>
-           </div>
-            
-            <form class="was-validated configForm" id="configForm">
-                <div class="form-group">
-                    <label for="usersEmail">Candidates Email:</label>
-                    <textarea name="usersEmail" id="usersEmail" rows="2" class="form-control emailTxt" value="emails" title="separate each mail with a comma" placeholder="abidoyeridwan3@gmail.com,kasopejohnsonsmartflowtech.com,HammedAdeyekun@smartflow.com"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label for="amount">Number of Questions:</label>
-                    <input type="number" class="form-control" name="amount"
-                    id="amountofquestion" min="1"required>
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-                  </div>
-                  <div class="my-2">
-                    <label for="category">Select Category:</label>
-                    <select name="category" class="custom-select" id="categorySelect">
-                    <option disabled value="">Choose Prefered category</option>
-                    </select>
-                  </div>
-                 <div class="my-2">
-                    <label for="difficulty">Select Difficulty:</label>
-                    <select name="difficulty" id="difficultySelect" class="custom-select">
-                      <option disabled value="">Select Difficulty</option>
-                      <option value="easy">Easy</option>
-                      <option value="medium">Medium</option>
-                      <option value="hard">Hard</option>
-                       </select>
-                 </div>
-                 <div class="my-2">
-                  <label for="type">Select Type:</label>
-                  <select name="type" id="typeSelect" class="custom-select">
-                    <option value="">Any type</option>
-                    <option value="multiple">Multi-Choice</option>
-                    <option value="boolean">True / False</option>
-                     </select>
-               </div>
-                  <div class="my-2">
-                    <button type="button" class="btn btn-block btn-primary" id="submitBtn">Generate Link</button>
-                
-                  </div>
-              </form>
-        </div>
+  <div class="mx-3 bg-white px-3 py-2 shadow contentcontainer">
+    <div class="d-flex justify-content-center align-center "><img src="assets/images/smartflow-logo.png"
+        alt="smartflow-logo">
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="script/config.js"></script>
+    <div>
+      <div class="my-3">
+        <h4 class="font-weight-bold welcomeText">Welcome to Smartflow Quiz Assessment Configuration Page!</h4>
+        <p>Carefully make your selection to generate link for Candidate.</p>
+      </div>
+
+      <form class="was-validated configForm">
+        <div class="form-group">
+          <label for="candidatesEmails">Candidates Emails:</label>
+          <textarea name="candidatesEmails" id="candidatesEmails" rows="2" class="form-control emailTxt" value="emails"
+            title="separate each mail with a comma" placeholder="adam@dev.com, sade@it.com" required></textarea>
+        </div>
+
+        <div class="form-group questionQuantityGroup">
+          <label for="amount">Number of Questions:</label>
+          <input type="number" class="form-control" name="amount" id="amountOfQuestions" value="1" min="1" required>
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">Please fill out this field.</div>
+        </div>
+
+        <div class="my-2">
+          <label for="category">Select Category:</label>
+          <select name="category" class="custom-select" id="categorySelect" required>
+            <option value="0">Any category</option>
+          </select>
+        </div>
+
+        <div class="my-2">
+          <label for="difficulty">Select Difficulty:</label>
+          <select name="difficulty" id="difficultySelect" class="custom-select">
+            <option value="">Any Difficulty</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <div class="my-2">
+          <label for="type">Select Type:</label>
+          <select name="type" id="typeSelect" class="custom-select">
+            <option value="">Any type</option>
+            <option value="multiple">Multi-Choice</option>
+            <option value="boolean">True / False</option>
+          </select>
+        </div>
+
+        <div class="my-2">
+          <label for="type">Select Timing:</label>
+          <select name="type" id="timingSelect" class="custom-select">
+            <option value="Timed Quiz">Timed</option>
+            <option value="Untimed Quiz">Untimed</option>
+          </select>
+        </div>
+        <div class="my-2">
+          <button type="button" class="btn btn-block btn-primary" id="submitBtn">Generate Link</button>
+
+        </div>
+      </form>
+
+      <div id="quiz-link-modal">
+        <p></p>
+      </div>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script type="module" src="app/scripts/quiz-setup.js"></script>
 </body>
+
 </html>
