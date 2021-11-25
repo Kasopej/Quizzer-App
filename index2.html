@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"
+        integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous">
+        </script>
+    <link rel="stylesheet" href="style/bootstrap4.4.min.css">
+    <link rel="stylesheet" href="style/styles.css">
+    <title>Smartflow Solutions Candidate Assessment</title>
+</head>
+
+<body>
+
+    <nav class="nav bg-dark nav-light">
+        <div class="nav-brand">
+            <a href="#">
+                <img src="assets/images/smartflow-logo.png" alt="Smartflow logo">
+            </a>
+        </div>
+    </nav>
+    <main class="container-fluid p-4 text-center">
+        <h1 class="my-4 welcome-message">Welcome to smartflow software solutions candidate assessment!</h1>
+        <form action="">
+            <fieldset id="test-setup">
+                <legend class="border-bottom border-danger d-inline-block mb-4 px-3">Setup Test</legend>
+                <p>
+                    <label for="category-options">Choose Category: </label>
+                    <select name="category" id="category-options">
+                        <option disabled value="">--Select a category</option>
+                    </select>
+                    <span class="spinner-border category-options-spinner text-danger" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </span>
+                </p>
+
+                <p class="difficulty-select">
+                    <label for="easy">Difficulty: Easy</label><input type="radio" name="difficulty" value="easy"
+                        id="easy" checked>
+                </p>
+                <p class="difficulty-select">
+                    <label for="medium">Difficulty: Medium</label><input type="radio" name="difficulty" value="medium"
+                        id="medium">
+                </p>
+                <p class="difficulty-select">
+                    <label for="hard">Difficulty: Hard</label><input type="radio" name="difficulty" value="hard"
+                        id="hard">
+                </p>
+            </fieldset>
+            <a href="category-page.html" id="proceed-btn">
+                <button class="btn btn-danger text-white px-4" type="button">Proceed</button>
+            </a>
+        </form>
+    </main>
+
+
+
+    <script type="module" src="app/scripts/general-setup.js"></script>
+    <script src="app/bootstrap/jquery-slim.min.js"></script>
+    <script src="app/bootstrap/popper.min.js"></script>
+    <script src="app/bootstrap/bootstrap.min.js"></script>
+    <!-- <script src="fontawesome-free-5.11.2-web/js/all.js"></script> -->
+</body>
+
+</html>

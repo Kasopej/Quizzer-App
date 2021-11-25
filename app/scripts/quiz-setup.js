@@ -1,19 +1,22 @@
 import { QuizzerDataClass } from "../modules/AppData/AppData.js";
 import { QuizzerDataOperationsClass } from "../modules/AppData/AppDataoperations.js";
 import UI_InterfaceClass from "../modules/UI/UI_Interface.js";
-import { HandlerHelpersClass } from "../modules/util/Helpers.js";
-import { CategoriesURL, globalQtyOfQuestionsURL, qtyOfQuestionsInCategoryURL } from "../modules/util/URL.js";
+import { HandlerHelpersClass, URL_HelperClass } from "../modules/util/Helpers.js";
+import { CategoriesURL } from "../modules/util/URL.js";
 import API_ServiceClass from "../Services/API_Service.js";
 import { LocalDataPersistenceClass } from "../Services/PersistentService.js";
 import RouterService from "../Services/Router.js";
+import { ClipboardClass } from "../Services/UserAgent.js";
 
 
 const UI_Interface = new UI_InterfaceClass();
 const API_Service = new API_ServiceClass();
 const quizzerData = new QuizzerDataClass();
+const quizzerDataOperation = new QuizzerDataOperationsClass(quizzerData);
 const router = new RouterService();
 const handlerHelpers = new HandlerHelpersClass();
-const quizzerDataOperation = new QuizzerDataOperationsClass(quizzerData);
+const URL_Helper = new URL_HelperClass();
+const clipBoardObj = new ClipboardClass();
 const questionQtyElement = UI_Interface.getElements('#amountOfQuestions')[0];
 const selectCategoryElement = UI_Interface.getElements('#categorySelect')[0];
 const selectDifficultyElement = UI_Interface.getElements('#difficultySelect')[0];
