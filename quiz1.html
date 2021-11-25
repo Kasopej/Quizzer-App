@@ -6,26 +6,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Project</title>
     <link rel="stylesheet" href="style/quizstyle.css">
-    
+
 </head>
 
 <body>
-  <div class="splashScreen">
-      <h1 class="fadeIn">Smartflow Quiz is Loading...</h1>
-  </div>
+    <!--
+    <div class="splashScreen">
+        <h1 class="fadeIn">Smartflow Quiz is Loading...</h1>
+    </div> -->
     <div class="quizcontainer" id="quiz">
-        <div class="logoParent"><img src="images/smartflow-logo.png" alt="Smartflow-logo">
-            <h3 id="timer"></h3>
+        <div class="logoParent"><img src="assets/images/smartflow-logo.png" alt="Smartflow-logo">
+            <h3 id="timer" class="black-text">00:00</h3>
         </div>
-        <div class="quizquestionwrapp">
-            <div class="quiztracker">
+        <div class="quizQuestionWrap">
+            <div class="quizNumberTracker">
                 <h2>Question</h2>
                 <h2 id="quizNumber">1</h2>
                 <span>Of</span>
                 <h2 id="quizLength"></h2>
             </div>
             <h2 id="question">Question text</h2>
-            <ul>            
+            <ul class="answerOptions">
+                <div class="d-flex spinner justify-content-center">
+                    <div class="spinner-border spinner-border-large text-danger" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
                 <!-- <li>
                     <input type="radio" id="1" name="answer" class="answer">
                     <label for="1"><span id="a_text">Option</span></label>
@@ -45,13 +51,13 @@
 
             </ul>
         </div>
-        <div class="controlsParent">
-            <button type="button" id="prev" class="">Prev</button>
-            <button type="button" id="next" class="nextBtn">Next</button>
-            <button type="submit" id="subbtn" class="submitBtn" onclick="submitAnswer()">Submit</button>
+        <div class="controls">
+            <button type="button" id="prev">Prev</button>
+            <button type="button" id="next">Next</button>
+            <button type="submit" id="submitBtn">Submit</button>
         </div>
     </div>
-    <script src="script/script.js"></script>
+    <script type="module" src="app/scripts/quiz.js"></script>
 </body>
 
 </html>
