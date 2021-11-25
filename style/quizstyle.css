@@ -99,6 +99,8 @@ body {
     display: none;
     background-color:#5cb85c !important;
     border: #5cb85c;
+    box-shadow: 5px 10px 8px 10px #a4b4a8;
+    
 }
 
 .quizContainer button {
@@ -107,7 +109,6 @@ body {
     cursor: pointer;
     padding: 1.3rem;
     color: white;
-    /* width: 100%; */
     font-family: inherit;
     border: none;
     font-size: 1.1rem;
@@ -117,13 +118,6 @@ body {
     outline: none;
     background-color: #5e3370;
 }
-
-
-/* .buttonpar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-} */
 
 .quizContainer button:hover {
     background-color: #782f97;
@@ -161,3 +155,4 @@ body {
         font-size: 16px!important;
     }
 }
+
