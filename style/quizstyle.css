@@ -46,7 +46,8 @@ body {
     z-index: -10;
     line-height: 90vh;
 }
-
+.black-text{color: black;}
+.red-text{color: red;}
 @keyframes fadeIn{
     to{
         opacity: 1;

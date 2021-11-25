@@ -37,12 +37,12 @@
           <div class="invalid-feedback">Please fill out this field.</div>
         </div>
 
-        <div class="my-2">
+        <div class="my-2 categoryParent">
           <label for="category">Select Category:</label>
           <select name="category" class="custom-select" id="categorySelect" required>
             <option value="0">Any category</option>
           </select>
-          <span class="spinner-border category-options-spinner text-danger" role="status">
+          <span class="spinner-border category-options-spinner text-danger spinnerParent" role="status">
             <span class="sr-only">Loading...</span>
           </span>
         </div>
@@ -74,14 +74,23 @@
           </select>
         </div>
         <div class="my-2">
-          <button type="button" class="btn btn-block btn-primary" id="submitBtn">Generate Link</button>
+          <button type="button" data-toggle="modal" class="btn btn-block btn-primary" id="submitBtn" data-target="#quiz-link-modal">Generate Link</button>
 
         </div>
       </form>
 
-      <div id="quiz-link-modal">
+      <div id="quiz-link-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+      <!-- <div id="quiz-link-modal">
         <p></p>
-      </div>
+      </div> -->
     </div>
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

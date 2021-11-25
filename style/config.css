@@ -15,7 +15,22 @@ body {
     -ms-flex-pack: center;
     justify-content: center;
 }
+.categoryParent{
+    position: relative;
+}
+.spinnerParent{
+    position: absolute;
+    right: 60px;
+    bottom: 7px;
 
+}
+
+#quiz-link-modal .modal-body p a {display: block; padding: 5px;}
+.modal-dialog{word-wrap: break-word;}
+.category-options-spinner{
+    width: 1.5rem;
+    height: 1.5rem;
+}
 .configForm{
    display: flex;
    flex-direction: column;
