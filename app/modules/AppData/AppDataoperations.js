@@ -1,5 +1,8 @@
+import API_ServiceClass from "../../Services/API_Service.js";
 import RouterService from "../../Services/Router.js";
 import UI_InterfaceClass from "../UI/UI_Interface.js";
+import { globalQtyOfQuestionsURL, qtyOfQuestionsInCategoryURL } from "../util/URL.js";
+const api_Service = new API_ServiceClass();
 
 export class AppDataOperationsClass {
     isDataAvailable(dataObject, getter, key) {
@@ -15,6 +18,23 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
         this.router = new RouterService();
         this.data.updateData(['scores', new Map()]);
         this.data.updateData(['selected options', new Map()]);
+    }
+    async qtyOfQuestionsAvailable(categoryId, difficulty) {
+        if (!(+categoryId)) {
+            this.data.updateData(['globalQtyOfAvailableQuestions', await api_Service.fetchData(globalQtyOfQuestionsURL).then(data => data.overall.total_num_of_verified_questions)]);
+            return this.data.getData('globalQtyOfAvailableQuestions');
+        }
+        this.data.updateData(['availableQuestionsInCategory', await api_Service.fetchData(qtyOfQuestionsInCategoryURL + categoryId).then(data => data.category_question_count)]);
+        switch (difficulty) {
+            case 'easy':
+                return this.data.getData('availableQuestionsInCategory').total_easy_question_count;
+            case 'medium':
+                return this.data.getData('availableQuestionsInCategory').total_medium_question_count;
+            case 'hard':
+                return this.data.getData('availableQuestionsInCategory').total_hard_question_count;
+            default:
+                return this.data.getData('availableQuestionsInCategory').total_question_count
+        }
     }
     checkIfQuizIsTimed() {
         let timing = this.data.getConfigData('timing').slice(0, -7);
