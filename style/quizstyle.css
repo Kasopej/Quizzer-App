@@ -16,11 +16,7 @@ body {
     justify-content: center;
 }
 
-<<<<<<< HEAD
-.quizquestionwrapp {
-=======
 .quizQuestionWrap {
->>>>>>> upstream/merge-apps
     padding: 10px 2rem;
     height: 400px;
     overflow-y: auto;
@@ -86,21 +82,13 @@ body {
     margin-left: auto;
 }
 
-<<<<<<< HEAD
-.quiztracker {
-=======
 .quizNumberTracker {
->>>>>>> upstream/merge-apps
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-<<<<<<< HEAD
-.controlsParent{
-=======
 .controls{
->>>>>>> upstream/merge-apps
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -112,11 +100,7 @@ body {
     border: #5cb85c;
 }
 
-<<<<<<< HEAD
-.quizcontainer button {
-=======
 .quizContainer button {
->>>>>>> upstream/merge-apps
     display: block;
     background-color: #8e44ad;
     cursor: pointer;
@@ -128,11 +112,7 @@ body {
     font-size: 1.1rem;
 }
 
-<<<<<<< HEAD
-.quizcontainer button :focus {
-=======
 .quizContainer button :focus {
->>>>>>> upstream/merge-apps
     outline: none;
     background-color: #5e3370;
 }
@@ -144,61 +124,36 @@ body {
     align-items: center;
 } */
 
-<<<<<<< HEAD
-.quizcontainer button:hover {
-    background-color: #782f97;
-}
-
-.quizcontainer ul {
-=======
 .quizContainer button:hover {
     background-color: #782f97;
 }
 
 .quizContainer ul {
->>>>>>> upstream/merge-apps
     list-style-type: none;
     padding: 0;
 }
 
-<<<<<<< HEAD
-.quizcontainer ul li {
-=======
 .quizContainer ul li {
->>>>>>> upstream/merge-apps
     padding: 14px 0;
     font-size: 1.2rem;
 }
 
-<<<<<<< HEAD
-.quizcontainer ul li label {
-=======
 .quizContainer ul li label {
->>>>>>> upstream/merge-apps
     cursor: pointer;
     white-space: pre-line;
 }
 
-<<<<<<< HEAD
-.quizcontainer h2 {
-=======
 .quizContainer h2 {
->>>>>>> upstream/merge-apps
     margin: 0;
     text-align: center;
     padding: 10px 1rem;
     font-size: 20px;
     line-height: 32px;
 }
-<<<<<<< HEAD
-@media(max-width: 450px) {
-    .quizcontainer ul li {
-=======
 .invisible {visibility: hidden;}
 .display-none{display: none !important;}
 @media(max-width: 450px) {
     .quizContainer ul li {
->>>>>>> upstream/merge-apps
         font-size: 15px;
     }
     h2 {
