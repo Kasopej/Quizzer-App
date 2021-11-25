@@ -6,25 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Project</title>
     <link rel="stylesheet" href="style/quizstyle.css">
-    
+
 </head>
 
 <body>
-  <div class="splashScreen">
-      <h1 class="fadeIn">Smartflow Quiz is Loading...</h1>
-  </div>
-    <div class="quizcontainer" id="quiz">
-        <div class="logoParent"><img src="images/smartflow-logo.png" alt="Smartflow-logo">
-            <h3 id="timer"></h3>
+    <div class="splashScreen">
+        <h1 class="fadeIn">Smartflow Quiz is Loading...</h1>
+    </div>
+    <div class="quizContainer" id="quiz">
+        <div class="logoParent"><img src="assets/images/smartflow-logo.png" alt="Smartflow-logo">
+            <h3 id="timer" class="black-text">00:00</h3>
         </div>
-        <div class="quizquestionwrapp">
-            <div class="quiztracker">
+        <div class="quizQuestionWrap">
+            <div class="quizNumberTracker">
                 <h2>Question</h2>
                 <h2 id="quizNumber">1</h2>
                 <span>Of</span>
                 <h2 id="quizLength"></h2>
             </div>
             <h2 id="question">Question text</h2>
+<<<<<<< HEAD
             <ul>            
                 <!-- <li>
                     <input type="radio" id="1" name="answer" class="answer">
@@ -52,6 +53,18 @@
         </div>
     </div>
     <script src="script/script.js"></script>
+=======
+            <ul class="answerOptions">
+            </ul>
+        </div>
+        <div class="controls">
+            <button type="button" id="prev">Prev</button>
+            <button type="button" id="next">Next</button>
+            <button type="submit" id="submitBtn">Submit</button>
+        </div>
+    </div>
+    <script type="module" src="app/scripts/quiz.js"></script>
+>>>>>>> upstream/merge-apps
 </body>
 
 </html>
