@@ -10,7 +10,7 @@ export class UI_CommandHelperClass extends HelperClass {
         })
         return listOfNewElements;
     }
-    helpSetEntriesOnMultipleElements(caller, method, elements, keys, values) {
+    helpHandleEntriesOnMultipleElements(caller, method, elements, keys, values) {
         if (elements.length == 1) {
             keys.forEach((key, index) => {
                 caller[method]([elements[0]], [key], [values[index]])
@@ -25,14 +25,14 @@ export class UI_CommandHelperClass extends HelperClass {
             })
         }
     }
-    helpSetValuesOnMultipleElements(caller, method, elements, values) {
+    helpHandleValuesOnMultipleElements(caller, method, elements, values) {
         let valueIndex = 0;
         elements.forEach((element, index) => {
             valueIndex = (index < values.length) ? index : valueIndex;
             caller[method]([element], [values[valueIndex]])
         })
     }
-    throwSetMultipleValuesOnSingleElementError(elements, method, values, errorClass) {
+    throwHandleMultipleValuesOnSingleElementError(elements, method, values, errorClass) {
         try {
             throw new errorClass(`Unsupported operation: Cannot attach multiple ${method} values on one element at same time. Element count: ${elements.length} should correspond to values count: ${values.length}`);
         } catch (error) {
@@ -94,14 +94,12 @@ export class URL_HelperClass extends HelperClass {
 
         let token = encodedHeader + "." + encodedData;
 
-        console.log(token)
         let secret = "Developer Secret";
 
         let signature = CryptoJS.HmacSHA256(token, secret);
         signature = base64url(signature);
 
         let signedToken = token + "." + signature;
-        console.log(signedToken)
         return signedToken;
     }
     generateQuery(params = []) {
