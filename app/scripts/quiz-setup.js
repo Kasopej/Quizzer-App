@@ -4,7 +4,6 @@ import UI_InterfaceClass from "../modules/UI/UI_Interface.js";
 import { HandlerHelpersClass, URL_HelperClass } from "../modules/util/Helpers.js";
 import { CategoriesURL, quizPageRelativePath } from "../modules/util/URL.js";
 import API_ServiceClass from "../Services/API_Service.js";
-import { LocalDataPersistenceClass } from "../Services/PersistentService.js";
 import RouterService from "../Services/Router.js";
 import { ClipboardClass } from "../Services/UserAgent.js";
 
@@ -60,16 +59,14 @@ function save_UI_Config_Entries(event) {
     const selectedTypeOptionElement = typeOptionElements[selectTypeElement.selectedIndex];
     const selectedTimingOptionElement = timingOptionElements[selectTimingElement.selectedIndex]
     let [candidatesEmails, numberOfQuestions] = UI_Interface.getInputValue([UI_Interface.getElements('#candidatesEmails')[0], questionQtyElement]);
-    processEmailEntries(candidatesEmails);
     //Maybe use getInputValue method
-    handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'selectedCategoryName', selectedCategoryOptionElement.innerText);
-    handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'selectedCategoryId', selectedCategoryOptionElement.value);
-    handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'selectedDifficulty', selectedDifficultyOptionElement.value);
-    handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'selectedType', selectedTypeOptionElement.value);
+    quizzerData.updateConfigData(['amount', numberOfQuestions]);
+    handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'categoryName', selectedCategoryOptionElement.innerText);
+    handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'category', selectedCategoryOptionElement.value);
+    handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'difficulty', selectedDifficultyOptionElement.value);
+    handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'type', selectedTypeOptionElement.value);
     handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'timing', selectedTimingOptionElement.value);
-    quizzerData.updateConfigData(['numberOfQuestions', numberOfQuestions]);
-    console.log(quizzerData.getConfigData());
-    //router.goToRoute(UI_Interface.getAttributeFromElements([this], 'href')[0])
+    processEmailEntries(candidatesEmails);
     event.preventDefault()
 }
 
@@ -92,12 +89,13 @@ function processEmailEntries(candidatesEmails) {
                 //UI_Interface.attachText([modalBodyElement, [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
                 let candidateEmailAnchorElement = UI_Interface.createElements('a');
                 UI_Interface.setAttributes([candidateEmailAnchorElement], ['href'], ['#']);
-                UI_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + quizPageRelativePath + URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())))) }
+                UI_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + quizPageRelativePath + URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())), true)) }
                 ]);
                 UI_Interface.attachText([candidateEmailAnchorElement], [`Click to copy link for Candidate (${candidateEmail})`]);
                 UI_Interface.attachElements(modalBodyElement, candidateEmailAnchorElement)
             }
         }
+        console.log(quizzerData.getConfigData());
         if (emailsValidated) return;
     }
     UI_Interface.attachText([modalBodyElement], ['Invalid entry, please enter one or more comma separated email addresses']);

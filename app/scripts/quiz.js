@@ -22,8 +22,7 @@ if (!sessionStorageQuestions && !sessionStorageConfigData) {
     const params = URL_Helper.getParamsFromQueryString(location.search.substr(1));
     quizzerData.updateConfigData(...Object.entries(params));
     sessionStoragePersistenceService.saveData('quizzer config data', params);
-    const questions = await API_Service.fetchData(`${QuestionsURL}amount=${params.numberOfQuestions}&category=${params.selectedCategoryId}`).then(data => data.results);
-    console.log(questions);
+    const questions = await API_Service.fetchData(`${QuestionsURL}+ ${URL_Helper.generateQuery(Object.entries(quizzerData.getConfigData()), true, ['numberOfQuestionsAvailableInSelection', 'candidateEmail', 'categoryName', 'timing'])}`).then(data => data.results);
     quizzerData.updateData(['questions data', quizzerMiddleWare.convertIncomingQuestionDataArray(questions)]);
     sessionStoragePersistenceService.saveData('questions data', quizzerData.getData('questions data'));
 }
