@@ -40,14 +40,17 @@ const categoryOptionElements = Array.from(UI_Interface.getElements('#categorySel
 if (quizzerDataOperation.isDataAvailable(quizzerData, 'getData', 'Quiz Categories')) {
     //UI_Interface.removeElement(UI_Interface.getElements('.category-options-spinner')[0])
 }
-function validateQuantityInput() {
+function checkAndValidateQuantityInput() {
     UI_Interface.setAttributes([submitButtonElement], ['disabled'], ['']);
     quizzerDataOperation.qtyOfQuestionsAvailable(categoryOptionElements[selectCategoryElement.selectedIndex].value, difficultyOptionElements[selectDifficultyElement.selectedIndex].value).then(quantity => {
         console.log(quantity);
         UI_Interface.attachText([UI_Interface.getElements('.questionQuantityGroup .valid-feedback')[0]], [`Number of questions available: ${quantity}`])
-        handlerHelpers.limitNumericalEntry.call(questionQtyElement, [quantity, 1], ['max', 'min']);
+        quizzerData.updateConfigData(['numberOfQuestionsAvailableInSelection', quantity])
         UI_Interface.removeAttributes([submitButtonElement], ['disabled'])
     })
+}
+function validateQuantityInput() {
+    handlerHelpers.limitNumericalEntry.call(questionQtyElement, [quizzerData.getConfigData('numberOfQuestionsAvailableInSelection'), 1], ['max', 'min']);
 }
 
 function save_UI_Config_Entries(event) {
@@ -100,7 +103,7 @@ function processEmailEntries(candidatesEmails) {
 }
 
 
-UI_Interface.addEventListenerToElements([submitButtonElement, selectCategoryElement, selectDifficultyElement], ['click', 'change'], [save_UI_Config_Entries, validateQuantityInput])
-validateQuantityInput();
+UI_Interface.addEventListenerToElements([submitButtonElement, questionQtyElement, selectCategoryElement, selectDifficultyElement], ['click', 'input', 'change'], [save_UI_Config_Entries, validateQuantityInput, checkAndValidateQuantityInput])
+checkAndValidateQuantityInput();
 
 
