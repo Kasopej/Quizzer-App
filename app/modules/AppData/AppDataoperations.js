@@ -7,7 +7,11 @@ const api_Service = new API_ServiceClass();
 export class AppDataOperationsClass {
     isDataAvailable(dataObject, getter, key) {
         let dataAvailable;
-        return dataAvailable = (dataObject[getter](key) !== undefined) ? true : false;
+        dataAvailable = dataObject[getter](key);
+        if (Array.isArray(dataAvailable)) {
+            return dataAvailable = (dataObject[getter](key).length) ? true : false;
+        }
+
     }
 }
 export class QuizzerDataOperationsClass extends AppDataOperationsClass {
@@ -41,8 +45,8 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
         return timing = (timing == 'Timed') ? true : false;
     }
     calcTotalTime() {
-        const difficulty = this.data.getConfigData('selectedDifficulty');
-        const quantity = this.data.getConfigData('numberOfQuestions');
+        const difficulty = this.data.getConfigData('difficulty');
+        const quantity = this.data.getConfigData('amount');
         switch (difficulty) {
             case 'easy':
                 this._totalTime = quantity * 10;

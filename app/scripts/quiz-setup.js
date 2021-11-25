@@ -86,11 +86,18 @@ function processEmailEntries(candidatesEmails) {
             if (candidateEmail !== "" && !candidateEmail.includes(' ')) {
                 emailsValidated = true;
                 quizzerData.updateConfigData(['candidateEmail', candidateEmail]);
-                //UI_Interface.attachText([modalBodyElement, [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
+                //UI_Interface.attachText([modalBodyElement], [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
                 let candidateEmailAnchorElement = UI_Interface.createElements('a');
                 UI_Interface.setAttributes([candidateEmailAnchorElement], ['href'], ['#']);
+
                 UI_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + quizPageRelativePath + URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())), true)) }
                 ]);
+
+                /*
+                UI_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + quizPageRelativePath + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())), true))) }
+                ]);
+                */
+
                 UI_Interface.attachText([candidateEmailAnchorElement], [`Click to copy link for Candidate (${candidateEmail})`]);
                 UI_Interface.attachElements(modalBodyElement, candidateEmailAnchorElement)
             }
