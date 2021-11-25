@@ -57,9 +57,9 @@ function renderQuizOnUI() {
         UI_Interface.setAttributes([optionElementsArray[selectedOptionIndex]], ['checked'], ['']);
     }
 
-    (!questionIndex) ? UI_Interface.addClassToElements([UI_Interface.getElements('#prev')[0]], 'invisible') : UI_Interface.removeClassFromElements([UI_Interface.getElements('#prev-btn')[0]], 'invisible');
+    (!questionIndex) ? UI_Interface.addClassToElements([UI_Interface.getElements('#prev')[0]], 'invisible') : UI_Interface.removeClassFromElements([UI_Interface.getElements('#prev')[0]], 'invisible');
 
-    (questionIndex === questionsData.length - 1) ? UI_Interface.addClassToElements([UI_Interface.getElements('#next-btn')[0]], 'invisible') : UI_Interface.removeClassFromElements([UI_Interface.getElements('#next')[0]], 'invisible');
+    (questionIndex === questionsData.length - 1) ? UI_Interface.addClassToElements([UI_Interface.getElements('#next')[0]], 'invisible') : UI_Interface.removeClassFromElements([UI_Interface.getElements('#next')[0]], 'invisible');
 }
 
 UI_Interface.addEventListenerToElements([UI_Interface.getElements('#prev')[0]], ['click'], [function (event) {
