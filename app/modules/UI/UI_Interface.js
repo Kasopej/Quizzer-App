@@ -32,15 +32,25 @@ export default class UI_InterfaceClass {
                 return [];
             }
         }
-
     }
     setAttributes = (elements = [], attributes = [], values = []) => {
         if (!(elements.length > 1) && !(attributes.length > 1) && !(values.length > 1)) {
             elements[0].setAttribute(attributes[0], values[0]);
         }
         else {
-            this.helper.helpSetEntriesOnMultipleElements(this, 'setAttributes', elements, attributes, values)
+            this.helper.helpHandleEntriesOnMultipleElements(this, 'setAttributes', elements, attributes, values)
         }
+    }
+    removeAttributes(elements = [], attributes = []) {
+        if (elements.length == 1) {
+            if (attributes.length == 1) {
+                elements[0].removeAttribute(attributes[0])
+                return;
+            }
+            this.helper.throwHandleMultipleValuesOnSingleElementError(elements, 'removeAttributes', attributes, DOM_Operation_Error);
+            return;
+        }
+        this.helper.helpHandleValuesOnMultipleElements(this, 'removeAttributes', elements, texts)
     }
     getAttributeFromElements(elements = [], attributeName) {
         let attributeValuesArr = []
@@ -70,10 +80,10 @@ export default class UI_InterfaceClass {
                 elements[0].innerText = texts[0]
                 return;
             }
-            this.helper.throwSetMultipleValuesOnSingleElementError(elements, 'attachText', texts, DOM_Operation_Error);
+            this.helper.throwHandleMultipleValuesOnSingleElementError(elements, 'attachText', texts, DOM_Operation_Error);
             return;
         }
-        this.helper.helpSetValuesOnMultipleElements(this, 'attachText', elements, texts)
+        this.helper.helpHandleValuesOnMultipleElements(this, 'attachText', elements, texts)
     }
     attachHTML = (elements = [], htmlStrings = []) => {
         if (elements.length == 1) {
@@ -81,10 +91,10 @@ export default class UI_InterfaceClass {
                 elements[0].insertAdjacentHTML('beforeend', htmlStrings[0]);
                 return;
             }
-            this.helper.throwSetMultipleValuesOnSingleElementError(elements, 'attachHTML', htmlStrings, DOM_Operation_Error);
+            this.helper.throwHandleMultipleValuesOnSingleElementError(elements, 'attachHTML', htmlStrings, DOM_Operation_Error);
             return;
         }
-        this.helper.helpSetValuesOnMultipleElements(this, 'attachText', elements, htmlStrings)
+        this.helper.helpHandleValuesOnMultipleElements(this, 'attachText', elements, htmlStrings)
     }
     replaceHTML = (elements = [], htmlStrings = []) => {
         if (elements.length == 1) {
@@ -92,10 +102,10 @@ export default class UI_InterfaceClass {
                 elements[0].innerHTML = htmlStrings[0]
                 return;
             }
-            this.helper.throwSetMultipleValuesOnSingleElementError(elements, 'replaceHTML', htmlStrings, DOM_Operation_Error);
+            this.helper.throwHandleMultipleValuesOnSingleElementError(elements, 'replaceHTML', htmlStrings, DOM_Operation_Error);
             return;
         }
-        this.helper.helpSetValuesOnMultipleElements(this, 'replaceHTML', elements, htmlStrings)
+        this.helper.helpHandleValuesOnMultipleElements(this, 'replaceHTML', elements, htmlStrings)
     }
     attachElements(parent, children) {
         parent.append(children)
@@ -125,7 +135,7 @@ export default class UI_InterfaceClass {
 
         }
         else {
-            this.helper.helpSetEntriesOnMultipleElements(this, 'addEventListenerToElements', elements, events, handlers)
+            this.helper.helpHandleEntriesOnMultipleElements(this, 'addEventListenerToElements', elements, events, handlers)
         }
     }
 }
