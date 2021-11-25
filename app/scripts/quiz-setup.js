@@ -2,7 +2,7 @@ import { QuizzerDataClass } from "../modules/AppData/AppData.js";
 import { QuizzerDataOperationsClass } from "../modules/AppData/AppDataoperations.js";
 import UI_InterfaceClass from "../modules/UI/UI_Interface.js";
 import { HandlerHelpersClass, URL_HelperClass } from "../modules/util/Helpers.js";
-import { CategoriesURL } from "../modules/util/URL.js";
+import { CategoriesURL, quizPageRelativePath } from "../modules/util/URL.js";
 import API_ServiceClass from "../Services/API_Service.js";
 import { LocalDataPersistenceClass } from "../Services/PersistentService.js";
 import RouterService from "../Services/Router.js";
@@ -44,8 +44,9 @@ function checkAndValidateQuantityInput() {
     UI_Interface.setAttributes([submitButtonElement], ['disabled'], ['']);
     quizzerDataOperation.qtyOfQuestionsAvailable(categoryOptionElements[selectCategoryElement.selectedIndex].value, difficultyOptionElements[selectDifficultyElement.selectedIndex].value).then(quantity => {
         console.log(quantity);
-        UI_Interface.attachText([UI_Interface.getElements('.questionQuantityGroup .valid-feedback')[0]], [`Number of questions available: ${quantity}`])
-        quizzerData.updateConfigData(['numberOfQuestionsAvailableInSelection', quantity])
+        UI_Interface.attachText([UI_Interface.getElements('.questionQuantityGroup .valid-feedback')[0]], [`Number of questions available: ${quantity}`]);
+        quizzerData.updateConfigData(['numberOfQuestionsAvailableInSelection', quantity]);
+        validateQuantityInput();
         UI_Interface.removeAttributes([submitButtonElement], ['disabled'])
     })
 }
