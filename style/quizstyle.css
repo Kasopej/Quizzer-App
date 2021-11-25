@@ -18,8 +18,10 @@ body {
 
 .quizquestionwrapp {
     padding: 10px 2rem;
+    height: 400px;
+    overflow-y: auto;
 }
-.splashscreen{
+.splashScreen{
     position: fixed;
     left: 0;
     top: 0;
@@ -31,7 +33,7 @@ body {
     z-index: 200;
     line-height: 90vh;
 }
-.splashscreen.dsiplay-none{
+.splashScreen.dsiplay-none{
     position: fixed;
     opacity: 0;
     left: 0;
@@ -50,18 +52,18 @@ body {
         opacity: 1;
     }
 }
-.fadein{
+.fadeIn{
     opacity:0;
     animation: fadeIn 1s ease-in forwards;
 }
-.logop {
+.logoParent {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 1rem;
 }
 
-.logop {
+.logoParent{
     margin-top: 10px;
 }
 
@@ -76,7 +78,7 @@ body {
     height: 80%;
 }
 
-.firstnext {
+.nextBtn {
     margin-left: auto;
 }
 
@@ -86,16 +88,13 @@ body {
     align-items: center;
 }
 
-.subpar {
+.controlsParent{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* display: none; */
-    /* display: flex; */
-    /* justify-content: center; */
 }
 
-.submitbtn {
+.submitBtn {
     display: none;
     background-color:#5cb85c !important;
     border: #5cb85c;
@@ -135,7 +134,7 @@ body {
 }
 
 .quizcontainer ul li {
-    padding: 1rem 0;
+    padding: 14px 0;
     font-size: 1.2rem;
 }
 
@@ -147,14 +146,15 @@ body {
 .quizcontainer h2 {
     margin: 0;
     text-align: center;
-    padding: 1rem;
+    padding: 10px 1rem;
+    font-size: 20px;
+    line-height: 32px;
 }
-
 @media(max-width: 450px) {
     .quizcontainer ul li {
         font-size: 15px;
     }
     h2 {
-        font-size: 18px;
+        font-size: 16px!important;
     }
 }

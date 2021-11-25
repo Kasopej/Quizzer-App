@@ -298,9 +298,9 @@ let prevElm = document.getElementById('prev');
 const answersEl = document.querySelectorAll('.answer');
 let quizcontElm = document.getElementById('quiz');
 let submitbtn = document.getElementById('subbtn');
-let qnumber = document.getElementById('qnumber');
-const qLength = document.getElementById('qlength');
-const splashscreen = document.querySelector('.splashscreen');
+let quizNumber = document.getElementById('quizNumber');
+const quizLength = document.getElementById('quizLength');
+const splashScreen = document.querySelector('.splashScreen');
 let apiQuestionBag;
 var currentquiz = 0;
 var responseArray;
@@ -312,7 +312,7 @@ let answerMap = new Map();
 document.addEventListener('DOMContentLoaded',(e)=>{
  if(checkContent==false){
     setTimeout(()=>{
-        splashscreen.classList.add('dsiplay-none')
+        splashScreen.classList.add('dsiplay-none')
     }, 3000)
  }
    
@@ -362,7 +362,7 @@ async function fetchQuestion(){
     });
     checkContent = false;
     console.log(responseArray);
-    qLength.innerHTML = responseArray.length;
+    quizLength.innerHTML = responseArray.length;
     loadQuestion();
     return  responseArray; 
 }
@@ -424,7 +424,7 @@ nextElm.addEventListener('click', () => {
         }
         console.log(answerArr);
         currentquiz++;
-        qnumber.innerHTML = currentquiz + 1;
+        quizNumber.innerHTML = currentquiz + 1;
         if (currentquiz < responseArray.length) {
             localStorage.setItem('correct', answer);
             loadQuestion();
@@ -447,7 +447,7 @@ prevElm.addEventListener('click', () => {
         return;
     } else {
         currentquiz--;
-        qnumber.innerHTML = currentquiz + 1;
+        quizNumber.innerHTML = currentquiz + 1;
         loadQuestion();
     }
     let mychecked = answerMap.get(currentquiz);
@@ -463,14 +463,10 @@ prevElm.addEventListener('click', () => {
  
 function submitAnswer() {
     if (score > responseArray.length / 2) {
-        quizcontElm.innerHTML = `<h2>you score ${score} out of ${responseArray.length} qusetions Keep it up </h2>
-        <button onclick="location.reload()" style="width:100%">Reload...
-        </button> `;
+        quizcontElm.innerHTML = `<h2>you score ${score} out of ${responseArray.length} qusetions Keep it up </h2>`;
 
     } else {
-        quizcontElm.innerHTML = `<h2>you score ${score} out of ${responseArray.length} qusetions You can do better </h2>
-        <button onclick="location.reload()" style="width:100%">Reload...
-        </button> `;
+        quizcontElm.innerHTML = `<h2>you score ${score} out of ${responseArray.length} qusetions You can do better </h2> `;
     }
     let count = 0;
     if (answerMap.get(currentquiz)==answerArr[currentquiz]){

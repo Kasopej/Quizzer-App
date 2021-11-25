@@ -10,11 +10,8 @@ let newurlEl = document.getElementById('newurl');
 let username = document.getElementById('username');
 let submitBtnEl = document.getElementById('submitBtn');
 let candidateInfo = {};
-let defaultOption = document.createElement('option');
 let amountofquestionEl = document.getElementById('amountofquestion');
-let usersemail = document.getElementById('usersemail');
-defaultOption.text = 'Choose Prefered category';
-categoryselect.add(defaultOption);
+let usersEmail = document.getElementById('usersEmail');
 async function setCaterogies(){
     let url = 'https://opentdb.com/api_category.php';
     try{
@@ -39,7 +36,7 @@ async function getCaterogies(){
 
 submitBtnEl.addEventListener('click', function (){
     let amount = amountofquestionEl.value;
-    let user = usersemail.value;
+    let user = usersEmail.value;
     categoryText = categoryselect.options[categoryselect.selectedIndex].text;
     candidateInfo.categorySelection = categoryText;
     category = categoryselect.options[categoryselect.selectedIndex].value;

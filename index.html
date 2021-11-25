@@ -1,37 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Project</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style/config.css">
 </head>
-
 <body>
-    <div class="overallinstruct">
-        <div class="logocont">
-            <div class="logop"><img src="images/smartflow-logo.png" alt="Smartflow-logo"></div>
-        </div>
-        <div class="instructbody">
-            <h2 class="instructtext">SmartFlow Quiz Instructions</h2>
-            <div class="limitstuf">
-                <h4>Time Limit: 10 Minutes</h4>
-                <h4>Questions: 15</h4>
-            </div>
-            <div class="listinstruct">
-                <h2>Instructions</h2>
-                <ul>
-                    <li><strong>Attempts</strong>- Attempt all quiz questions your score are being recorded and will be displayed immediately you completed the quiz.</li>
-                    <li><strong>Timing</strong>- You will need to complete the quiz before your time runs out failure to do so will leads to automatic submission</li>
-                    <li><strong>Answer</strong>- You may review your answer-choice before clicking the next button</li>
-                </ul>
-                <p>
-                    To start, click the <a href="quiz.html">"Take the Quiz"</a> button. When finished, click the "Submit Quiz" button.
-                </p>
-            </div>
+    <div class="mx-3 bg-white px-3 py-2 shadow contentcontainer">
+       <div class="d-flex justify-content-center align-center "><img src="images/smartflow-logo.png" alt="smartflow-logo"></div> 
+        <div>
+           <div class="my-3">
+            <h4 class="font-weight-bold welcomeText">Welcome to Smartflow Quiz Assessment Configuration Page!</h4>
+            <p>Carefully make your selection to generate link for Candidate.</p>
+           </div>
+            
+            <form class="was-validated configForm" id="configForm">
+                <div class="form-group has-error">
+                    <label for="usersEmail">Candidates Email:</label>
+                    <textarea name="usersEmail" id="usersEmail" rows="2" class="form-control emailTxt" value="emails" title="separate each mail with a comma" placeholder="abidoyeridwan3@gmail.com,kasopejohnsonsmartflowtech.com,HammedAdeyekun@smartflow.com" required></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="amount">Number of Questions:</label>
+                    <input type="number" class="form-control" name="amount"
+                    id="amountofquestion" min="1"required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please fill out this field.</div>
+                  </div>
+                  <div class="my-2">
+                    <label for="category">Select Category:</label>
+                    <select name="category" class="custom-select form-control" id="categorySelect" required>
+                    <option  value="0">Choose Prefered category</option>
+                    </select>
+                  </div>
+                 <div class="my-2">
+                    <label for="difficulty">Select Difficulty:</label>
+                    <select name="difficulty" id="difficultySelect" class="custom-select">
+                      <option disabled value="">Select Difficulty</option>
+                      <option value="easy">Easy</option>
+                      <option value="medium">Medium</option>
+                      <option value="hard">Hard</option>
+                       </select>
+                 </div>
+                 <div class="my-2">
+                  <label for="type">Select Type:</label>
+                  <select name="type" id="typeSelect" class="custom-select">
+                    <option value="">Any type</option>
+                    <option value="multiple">Multi-Choice</option>
+                    <option value="boolean">True / False</option>
+                     </select>
+               </div>
+                  <div class="my-2">
+                    <button type="button" class="btn btn-block btn-primary" id="submitBtn">Generate Link</button>
+                
+                  </div>
+              </form>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="script/config.js"></script>
 </body>
-
 </html>

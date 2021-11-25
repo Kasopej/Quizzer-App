@@ -23,7 +23,7 @@ body {
 .configForm label{
     font-weight: bold;
 }
-.emailtxt{
+.emailTxt{
     text-align: left;
 }
 .contentcontainer{
@@ -36,7 +36,7 @@ body {
 }
 
 @media(max-width:500px){
-    .weltext{
+    .welcomeText{
         font-size: 18px;
     }
 }
