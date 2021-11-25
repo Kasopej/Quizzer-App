@@ -25,10 +25,16 @@ if (!sessionStorageQuestions && !sessionStorageConfigData) {
     const questions = await API_Service.fetchData(`${QuestionsURL}+ ${URL_Helper.generateQuery(Object.entries(quizzerData.getConfigData()), true, ['numberOfQuestionsAvailableInSelection', 'candidateEmail', 'categoryName', 'timing'])}`).then(data => data.results);
     quizzerData.updateData(['questions data', quizzerMiddleWare.convertIncomingQuestionDataArray(questions)]);
     sessionStoragePersistenceService.saveData('questions data', quizzerData.getData('questions data'));
+    if (quizzerDataOperation.isDataAvailable(quizzerData, 'getData', 'questions data')) {
+        UI_Interface.removeElement(UI_Interface.getElements('.splashScreen')[0])
+    }
 }
 else {
     quizzerData.updateData(['questions data', sessionStorageQuestions]);
     quizzerData.updateConfigData(...Object.entries(sessionStorageConfigData));
+    if (quizzerDataOperation.isDataAvailable(quizzerData, 'getData', 'questions data')) {
+        UI_Interface.removeElement(UI_Interface.getElements('.splashScreen')[0])
+    }
 }
 
 let questionIndex = 0;
@@ -59,6 +65,8 @@ function renderQuizOnUI() {
     (!questionIndex) ? UI_Interface.addClassToElements([UI_Interface.getElements('#prev')[0]], 'invisible') : UI_Interface.removeClassFromElements([UI_Interface.getElements('#prev')[0]], 'invisible');
 
     (questionIndex === questionsData.length - 1) ? UI_Interface.addClassToElements([UI_Interface.getElements('#next')[0]], 'invisible') : UI_Interface.removeClassFromElements([UI_Interface.getElements('#next')[0]], 'invisible');
+
+    !(questionIndex === questionsData.length - 1) ? UI_Interface.addClassToElements([UI_Interface.getElements('#submitBtn')[0]], 'display-none') : UI_Interface.removeClassFromElements([UI_Interface.getElements('#submitBtn')[0]], 'display-none');
 }
 
 UI_Interface.addEventListenerToElements([UI_Interface.getElements('#prev')[0]], ['click'], [function (event) {

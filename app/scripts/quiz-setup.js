@@ -37,7 +37,7 @@ quizzerData.getData('Quiz Categories').forEach(categoryObj => {
 })
 const categoryOptionElements = Array.from(UI_Interface.getElements('#categorySelect option'));
 if (quizzerDataOperation.isDataAvailable(quizzerData, 'getData', 'Quiz Categories')) {
-    //UI_Interface.removeElement(UI_Interface.getElements('.category-options-spinner')[0])
+    UI_Interface.removeElement(UI_Interface.getElements('.category-options-spinner')[0])
 }
 function checkAndValidateQuantityInput() {
     UI_Interface.setAttributes([submitButtonElement], ['disabled'], ['']);
@@ -96,9 +96,13 @@ function processEmailEntries(candidatesEmails) {
             }
         }
         console.log(quizzerData.getConfigData());
-        if (emailsValidated) return;
+        if (emailsValidated) {
+            UI_Interface.removeClassFromElements([UI_Interface.getElements('#candidatesEmails')[0]], 'is-invalid');
+            return;
+        }
     }
     UI_Interface.attachText([modalBodyElement], ['Invalid entry, please enter one or more comma separated email addresses']);
+    UI_Interface.addClassToElements([UI_Interface.getElements('#candidatesEmails')[0]], 'is-invalid');
 }
 
 

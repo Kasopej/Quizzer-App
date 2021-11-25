@@ -151,6 +151,7 @@ body {
     line-height: 32px;
 }
 .invisible {visibility: hidden;}
+.display-none{display: none !important;}
 @media(max-width: 450px) {
     .quizContainer ul li {
         font-size: 15px;

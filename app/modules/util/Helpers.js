@@ -102,17 +102,6 @@ export class URL_HelperClass extends HelperClass {
         let signedToken = token + "." + signature;
         return signedToken;
     }
-    generateCandidateLink(params = []) {
-        let query = '';
-        params.forEach((parameterEntry, index) => {
-            if (index < params.length - 1) {
-                query = query + parameterEntry[0] + '=' + parameterEntry[1] + '&';
-                return;
-            }
-            query = query + parameterEntry[0] + '=' + parameterEntry[1];
-        })
-        return query;
-    }
     generateQuery(params = [], skipNullValues = Boolean, propertiesToSkip = []) {
         let query = '';
         for (let index = 0; index < params.length; index++) {
