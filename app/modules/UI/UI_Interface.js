@@ -1,4 +1,4 @@
-import { UI_CommandHelperClass } from "../util/Helpers.js";
+import { UI_CommandHelperClass } from "../Util/Helpers.js";
 
 class DOM_Operation_Error extends Error {
     constructor(message) {
@@ -7,11 +7,11 @@ class DOM_Operation_Error extends Error {
     }
 }
 
-export default class UI_InterfaceClass {
+export default class UI_InterfaceClass {//this class carries out DOM operations
     constructor() {
         this.helper = new UI_CommandHelperClass()
     }
-    createElements(...tagNames) {
+    createElements(...tagNames) {//this method creates as many elements as required in the same call
         if (tagNames.length == 1) {
             return document.createElement(tagNames[0])
         }
@@ -19,7 +19,7 @@ export default class UI_InterfaceClass {
             return this.helper.helpCreateMultipleElements(this, tagNames)
         }
     }
-    getElements(selector) {
+    getElements(selector) { //method to get elements from DOM. Throws & logs error if element could not be found i.e invalid selector
         try {
             let nodeListLength = 0;
             const nodeList = document.querySelectorAll(selector);
@@ -33,7 +33,7 @@ export default class UI_InterfaceClass {
             }
         }
     }
-    setAttributes = (elements = [], attributes = [], values = []) => {
+    setAttributes = (elements = [], attributes = [], values = []) => { //sets as many attributes and their values for as many elements as required
         if (!(elements.length > 1) && !(attributes.length > 1) && !(values.length > 1)) {
             elements[0].setAttribute(attributes[0], values[0]);
         }
@@ -52,7 +52,7 @@ export default class UI_InterfaceClass {
         }
         this.helper.helpHandleValuesOnMultipleElements(this, 'removeAttributes', elements, texts)
     }
-    getAttributeFromElements(elements = [], attributeName) {
+    getAttributeFromElements(elements = [], attributeName) { //obtains attribute value for as many elements as required
         let attributeValuesArr = []
         elements.forEach((element) => {
             try {
@@ -67,14 +67,14 @@ export default class UI_InterfaceClass {
         })
         return attributeValuesArr;
     }
-    getInputValue(elements = []) {
+    getInputValue(elements = []) { //get input values from input elements
         let inputValuesArr = []
         elements.forEach(element => {
             inputValuesArr.push(element.value)
         })
         return inputValuesArr;
     }
-    attachText = (elements = [], texts = []) => {
+    attachText = (elements = [], texts = []) => { //attach text strings to multiple elements as required
         if (elements.length == 1) {
             if (texts.length == 1) {
                 elements[0].innerText = texts[0]
@@ -85,7 +85,7 @@ export default class UI_InterfaceClass {
         }
         this.helper.helpHandleValuesOnMultipleElements(this, 'attachText', elements, texts)
     }
-    attachHTML = (elements = [], htmlStrings = []) => {
+    attachHTML = (elements = [], htmlStrings = []) => { //append new HTML strings to multiple elements as required
         if (elements.length == 1) {
             if (htmlStrings.length == 1) {
                 elements[0].insertAdjacentHTML('beforeend', htmlStrings[0]);
@@ -96,7 +96,7 @@ export default class UI_InterfaceClass {
         }
         this.helper.helpHandleValuesOnMultipleElements(this, 'attachText', elements, htmlStrings)
     }
-    replaceHTML = (elements = [], htmlStrings = []) => {
+    replaceHTML = (elements = [], htmlStrings = []) => { //attach new HTML strings to multiple elements as required, replacing the current HTML in the elements, if any
         if (elements.length == 1) {
             if (htmlStrings.length == 1) {
                 elements[0].innerHTML = htmlStrings[0]
@@ -125,7 +125,7 @@ export default class UI_InterfaceClass {
     removeClassFromElements(elements = [], classToken) {
         elements.forEach(element => element.classList.toggle(classToken, false))
     }
-    addEventListenerToElements(elements = [], events = [], handlers = []) {
+    addEventListenerToElements(elements = [], events = [], handlers = []) { //attach listeners to events for elements as required. Calls helper method if required (i.e if multiple elements/methods/listeners passed)
         if (!(elements.length > 1) && !(events.length > 1) && !(handlers.length > 1)) {
             if (typeof handlers[0] === 'function' || (handlers[0] instanceof Object && ('handleEvent' in handlers[0]))) {
                 elements[0].addEventListener(events[0], handlers[0]);

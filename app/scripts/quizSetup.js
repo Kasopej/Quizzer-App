@@ -1,10 +1,9 @@
 import { QuizzerDataClass } from "../modules/AppData/AppData.js";
-import { QuizzerDataOperationsClass } from "../modules/AppData/AppDataoperations.js";
+import { QuizzerDataOperationsClass } from "../modules/AppData/appDataOperations.js";
 import UI_InterfaceClass from "../modules/UI/UI_Interface.js";
 import { HandlerHelpersClass, URL_HelperClass } from "../modules/util/Helpers.js";
 import { CategoriesURL, quizPageRelativePath } from "../modules/util/URL.js";
-import API_ServiceClass from "../Services/API_Service.js";
-import RouterService from "../Services/Router.js";
+import API_ServiceClass from "../Services/apiService.js";
 import { ClipboardClass } from "../Services/UserAgent.js";
 
 
@@ -12,7 +11,6 @@ const UI_Interface = new UI_InterfaceClass();
 const API_Service = new API_ServiceClass();
 const quizzerData = new QuizzerDataClass();
 const quizzerDataOperation = new QuizzerDataOperationsClass(quizzerData);
-const router = new RouterService();
 const handlerHelpers = new HandlerHelpersClass();
 const URL_Helper = new URL_HelperClass();
 const clipBoardObj = new ClipboardClass();

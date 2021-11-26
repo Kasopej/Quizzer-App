@@ -1,4 +1,4 @@
-import API_ServiceClass from "../../Services/API_Service.js";
+import API_ServiceClass from "../../Services/apiService.js";
 import RouterService from "../../Services/Router.js";
 import UI_InterfaceClass from "../UI/UI_Interface.js";
 import { globalQtyOfQuestionsURL, qtyOfQuestionsInCategoryURL } from "../util/URL.js";
