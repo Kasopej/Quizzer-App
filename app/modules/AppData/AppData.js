@@ -18,10 +18,10 @@ export class AppDataClass { //This is a base class class to provide basic proper
     set configData(obj = {}) {
         this._configData = obj;
     }
-    mapConfigDataClone(key) { //clones configData map so different consumers can have separate configData instances
+    mapConfigDataClone(key) { //clones configData map so different consumers can have independent configData instances
         this._configDataClonesMap.set(key, _.cloneDeep(this._configData));
     }
-    getConfigDataClone(key) {
+    getConfigDataClone(key) { //returns independent configData instances if key is passed, else returns the map of configData instances
         this._configDataClonesMap.get(key);
         if (arguments.length == 1) {
             return this._configDataClonesMap.get(key);
@@ -30,7 +30,7 @@ export class AppDataClass { //This is a base class class to provide basic proper
     }
 }
 
-export class QuizzerDataClass extends AppDataClass {
+export class QuizzerDataClass extends AppDataClass { //Extension of base AppData class to provide functionality specific to quizzer
     constructor() {
         super();
         this._data = new Map();

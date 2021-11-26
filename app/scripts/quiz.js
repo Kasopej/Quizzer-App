@@ -18,6 +18,7 @@ const sessionStoragePersistenceService = new sessionStoragePersistenceClass();
 const sessionStorageQuestions = sessionStoragePersistenceService.getData('questions data');
 const sessionStorageConfigData = sessionStoragePersistenceService.getData('quizzer config data');
 
+//Call for questions from API if not saved in session storage. Remove splash screen if questions called & saved successfully
 if (!sessionStorageQuestions && !sessionStorageConfigData) {
     const params = URL_Helper.getParamsFromQueryString(location.search.substr(1));
     quizzerData.updateConfigData(...Object.entries(params));
@@ -29,7 +30,7 @@ if (!sessionStorageQuestions && !sessionStorageConfigData) {
         UI_Interface.removeElement(UI_Interface.getElements('.splashScreen')[0])
     }
 }
-else {
+else { //get questions from session storage. Remove splash screen if questions obtained & saved successfully
     quizzerData.updateData(['questions data', sessionStorageQuestions]);
     quizzerData.updateConfigData(...Object.entries(sessionStorageConfigData));
     if (quizzerDataOperation.isDataAvailable(quizzerData, 'getData', 'questions data')) {
@@ -40,12 +41,13 @@ else {
 let questionIndex = 0;
 let questionsData = quizzerData.getData('questions data');
 
+//Implement time countdown if test is timed
 if (quizzerDataOperation.checkIfQuizIsTimed()) {
     quizzerDataOperation.calcTotalTime();
     quizzerDataOperation.updateAndRenderTimeLeft(UI_Interface.getElements('#timer')[0]);
 }
 
-function renderQuizOnUI() {
+function renderQuizOnUI() { //Render current questions with options on UI. Implement functionality to recover previous selections. Implement functionality to toggle control buttons on & off
     UI_Interface.replaceHTML([UI_Interface.getElements('#question')[0]], [decodeURI(questionsData[questionIndex].question)])
     UI_Interface.attachText(Array.from(UI_Interface.getElements('.quizNumberTracker h2')), ['Question', `${questionIndex + 1}`, `${questionsData.length}`]);
     let elementsCreated = UI_Interface.createElements(...'li '.repeat(questionsData[questionIndex].answers.length).split(' ').slice(0, questionsData[questionIndex].answers.length));
@@ -68,6 +70,8 @@ function renderQuizOnUI() {
 
     !(questionIndex === questionsData.length - 1) ? UI_Interface.addClassToElements([UI_Interface.getElements('#submitBtn')[0]], 'display-none') : UI_Interface.removeClassFromElements([UI_Interface.getElements('#submitBtn')[0]], 'display-none');
 }
+
+
 
 UI_Interface.addEventListenerToElements([UI_Interface.getElements('#prev')[0]], ['click'], [function (event) {
     questionIndex = (questionIndex > 0) ? --questionIndex : questionIndex;

@@ -27,7 +27,7 @@ const submitButtonElement = UI_Interface.getElements('#submitBtn')[0];
 const difficultyOptionElements = Array.from(UI_Interface.getElements('#difficultySelect option'));
 
 
-
+//Make call for categories and attach them to category form element
 quizzerData.updateData(['Quiz Categories', await API_Service.fetchData(CategoriesURL).then(data => data.trivia_categories)])
 quizzerData.getData('Quiz Categories').forEach(categoryObj => {
     const optionElement = UI_Interface.createElements('option')
@@ -36,10 +36,11 @@ quizzerData.getData('Quiz Categories').forEach(categoryObj => {
     UI_Interface.attachElements(selectCategoryElement, optionElement);
 })
 const categoryOptionElements = Array.from(UI_Interface.getElements('#categorySelect option'));
-if (quizzerDataOperation.isDataAvailable(quizzerData, 'getData', 'Quiz Categories')) {
+
+if (quizzerDataOperation.isDataAvailable(quizzerData, 'getData', 'Quiz Categories')) { //Checks if categories have been successfully saved in app. Returns boolean
     UI_Interface.removeElement(UI_Interface.getElements('.category-options-spinner')[0])
 }
-function checkAndValidateQuantityInput() {
+function checkAndValidateQuantityInput() { //Checks number of questions available based on current form selection. Prevents submission while checking
     UI_Interface.setAttributes([submitButtonElement], ['disabled'], ['']);
     quizzerDataOperation.qtyOfQuestionsAvailable(categoryOptionElements[selectCategoryElement.selectedIndex].value, difficultyOptionElements[selectDifficultyElement.selectedIndex].value).then(quantity => {
         UI_Interface.attachText([UI_Interface.getElements('.questionQuantityGroup .valid-feedback')[0]], [`Number of questions available: ${quantity}`]);
@@ -48,11 +49,11 @@ function checkAndValidateQuantityInput() {
         UI_Interface.removeAttributes([submitButtonElement], ['disabled'])
     })
 }
-function validateQuantityInput() {
+function validateQuantityInput() { //Prevent user from exceeding limits for available number of questions
     handlerHelpers.limitNumericalEntry.call(questionQtyElement, [quizzerData.getConfigData('numberOfQuestionsAvailableInSelection'), 1], ['max', 'min']);
 }
 
-function save_UI_Config_Entries(event) {
+function save_UI_Config_Entries(event) { //On form submit, save form selections to configData
     const selectedCategoryOptionElement = categoryOptionElements[selectCategoryElement.selectedIndex];
     const selectedDifficultyOptionElement = difficultyOptionElements[selectDifficultyElement.selectedIndex];
     const selectedTypeOptionElement = typeOptionElements[selectTypeElement.selectedIndex];
@@ -68,7 +69,7 @@ function save_UI_Config_Entries(event) {
     event.preventDefault()
 }
 
-function processEmailEntries(candidatesEmails) {
+function processEmailEntries(candidatesEmails) { //Validate emails and print links (if emails valid). Copy configuration data to each email link
     const modalBodyElement = UI_Interface.getElements('#quiz-link-modal p')[0];
     UI_Interface.replaceHTML([modalBodyElement], ['']);
 
