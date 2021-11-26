@@ -1,4 +1,4 @@
-import { UI_CommandHelperClass } from "../Util/Helpers.js";
+import { UI_CommandHelperClass } from "../util/helpers.js";
 
 class DOM_Operation_Error extends Error {
     constructor(message) {

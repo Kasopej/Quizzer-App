@@ -1,11 +1,11 @@
-import { QuizzerDataClass } from "../modules/AppData/AppData.js";
+import { QuizzerDataClass } from "../modules/AppData/appData.js";
 import { QuizzerDataOperationsClass } from "../modules/AppData/appDataOperations.js";
-import { QuizzerMiddleWareClass } from "../modules/MiddleWare/MiddleWare.js";
+import { QuizzerMiddleWareClass } from "../modules/MiddleWare/middleWare.js";
 import UI_InterfaceClass from "../modules/UI/UI_Interface.js";
-import { QuestionsURL } from "../modules/util/URL.js";
-import { URL_HelperClass } from "../modules/util/Helpers.js";
+import { QuestionsURL } from "../modules/util/url.js";
+import { URL_HelperClass } from "../modules/util/helpers.js";
 import API_ServiceClass from "../Services/apiService.js";
-import { sessionStoragePersistenceClass } from "../Services/PersistentService.js";
+import { sessionStoragePersistenceClass } from "../Services/persistentService.js";
 
 
 const URL_Helper = new URL_HelperClass()

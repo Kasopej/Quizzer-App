@@ -1,10 +1,10 @@
-import { QuizzerDataClass } from "../modules/AppData/AppData.js";
+import { QuizzerDataClass } from "../modules/AppData/appData.js";
 import { QuizzerDataOperationsClass } from "../modules/AppData/appDataOperations.js";
-import UI_InterfaceClass from "../modules/UI/UI_Interface.js";
-import { HandlerHelpersClass, URL_HelperClass } from "../modules/util/Helpers.js";
-import { CategoriesURL, quizPageRelativePath } from "../modules/util/URL.js";
+import UI_InterfaceClass from "../modules/UI/ui_Interface.js";
+import { HandlerHelpersClass, URL_HelperClass } from "../modules/util/helpers.js";
+import { CategoriesURL, quizPageRelativePath } from "../modules/util/url.js";
 import API_ServiceClass from "../Services/apiService.js";
-import { ClipboardClass } from "../Services/UserAgent.js";
+import { ClipboardClass } from "../Services/userAgent.js";
 
 
 const UI_Interface = new UI_InterfaceClass();
