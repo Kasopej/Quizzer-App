@@ -58,10 +58,13 @@ function renderQuizOnUI() { //Render current questions with options on UI. Imple
     const optionElementsArray = Array.from(UI_Interface.getElements('.answerOptions input'));
     UI_Interface.addEventListenerToElements(optionElementsArray, ['change'], [function () {
         quizzerDataOperation.checkAnswer(UI_Interface.getInputValue([this])[0], questionIndex)
+        quizzerData.updateData(['currentQuestionAttempted', true]);
     }]);
+    quizzerData.updateData(['currentQuestionAttempted', false]);
     let selectedOptionIndex = quizzerData.getData('selected options').get(questionIndex);
     if (selectedOptionIndex != undefined) {
         UI_Interface.setAttributes([optionElementsArray[selectedOptionIndex]], ['checked'], ['']);
+        quizzerData.updateData(['currentQuestionAttempted', true]);
     }
 
     (!questionIndex) ? UI_Interface.addClassToElements([UI_Interface.getElements('#prev')[0]], 'invisible') : UI_Interface.removeClassFromElements([UI_Interface.getElements('#prev')[0]], 'invisible');
@@ -81,13 +84,19 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#prev')[0]], 
 ]
 );
 UI_Interface.addEventListenerToElements([UI_Interface.getElements('#next')[0]], ['click'], [function (event) {
-    questionIndex = (questionIndex < questionsData.length - 1) ? ++questionIndex : questionIndex;
-    renderQuizOnUI();
+    if (quizzerData.getData('currentQuestionAttempted')) {
+        questionIndex = (questionIndex < questionsData.length - 1) ? ++questionIndex : questionIndex;
+        renderQuizOnUI();
+    }
+    else { alert('Select an option first') }
     event.preventDefault();
 }]
 );
 UI_Interface.addEventListenerToElements([UI_Interface.getElements('#submitBtn')[0]], ['click'], [function (event) {
-    quizzerDataOperation.calculateScoresAndEndQuiz();
+    if (quizzerData.getData('currentQuestionAttempted')) {
+        quizzerDataOperation.calculateScoresAndEndQuiz();
+    }
+    else { alert('Select an option first') }
     event.preventDefault();
 }])
 renderQuizOnUI()
