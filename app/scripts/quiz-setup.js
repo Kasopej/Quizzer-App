@@ -42,7 +42,6 @@ if (quizzerDataOperation.isDataAvailable(quizzerData, 'getData', 'Quiz Categorie
 function checkAndValidateQuantityInput() {
     UI_Interface.setAttributes([submitButtonElement], ['disabled'], ['']);
     quizzerDataOperation.qtyOfQuestionsAvailable(categoryOptionElements[selectCategoryElement.selectedIndex].value, difficultyOptionElements[selectDifficultyElement.selectedIndex].value).then(quantity => {
-        console.log(quantity);
         UI_Interface.attachText([UI_Interface.getElements('.questionQuantityGroup .valid-feedback')[0]], [`Number of questions available: ${quantity}`]);
         quizzerData.updateConfigData(['numberOfQuestionsAvailableInSelection', quantity]);
         validateQuantityInput();
@@ -59,7 +58,6 @@ function save_UI_Config_Entries(event) {
     const selectedTypeOptionElement = typeOptionElements[selectTypeElement.selectedIndex];
     const selectedTimingOptionElement = timingOptionElements[selectTimingElement.selectedIndex]
     let [candidatesEmails, numberOfQuestions] = UI_Interface.getInputValue([UI_Interface.getElements('#candidatesEmails')[0], questionQtyElement]);
-    //Maybe use getInputValue method
     quizzerData.updateConfigData(['amount', numberOfQuestions]);
     handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'categoryName', selectedCategoryOptionElement.innerText);
     handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'category', selectedCategoryOptionElement.value);
@@ -77,19 +75,21 @@ function processEmailEntries(candidatesEmails) {
 
     candidatesEmails = candidatesEmails.trim();
     const candidatesEmailsArray = candidatesEmails.split(',');
+    console.log(candidatesEmailsArray);
     let invalidEmail = candidatesEmailsArray.find(email => !email.includes('@') || !email.includes('.') || email.includes('@.') || email.startsWith('@'));
 
     if (candidatesEmails && !invalidEmail) {
         let emailsValidated;
         for (let candidateEmail of candidatesEmailsArray) {
-            candidateEmail = candidateEmail.trim()
+            candidateEmail = candidateEmail.trim();
             if (candidateEmail !== "" && !candidateEmail.includes(' ')) {
+                console.log(candidateEmail);
                 emailsValidated = true;
                 quizzerData.updateConfigData(['candidateEmail', candidateEmail]);
                 //UI_Interface.attachText([modalBodyElement], [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
                 let candidateEmailAnchorElement = UI_Interface.createElements('a');
                 UI_Interface.setAttributes([candidateEmailAnchorElement], ['href'], ['#']);
-
+                console.log(quizzerData.getConfigData());
                 UI_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + quizPageRelativePath + URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())), true)) }
                 ]);
 
@@ -97,7 +97,7 @@ function processEmailEntries(candidatesEmails) {
                 UI_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + quizPageRelativePath + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())), true))) }
                 ]);
                 */
-
+                console.log(quizzerData.getConfigData());
                 UI_Interface.attachText([candidateEmailAnchorElement], [`Click to copy link for Candidate (${candidateEmail})`]);
                 UI_Interface.attachElements(modalBodyElement, candidateEmailAnchorElement)
             }
