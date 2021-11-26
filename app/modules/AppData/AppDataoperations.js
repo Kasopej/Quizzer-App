@@ -1,7 +1,7 @@
 import API_ServiceClass from "../../Services/apiService.js";
 import RouterService from "../../Services/router.js";
 import UI_InterfaceClass from "../UI/ui_Interface.js";
-import { globalQtyOfQuestionsURL, qtyOfQuestionsInCategoryURL } from "../util/url.js";
+import { globalQtyOfQuestionsURL, qtyOfQuestionsInCategoryURL } from "../Util/url.js";
 const api_Service = new API_ServiceClass();
 
 export class AppDataOperationsClass {

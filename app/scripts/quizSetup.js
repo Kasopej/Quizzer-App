@@ -1,8 +1,8 @@
 import { QuizzerDataClass } from "../modules/AppData/appData.js";
 import { QuizzerDataOperationsClass } from "../modules/AppData/appDataOperations.js";
 import UI_InterfaceClass from "../modules/UI/ui_Interface.js";
-import { HandlerHelpersClass, URL_HelperClass } from "../modules/util/helpers.js";
-import { CategoriesURL, quizPageRelativePath } from "../modules/util/url.js";
+import { HandlerHelpersClass, URL_HelperClass } from "../modules/Util/helpers.js";
+import { CategoriesURL, quizPageRelativePath } from "../modules/Util/url.js";
 import API_ServiceClass from "../Services/apiService.js";
 import { ClipboardClass } from "../Services/userAgent.js";
 
