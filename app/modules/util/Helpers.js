@@ -2,7 +2,7 @@ export class HelperClass {
 
 }
 
-export class UI_CommandHelperClass extends HelperClass {
+export class UI_CommandHelperClass extends HelperClass {//contains methods that extend functionality of UI_Operation class methods. They are called by UI_Operations class methods if needed
     helpCreateMultipleElements(caller, tagNames) {
         const listOfNewElements = [];
         tagNames.forEach(tagName => {
@@ -10,14 +10,14 @@ export class UI_CommandHelperClass extends HelperClass {
         })
         return listOfNewElements;
     }
-    helpHandleEntriesOnMultipleElements(caller, method, elements, keys, values) {
+    helpHandleEntriesOnMultipleElements(caller, method, elements, keys, values) {//method allows UI_Operation methods to carry out multiple operations on multiple elements that have (key, value) pairs e.g setAttribute
         if (elements.length == 1) {
             keys.forEach((key, index) => {
                 caller[method]([elements[0]], [key], [values[index]])
             })
         }
         else {
-            //First case: set single attribute for multiple elements
+            //If multiple elements passed, the loop iteratively selects a single set of (key, value) pairs to use for each of the elements
             let valueIndex = 0;
             elements.forEach((element, index) => {
                 valueIndex = (index < values.length) ? index : valueIndex;
@@ -25,21 +25,21 @@ export class UI_CommandHelperClass extends HelperClass {
             })
         }
     }
-    helpHandleValuesOnMultipleElements(caller, method, elements, values) {
+    helpHandleValuesOnMultipleElements(caller, method, elements, values) { //method allows UI_Interface methods to carry out multiple operations on multiple elements that require values only e.g innerText, innerHTML
         let valueIndex = 0;
         elements.forEach((element, index) => {
             valueIndex = (index < values.length) ? index : valueIndex;
             caller[method]([element], [values[valueIndex]])
         })
     }
-    throwHandleMultipleValuesOnSingleElementError(elements, method, values, errorClass) {
+    throwHandleMultipleValuesOnSingleElementError(elements, method, values, errorClass) { //throws amd logs errors if attempt is made to set more than one value on a single element
         try {
             throw new errorClass(`Unsupported operation: Cannot attach multiple ${method} values on one element at same time. Element count: ${elements.length} should correspond to values count: ${values.length}`);
         } catch (error) {
             if (error instanceof errorClass) console.log(error);
         }
     }
-    throwAttachEventListenerError(element, value, errorClass) {
+    throwAttachEventListenerError(element, value, errorClass) { //throw and log error if attempt is made to attache more than one listener to an element event at the same time
         try {
             throw new errorClass(`Unsupported operation: Cannot set ${value} as event listener callback on element: ${element}, as it is neither a function neither does it implement EventListener interface`);
         } catch (error) {
@@ -52,7 +52,7 @@ export class HandlerHelpersClass extends HelperClass {
     helpSaveData(saveMethod, ...entries) {
         saveMethod(entries);
     }
-    limitNumericalEntry(limits = [], modes = []) {
+    limitNumericalEntry(limits = [], modes = []) { //Prevents user from entering numerical values beyond set limits
         for (let mode of modes) {
             if (mode == 'max') {
                 this.value = this.value > limits[0] ? limits[0] : this.value;
@@ -65,7 +65,7 @@ export class HandlerHelpersClass extends HelperClass {
 }
 
 export class URL_HelperClass extends HelperClass {
-    generateTokenLink(data) {
+    generateTokenLink(data) { //encodes query
         function base64url(source) {
             // Encode in classical base64
             let encodedSource = CryptoJS.enc.Base64.stringify(source);
@@ -102,7 +102,7 @@ export class URL_HelperClass extends HelperClass {
         let signedToken = token + "." + signature;
         return signedToken;
     }
-    generateQuery(params = [], skipNullValues = Boolean, propertiesToSkip = []) {
+    generateQuery(params = [], skipNullValues = Boolean, propertiesToSkip = []) {//generates query from parameters object. Skips null values and any specifid properties that should be omitted from the query string
         let query = '';
         for (let index = 0; index < params.length; index++) {
             const parameterEntry = params[index];
@@ -119,7 +119,7 @@ export class URL_HelperClass extends HelperClass {
         if (query.endsWith('&')) { query = query.slice(0, query.length - 1) }
         return query;
     }
-    getParamsFromQueryString(paramStr) {
+    getParamsFromQueryString(paramStr) { //get params from query strings
         let params = {};
         var paramArr = paramStr.split("&");
         for (let i = 0; i < paramArr.length; i++) {
