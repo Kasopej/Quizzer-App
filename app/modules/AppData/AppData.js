@@ -1,6 +1,7 @@
-export class AppDataClass {
+export class AppDataClass { //This is a base class class to provide basic properties & methods fir data the app needs to operate
     constructor(obj = {}) {
         this._configData = obj;
+        this._configDataClonesMap = new Map()
     }
     updateData() {
 
@@ -16,6 +17,16 @@ export class AppDataClass {
     }
     set configData(obj = {}) {
         this._configData = obj;
+    }
+    mapConfigDataClone(key) { //clones configData map so different consumers can have separate configData instances
+        this._configDataClonesMap.set(key, _.cloneDeep(this._configData));
+    }
+    getConfigDataClone(key) {
+        this._configDataClonesMap.get(key);
+        if (arguments.length == 1) {
+            return this._configDataClonesMap.get(key);
+        }
+        return this._configDataClonesMap;
     }
 }
 
@@ -38,12 +49,12 @@ export class QuizzerDataClass extends AppDataClass {
         if (arguments.length == 1) {
             return super.getData().get(key)
         }
-        else return super.getData()
+        return super.getData()
     }
     getConfigData(key) {
         if (arguments.length == 1) {
             return super.getConfigData()[key];
         }
-        else return super.getConfigData();
+        return super.getConfigData();
     }
 }

@@ -39,7 +39,7 @@ else {
 
 let questionIndex = 0;
 let questionsData = quizzerData.getData('questions data');
-console.log(questionsData);
+
 if (quizzerDataOperation.checkIfQuizIsTimed()) {
     quizzerDataOperation.calcTotalTime();
     quizzerDataOperation.updateAndRenderTimeLeft(UI_Interface.getElements('#timer')[0]);

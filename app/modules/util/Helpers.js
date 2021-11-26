@@ -117,7 +117,6 @@ export class URL_HelperClass extends HelperClass {
             query = query + parameterEntry[0] + '=' + parameterEntry[1];
         }
         if (query.endsWith('&')) { query = query.slice(0, query.length - 1) }
-        console.log(query);
         return query;
     }
     getParamsFromQueryString(paramStr) {
