@@ -1,8 +1,8 @@
 import { QuizzerDataClass } from "../modules/AppData/appData.js";
 import { QuizzerDataOperationsClass } from "../modules/AppData/appDataOperations.js";
 import { QuizzerMiddleWareClass } from "../modules/MiddleWare/middleWare.js";
-import UI_InterfaceClass from "../modules/UI/UI_Interface.js";
-import { QuestionsURL } from "../modules/util/url.js";
+import UI_InterfaceClass from "../modules/UI/ui_Interface.js";
+import { QuestionsURL } from "../modules/Util/url.js";
 import { URL_HelperClass } from "../modules/util/helpers.js";
 import API_ServiceClass from "../Services/apiService.js";
 import { sessionStoragePersistenceClass } from "../Services/persistentService.js";
