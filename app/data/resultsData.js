@@ -1,6 +1,6 @@
-const resultData = [
+export const resultData = [
     {
-        timeStamp: '2011-10-05T14:48:00.000Z',
+        timeStamp: '2012-10-05T14:48:00.000Z',
         candidateEmail: 'abidoyeridwan@smartflowtech.com',
         score: '8/10'
     },
