@@ -7,7 +7,7 @@ export const resultData = [
     {
         timeStamp: '2011-10-10T14:48:00.000Z',
         candidateEmail: 'abidoyeridwan@smartflowtech.com',
-        score: '8/10'
+        score: '6/10'
     },
     {
         timeStamp: '2011-11-07T14:48:00.000Z',
@@ -17,7 +17,7 @@ export const resultData = [
     {
         timeStamp: '2011-11-08T11:48:00.000Z',
         candidateEmail: 'abidoyeridwan@smartflowtech.com',
-        score: '8/10'
+        score: '4/10'
     },
     {
         timeStamp: '2012-02-08T12:48:00.000Z',

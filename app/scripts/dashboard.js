@@ -12,10 +12,19 @@ console.log(categories);
 const categoriesElementsArray = ui_Interface.createElements(...'tr '.repeat(categories.length).split(' ').slice(0, categories.length))
 categoriesElementsArray.forEach(
     (categoryRowElement, index) => {
-        ui_Interface.attachHTML([categoryRowElement], [`<td data-timestamp="${new Date(categories[index].timeStamp).valueOf()}">${new Date(categories[index].timeStamp).toDateString()}</td><td>${categories[index].candidateEmail}</td><td>${categories[index].score}</td>`])
+        let score = categories[index].score.split('/');
+        let percentScore = (score[0] / score[1]) * 100;
+        let email = categories[index].candidateEmail;
+        ui_Interface.attachHTML([categoryRowElement], [`<td data-timestamp="${new Date(categories[index].timeStamp).valueOf()}">${new Date(categories[index].timeStamp).toDateString()}</td><td><a href="mailto:${email}">${email}</a></td><td class="score">${percentScore}%</td>`])
+        if (categoryRowElement.querySelector('.score').innerText.slice(0, -1) >= 50) {
+            categoryRowElement.querySelector('.score').classList.add('goodResult')
+        }
+        else {
+            categoryRowElement.querySelector('.score').classList.add('badResult')
+        }
     }
-)
+);
 categoriesElementsArray.sort((a, b) => {
     return +a.querySelectorAll('td')[0].dataset.timestamp - +b.querySelectorAll('td')[0].dataset.timestamp
-})
+});
 ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], categoriesElementsArray);

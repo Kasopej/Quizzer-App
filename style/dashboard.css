@@ -11,3 +11,5 @@
 tr:nth-child(even){
     background-color: #b8c6db;
 }
+.goodResult{color: green;}
+.badResult{color: red;}
