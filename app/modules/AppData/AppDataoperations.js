@@ -1,8 +1,18 @@
-import RouterService from "../../Services/Router.js";
-import UI_InterfaceClass from "../UI/UI_Interface.js";
+import API_ServiceClass from "../../Services/apiService.js";
+import RouterService from "../../Services/router.js";
+import UI_InterfaceClass from "../UI/ui_Interface.js";
+import { globalQtyOfQuestionsURL, qtyOfQuestionsInCategoryURL } from "../Util/url.js";
+const api_Service = new API_ServiceClass();
 
 export class AppDataOperationsClass {
+    isDataAvailable(dataObject, getter, key) {
+        let dataAvailable;
+        dataAvailable = dataObject[getter](key);
+        if (Array.isArray(dataAvailable)) {
+            return dataAvailable = (dataObject[getter](key).length) ? true : false;
+        }
 
+    }
 }
 export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     constructor(data) {
@@ -10,16 +20,33 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
         this.data = data;
         this.UI_Interface = new UI_InterfaceClass();
         this.router = new RouterService();
-        this.data.setData(['scores', new Map()]);
-        this.data.setData(['selected options', new Map()]);
+        this.data.updateData(['scores', new Map()]);
+        this.data.updateData(['selected options', new Map()]);
+    }
+    async qtyOfQuestionsAvailable(categoryId, difficulty) {
+        if (!(+categoryId)) {
+            this.data.updateData(['globalQtyOfAvailableQuestions', await api_Service.fetchData(globalQtyOfQuestionsURL).then(data => data.overall.total_num_of_verified_questions)]);
+            return this.data.getData('globalQtyOfAvailableQuestions');
+        }
+        this.data.updateData(['availableQuestionsInCategory', await api_Service.fetchData(qtyOfQuestionsInCategoryURL + categoryId).then(data => data.category_question_count)]);
+        switch (difficulty) {
+            case 'easy':
+                return this.data.getData('availableQuestionsInCategory').total_easy_question_count;
+            case 'medium':
+                return this.data.getData('availableQuestionsInCategory').total_medium_question_count;
+            case 'hard':
+                return this.data.getData('availableQuestionsInCategory').total_hard_question_count;
+            default:
+                return this.data.getData('availableQuestionsInCategory').total_question_count
+        }
     }
     checkIfQuizIsTimed() {
         let timing = this.data.getConfigData('timing').slice(0, -7);
         return timing = (timing == 'Timed') ? true : false;
     }
     calcTotalTime() {
-        const difficulty = this.data.getConfigData('selectedDifficulty');
-        const quantity = this.data.getConfigData('numberOfQuestions');
+        const difficulty = this.data.getConfigData('difficulty');
+        const quantity = this.data.getConfigData('amount');
         switch (difficulty) {
             case 'easy':
                 this._totalTime = quantity * 10;
@@ -27,10 +54,11 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
             case 'medium':
                 this._totalTime = quantity * 20;
                 break;
-            case 'medium':
+            case 'hard':
                 this._totalTime = quantity * 30;
                 break;
             default:
+                //Implement default timing
                 break;
         }
     }
@@ -43,10 +71,10 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
             let selectedIndex = Math.floor(Math.random() * 2);
             let unselectedIndex = (selectedIndex == 0) ? 1 : 0;
             this.UI_Interface.attachText([element], [`${minutes}m : ${seconds}s`]);
-            this.UI_Interface.replacedClassOnElements([element], [colorClasses[unselectedIndex], colorClasses[selectedIndex]]);
+            this.UI_Interface.replaceClassOnElements([element], [colorClasses[unselectedIndex], colorClasses[selectedIndex]]);
             if (this._totalTime == 0) {
                 clearInterval(timerId);
-                this.calculateScores();
+                this.calculateScoresAndEndQuiz();
             }
         }, 1000)
     }
@@ -67,11 +95,11 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     getCategories() {
 
     }
-    calculateScores() {
+    calculateScoresAndEndQuiz() {
         let totalScore = Array.from(this.data.getData('scores').values()).reduce((a, b) => { return a + b }, 0);
-        let candidateName = this.data.getConfigData('candidateName').replace('%20', ' ');
-        this.data.setData(['total score', totalScore]);
-        alert(`Dear ${candidateName}, you scored ${this.data.getData('total score')} / ${this.data.getData('questions data').length}`);
+        let candidateEmail = this.data.getConfigData('candidateEmail').replace('%20', ' ');
+        this.data.updateData(['total score', totalScore]);
+        alert(`Dear ${candidateEmail}, you scored ${this.data.getData('total score')} / ${this.data.getData('questions data').length}`);
         this.router.redirect('quiz-finished.html')
 
     }

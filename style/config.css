@@ -1,0 +1,65 @@
+/* 1UcB0d4vGa75kU754nOdKWX1fypMIHJjVbtR2Z1k */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #b8c6db;
+    background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7fa 100%);
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+.categoryParent{
+    position: relative;
+}
+.spinnerParent{
+    position: absolute;
+    right: 60px;
+    bottom: 7px;
+
+}
+
+#quiz-link-modal .modal-body p a {display: block; padding: 5px;}
+.modal-dialog{word-wrap: break-word;}
+.category-options-spinner{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+.configForm{
+   display: flex;
+   flex-direction: column;
+}
+.configForm label{
+    font-weight: bold;
+}
+.emailTxt{
+    text-align: left;
+}
+.contentcontainer{
+    width: 50%;
+}
+.form-control.is-invalid, .was-validated .form-control:invalid {
+    border-color: #dc3545 !important;
+    padding-right: calc(1.5em + .75rem) !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23dc3545' viewBox='0 0 12 12'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e") !important;
+    background-repeat: no-repeat;
+    background-position: right calc(.375em + .1875rem) center !important;
+    background-size: calc(.75em + .375rem) calc(.75em + .375rem) !important;
+}
+@media(max-width:856px){
+    .contentcontainer{
+        width: 100%;
+    }
+}
+
+@media(max-width:500px){
+    .welcomeText{
+        font-size: 18px;
+    }
+}

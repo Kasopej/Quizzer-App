@@ -2,62 +2,103 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://use.fontawesome.com/releases/v5.0.10/js/all.js"
-        integrity="sha384-slN8GvtUJGnv6ca26v8EzVaR9DC58QEwsIk9q1QXdCU8Yu8ck/tL/5szYlBbqmS+" crossorigin="anonymous">
-        </script>
-    <link rel="stylesheet" href="style/bootstrap.min.css">
-    <link rel="stylesheet" href="style/styles.css">
-    <title>Smartflow Solutions Candidate Assessment</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsonwebtoken/8.5.1/index.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style/config.css">
 </head>
 
 <body>
+  <div class="mx-3 bg-white px-3 py-2 shadow contentcontainer">
+    <div class="d-flex justify-content-center align-center "><img src="assets/images/smartflow-logo.png"
+        alt="smartflow-logo">
+    </div>
+    <div>
+      <div class="my-3">
+        <h4 class="font-weight-bold welcomeText">Welcome to Smartflow Quiz Assessment Configuration Page!</h4>
+        <p>Carefully make your selection to generate link for Candidate.</p>
+      </div>
 
-    <nav class="nav bg-dark nav-light">
-        <div class="nav-brand">
-            <a href="#">
-                <img src="assets/images/smartflow-logo.png" alt="Smartflow logo">
-            </a>
+      <form class="was-validated configForm">
+        <div class="form-group">
+          <label for="candidatesEmails">Candidates Emails:</label>
+          <textarea name="candidatesEmails" id="candidatesEmails" rows="2" class="form-control emailTxt" value="emails"
+            title="separate each mail with a comma" placeholder="adam@dev.com, sade@it.com" required></textarea>
         </div>
-    </nav>
-    <main class="container-fluid p-4 text-center">
-        <h1 class="my-4 welcome-message">Welcome to smartflow software solutions candidate assessment!</h1>
-        <form action="">
-            <fieldset id="test-setup">
-                <legend class="border-bottom border-danger d-inline-block mb-4 px-3">Setup Test</legend>
-                <p><label for="language-options">Choose Language: </label>
-                    <select name="language" id="language-options">
-                        <option disabled value="">--Select a language</option>
-                    </select>
-                </p>
-                <p class="radios">
-                    <label for="easy">Difficulty: Easy</label><input type="radio" name="difficulty" value="easy"
-                        id="easy" checked>
-                </p>
-                <p class="radios">
-                    <label for="medium">Difficulty: Medium</label><input type="radio" name="difficulty" value="medium"
-                        id="medium">
-                </p>
-                <p class="radios">
-                    <label for="hard">Difficulty: Hard</label><input type="radio" name="difficulty" value="hard"
-                        id="hard">
-                </p>
-            </fieldset>
-            <a href="category-page.html" id="proceedBtn">
-                <button class="btn btn-danger text-white px-4" type="button">Proceed</button>
-            </a>
-        </form>
-    </main>
 
+        <div class="form-group questionQuantityGroup">
+          <label for="amount">Number of Questions:</label>
+          <input type="number" class="form-control" name="amount" id="amountOfQuestions" value="1" min="1" required>
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">Please fill out this field.</div>
+        </div>
 
+        <div class="my-2 categoryParent">
+          <label for="category">Select Category:</label>
+          <select name="category" class="custom-select" id="categorySelect" required>
+            <option value="0">Any category</option>
+          </select>
+          <span class="spinner-border category-options-spinner text-danger spinnerParent" role="status">
+            <span class="sr-only">Loading...</span>
+          </span>
+        </div>
 
-    <script type="module" src="app/scripts/general-setup.js"></script>
-    <script src="app/bootstrap/jquery-slim.min.js"></script>
-    <script src="app/bootstrap/popper.min.js"></script>
-    <script src="app/bootstrap/bootstrap.min.js"></script>
-    <!-- <script src="fontawesome-free-5.11.2-web/js/all.js"></script> -->
+        <div class="my-2">
+          <label for="difficulty">Select Difficulty:</label>
+          <select name="difficulty" id="difficultySelect" class="custom-select">
+            <option value="">Any Difficulty</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+
+        <div class="my-2">
+          <label for="type">Select Type:</label>
+          <select name="type" id="typeSelect" class="custom-select">
+            <option value="">Any type</option>
+            <option value="multiple">Multi-Choice</option>
+            <option value="boolean">True / False</option>
+          </select>
+        </div>
+
+        <div class="my-2">
+          <label for="type">Select Timing:</label>
+          <select name="type" id="timingSelect" class="custom-select">
+            <option value="Timed Quiz">Timed</option>
+            <option value="Untimed Quiz">Untimed</option>
+          </select>
+        </div>
+        <div class="my-2">
+          <button type="button" data-toggle="modal" class="btn btn-block btn-primary" id="submitBtn"
+            data-target="#quiz-link-modal">Generate Link</button>
+
+        </div>
+      </form>
+
+      <div id="quiz-link-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-body">
+              <p></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div id="quiz-link-modal">
+        <p></p>
+      </div> -->
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script type="module" src="app/scripts/quizSetup.js"></script>
 </body>
 
 </html>
