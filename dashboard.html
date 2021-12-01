@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+ <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -14,84 +15,89 @@
 </head>
 
 <body>
-  <section class="dashboardParent">
+  <section class="dashboardParent px-4">
+    <div class="shadow bg-white  m-auto"> 
     <div class="smartflowLogo mb-0">
       <img src="assets/images/smartflow-logo.png" alt="">
     </div>
+    <div class="mb-3">
+      <h2 class="text-center font-weight-bold">Candidates Result</h2>
+    </div>
+    <div class="pl-2 mb-4">
+      <h4>Filter Result</h4>
+      <div class="d-flex">
+        <button type="button" class="btn btn-primary mr-2" data-toggle="modal" data-target="#dateModal">By Date</button>
+          <!-- The Modal -->
+     <div class="modal fade" id="dateModal">
+    <div class="modal-dialog">
+      <div class="modal-content"> 
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title font-weight-bold">Filter By Date</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>     
+        <!-- Modal body -->
+        <div class="modal-body">
+          <div class="d-inline-block">
+            <input type="date" placeholder="Start-date">
+            <div class="d-inline-block">to</div>
+            <input type="date" placeholder="End-date">
+          </div>
+        </div>  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Filter</button>
+        </div>   
+      </div>
+    </div>
+    </div>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#scoreModal">By Score</button>
+             <!-- The Modal -->
+     <div class="modal fade" id="scoreModal">
+      <div class="modal-dialog">
+        <div class="modal-content"> 
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title font-weight-bold">Filter By Score</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>     
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="d-inline-block">
+              <input type="number" min="0" max="100">%
+              <div class="px-1 d-inline-block">to</div>
+              <input type="number" min="0" max="100">%
+            </div> 
+          </div>  
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Filter</button>
+          </div>   
+        </div>
+      </div>
+      </div>
+      </div>
+    </div>
+    <!-- <div class="d-flex justify-content-between align-items-center mb-3 px-3">
+    </div> -->
     <div class="table-responsive">
-      <table class="table table-light shadow">
+      <table class="table table-light">
         <thead>
           <tr>
-            <th>Date <div class="d-inline-block">
-              <span>Filter Date</span>
-              <input type="text" placeholder="Start-date">
-              <div class="d-inline-block">to</div>
-              <input type="text" placeholder="End-date">
-            </div></th>
+            <th>Date</th>
             <th>Candidates Email</th>
-            <th>Score 
-              <div class="dropdown d-inline-block">
-               <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                  Sort By:
-                </button>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Highest to Low</a>
-                  <a class="dropdown-item" href="#">Low to Highest</a>
-                </div>
-              </div>
-            </th>
+            <th><span class="sortIconParent">
+              <span class="scoreTitle">Score</span><i class="fa fa-caret-up m-0" title="Highest to Low"></i><i class="fa fa-caret-down m-0" title="Low to Highest">
+              </i>
+            </span>
+          </th>
           </tr>
-          <tr><div class="d-inline-block">
-            <span>Filter Score</span>
-            <input type="text" placeholder="Start-date">
-            <div class="d-inline-block">to</div>
-            <input type="text" placeholder="End-date">
-          </div></tr>
         </thead>
         <tbody>
-          <tr>
-            <td>05/10/2019</td>
-            <td>Ademola@example.com</td>
-            <td>70%</td>
-          </tr>
-          <tr>
-            <td>11/12/2021</td>
-            <td>Abidoyeridwan3@gmail.com</td>
-            <td>60%</td>
-          </tr>
-          <tr>
-            <td>11/12/2021</td>
-            <td>Kasopejhonson@gmail.com</td>
-            <td>60%</td>
-          </tr>
-          <tr>
-            <td>07/12/2022</td>
-            <td>Kasopejhonson@gmail.com</td>
-            <td>50%</td>
-          </tr>
-          <tr>
-            <td>11/12/2021</td>
-            <td>Abidoyeridwan3@gmail.com</td>
-            <td>80%</td>
-          </tr>
-          <tr>
-            <td>11/12/2021</td>
-            <td>Kasopejhonson@gmail.com</td>
-            <td>70%</td>
-          </tr>
-          <tr>
-            <td>11/12/2021</td>
-            <td>Abidoyeridwan3@gmail.com</td>
-            <td>70%</td>
-          </tr>
-          <tr>
-            <td>11/12/2021</td>
-            <td>Kasopejhonson@gmail.com</td>
-            <td>70%</td>
-          </tr>
         </tbody>
       </table>
     </div>
+  </div>
   </section>
 
   <script type="module" src="app/scripts/dashboard.js"></script>
