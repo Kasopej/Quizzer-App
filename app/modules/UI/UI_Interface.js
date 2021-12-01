@@ -33,6 +33,20 @@ export default class UI_InterfaceClass {//this class carries out DOM operations
             }
         }
     }
+    getElementsFromNode(node, selector) { //method to get elements from HTML node. Throws & logs error if element could not be found i.e invalid selector
+        try {
+            let nodeListLength = 0;
+            const nodeList = node.querySelectorAll(selector);
+            [...nodeList].forEach(() => nodeListLength++)
+            if (nodeListLength) return nodeList;
+            throw new DOM_Operation_Error('No such HTML elements found in DOM!')
+        } catch (error) {
+            if (error instanceof DOM_Operation_Error) {
+                console.log(error);
+                return [];
+            }
+        }
+    }
     setAttributes = (elements = [], attributes = [], values = []) => { //sets as many attributes and their values for as many elements as required
         if (!(elements.length > 1) && !(attributes.length > 1) && !(values.length > 1)) {
             elements[0].setAttribute(attributes[0], values[0]);

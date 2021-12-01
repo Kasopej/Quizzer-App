@@ -62,6 +62,27 @@ export class HandlerHelpersClass extends HelperClass {
             }
         }
     }
+    sortData(dataArray = [], basis, reverse = Boolean) {//data to sort, basis for sorting
+        dataArray.sort((a, b) => {
+            return a[basis]('.score').innerText.slice(0, -1) - b[basis]('.score').innerText.slice(0, -1);
+        })
+        if (reverse) dataArray.reverse();
+    }
+    filterDataByRanges(dataArray = [], basis = [], ranges = []) {
+        let index = 0;
+        const filteredDataArray = [];
+        if (ranges.length == 1) {
+            filteredDataArray = dataArray.filter(dataElement => {
+                return dataElement[basis[index]] >= ranges[index][0] && dataElement[basis[index]] <= ranges[index][1]
+            })
+            index++;
+            ranges.slice(index);
+            if (ranges.length) {
+                this.filterDataByRanges(filteredDataArray, basis.slice(index), ranges.slice(index))
+            }
+            return filteredDataArray;
+        }
+    }
 }
 
 export class URL_HelperClass extends HelperClass {
