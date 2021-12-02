@@ -25,7 +25,7 @@ tr:nth-child(odd){
     position: absolute;
     bottom: -8px;
 }
-.sortIconParent i{
+.sortIconParent i:hover{
     cursor: pointer;
 }
 .goodResult{color: green;}

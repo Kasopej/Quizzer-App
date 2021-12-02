@@ -152,4 +152,7 @@ export default class UI_InterfaceClass {//this class carries out DOM operations
             this.helper.helpHandleEntriesOnMultipleElements(this, 'addEventListenerToElements', elements, events, handlers)
         }
     }
+    sortData(dataArray = [], basis, sortBasedOnChild = Boolean, childSelector, reverse = Boolean) {
+        this.helper.helpSortData(this, dataArray, basis, sortBasedOnChild, childSelector, reverse)
+    }
 }

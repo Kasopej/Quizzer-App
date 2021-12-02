@@ -1,8 +1,13 @@
+import UI_InterfaceClass from "../UI/ui_Interface.js";
+
 export class HelperClass {
 
 }
 
 export class UI_CommandHelperClass extends HelperClass {//contains methods that extend functionality of UI_Operation class methods. They are called by UI_Operations class methods if needed
+    constructor() {
+        super();
+    }
     helpCreateMultipleElements(caller, tagNames) {
         const listOfNewElements = [];
         tagNames.forEach(tagName => {
@@ -46,6 +51,33 @@ export class UI_CommandHelperClass extends HelperClass {//contains methods that 
             if (error instanceof errorClass) console.log(error);
         }
     }
+    helpSortData(caller, dataArray = [], basis, sortBasedOnChild = Boolean, childSelector, reverse = Boolean) {//data to sort, basis for sorting
+        dataArray.sort((a, b) => {
+            if (!sortBasedOnChild) {
+                return a.dataset[basis] - b.dataset[basis];
+            }
+            else {
+                return caller.getElementsFromNode(a, childSelector)[0].dataset[basis] - caller.getElementsFromNode(b, childSelector)[0].dataset[basis]
+            }
+        })
+        if (reverse) dataArray.reverse();
+        dataArray.forEach(data => JSON.stringify(data))
+    }
+    filterDataByRanges(dataArray = [], basis = [], sortBasedOnChild = Boolean, ranges = []) {
+        let index = 0;
+        const filteredDataArray = [];
+        if (ranges.length == 1) {
+            filteredDataArray = dataArray.filter(dataElement => {
+                return dataElement[basis[index]] >= ranges[index][0] && dataElement[basis[index]] <= ranges[index][1]
+            })
+            index++;
+            ranges.slice(index);
+            if (ranges.length) {
+                this.filterDataByRanges(filteredDataArray, basis.slice(index), ranges.slice(index))
+            }
+            return filteredDataArray;
+        }
+    }
 }
 
 export class HandlerHelpersClass extends HelperClass {
@@ -60,27 +92,6 @@ export class HandlerHelpersClass extends HelperClass {
             else if (mode == 'min') {
                 this.value = this.value < limits[1] ? limits[1] : this.value;
             }
-        }
-    }
-    sortData(dataArray = [], basis, reverse = Boolean) {//data to sort, basis for sorting
-        dataArray.sort((a, b) => {
-            return a[basis]('.score').innerText.slice(0, -1) - b[basis]('.score').innerText.slice(0, -1);
-        })
-        if (reverse) dataArray.reverse();
-    }
-    filterDataByRanges(dataArray = [], basis = [], ranges = []) {
-        let index = 0;
-        const filteredDataArray = [];
-        if (ranges.length == 1) {
-            filteredDataArray = dataArray.filter(dataElement => {
-                return dataElement[basis[index]] >= ranges[index][0] && dataElement[basis[index]] <= ranges[index][1]
-            })
-            index++;
-            ranges.slice(index);
-            if (ranges.length) {
-                this.filterDataByRanges(filteredDataArray, basis.slice(index), ranges.slice(index))
-            }
-            return filteredDataArray;
         }
     }
 }
