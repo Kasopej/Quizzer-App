@@ -33,8 +33,6 @@ resultsElementsArray.sort((a, b) => {
 console.log(resultsElementsArray);
 ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], resultsElementsArray);
 
-//const sortScoresAscendingButton = ui_Interface.getElements('.sort-scores-ascending')[0];
-//const sortScoresDescendingButton = ui_Interface.getElements('.sort-scores-descending')[0];
 const filterButtons = ui_Interface.getElements('.filter');
 ui_Interface.addEventListenerToElements([ui_Interface.getElements('.sort-scores-ascending')[0], ui_Interface.getElements('.sort-scores-descending')[0]], ['click', 'click'], [sortDataByDate, sortDataByDateReverse]);
 ui_Interface.addEventListenerToElements(Array.from(filterButtons), ['click'], [filterData])
@@ -52,17 +50,6 @@ function filterData() {
 }
 
 /*
-function sortScoresAscending() {
-    handlerHelper.sortData(resultsElementsArray, "querySelector");
-    ui_Interface.getElements('.table-light tbody')[0].replaceChildren();
-    ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], resultsElementsArray);
-}
-function sortScoresDescending() {
-    handlerHelper.sortData(resultsElementsArray, "querySelector", true);
-    console.log(resultsElementsArray);
-    ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], resultsElementsArray);
-}
-
 function filterDateByRanges(dataArray = [], ranges = []) {
     let filteredDataArray = [];
     filteredDataArray = dataArray.filter(dataElement => {
