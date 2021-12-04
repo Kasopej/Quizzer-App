@@ -7,6 +7,7 @@ export class HelperClass {
 export class UI_CommandHelperClass extends HelperClass {//contains methods that extend functionality of UI_Operation class methods. They are called by UI_Operations class methods if needed
     constructor() {
         super();
+        this.btnState = {};
     }
     helpCreateMultipleElements(caller, tagNames) {
         const listOfNewElements = [];
@@ -52,15 +53,22 @@ export class UI_CommandHelperClass extends HelperClass {//contains methods that 
         }
     }
     helpSortData(caller, dataArray = [], basis, sortBasedOnChild = Boolean, childSelector, reverse = Boolean) {//data to sort, basis for sorting
-        dataArray.sort((a, b) => {
-            if (!sortBasedOnChild) {
-                return a.dataset[basis] - b.dataset[basis];
-            }
-            else {
-                return caller.getElementsFromNode(a, childSelector)[0].dataset[basis] - caller.getElementsFromNode(b, childSelector)[0].dataset[basis]
-            }
-        })
-        if (reverse) dataArray.reverse();
+        if (!(reverse && this.btnState.sortReversed) && this.btnState.sortReversed !== 0) {
+            this.btnState.sortReversed = 0;
+            dataArray.sort((a, b) => {
+                if (!sortBasedOnChild) {
+                    return a.dataset[basis] - b.dataset[basis];
+                }
+                else {
+                    return caller.getElementsFromNode(a, childSelector)[0].dataset[basis] - caller.getElementsFromNode(b, childSelector)[0].dataset[basis]
+                }
+            })
+        }
+        if (reverse && !this.btnState.sortReversed) {
+            dataArray.reverse();
+            this.btnState.sortReversed = 1;
+        }
+
         dataArray.forEach(data => JSON.stringify(data))
     }
     filterDataByRanges(dataArray = [], basis = [], sortBasedOnChild = Boolean, ranges = []) {

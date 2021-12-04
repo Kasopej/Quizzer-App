@@ -33,10 +33,10 @@ resultsElementsArray.sort((a, b) => {
 console.log(resultsElementsArray);
 ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], resultsElementsArray);
 
-const sortScoresAscendingButton = ui_Interface.getElements('.sort-scores-ascending')[0];
-const sortScoresDescendingButton = ui_Interface.getElements('.sort-scores-descending')[0];
+//const sortScoresAscendingButton = ui_Interface.getElements('.sort-scores-ascending')[0];
+//const sortScoresDescendingButton = ui_Interface.getElements('.sort-scores-descending')[0];
 const filterButtons = ui_Interface.getElements('.filter');
-ui_Interface.addEventListenerToElements([sortScoresAscendingButton, sortScoresDescendingButton], ['click', 'click'], [sortDataByDate, sortDataByDateReverse]);
+ui_Interface.addEventListenerToElements([ui_Interface.getElements('.sort-scores-ascending')[0], ui_Interface.getElements('.sort-scores-descending')[0]], ['click', 'click'], [sortDataByDate, sortDataByDateReverse]);
 ui_Interface.addEventListenerToElements(Array.from(filterButtons), ['click'], [filterData])
 
 function sortDataByDate() {
