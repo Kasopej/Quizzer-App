@@ -159,6 +159,6 @@ export default class UI_InterfaceClass {//this class carries out DOM operations
         this.helper.helpSortData(this, dataArray, basis, sortBasedOnChild, childSelector, reverse)
     }
     filterData(dataArray = [], basis = [], sortBasedOnChild = Boolean, childSelectors = [], ranges = []) {
-        return this.helper.filterDataByRanges(this, dataArray, basis, sortBasedOnChild, childSelectors, ranges);
+        this.helper.filterDataByRanges(this, dataArray, basis, sortBasedOnChild, childSelectors, ranges);
     }
 }

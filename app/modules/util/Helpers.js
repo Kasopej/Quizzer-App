@@ -74,10 +74,10 @@ export class UI_CommandHelperClass extends HelperClass {//contains methods that 
     filterDataByRanges(caller, dataArray = [], basis = [], sortBasedOnChild = Boolean, childSelectors, ranges = []) {
         let index = 0;
         if (ranges.length) {
-            dataArray = dataArray.filter(dataElement => {
+            dataArray.splice(0, dataArray.length, ...dataArray.filter(dataElement => {
                 if (sortBasedOnChild) dataElement = caller.getElementsFromNode(dataElement, childSelectors[index])[0];
                 return +dataElement.dataset[basis[index]] >= +ranges[index][0] && +dataElement.dataset[basis[index]] <= +ranges[index][1]
-            })
+            }));
             index++;
             ranges = ranges.slice(index);
             if (ranges.length) {
@@ -85,7 +85,7 @@ export class UI_CommandHelperClass extends HelperClass {//contains methods that 
             }
             //return filteredDataArray;
         }
-        return dataArray;
+        //return dataArray;
     }
     filtersDataByRanges(dataArray = [], basis = [], sortBasedOnChild = Boolean, ranges = []) {
         let index = 0;
@@ -110,10 +110,10 @@ export class HandlerHelpersClass extends HelperClass {
     limitNumericalEntry(limits = [], modes = []) { //Prevents user from entering numerical values beyond set limits
         for (let mode of modes) {
             if (mode == 'max') {
-                this.value = this.value > limits[0] ? limits[0] : this.value;
+                this.value = this.value >= limits[0] ? limits[0] : this.value;
             }
             else if (mode == 'min') {
-                this.value = this.value < limits[1] ? limits[1] : this.value;
+                this.value = this.value <= limits[1] ? limits[1] : this.value;
             }
         }
     }

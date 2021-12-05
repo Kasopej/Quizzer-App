@@ -11,8 +11,11 @@ const ui_CommandHelper = new UI_CommandHelperClass();
 
 //const categories = await api_Service.fetchData(CategoriesURL).then(data => data.trivia_categories);
 const results = resultData
-let resultsElementsArray = ui_Interface.createElements(...'tr '.repeat(results.length).split(' ').slice(0, results.length));
-console.log(resultsElementsArray);
+const resultsElementsArray = ui_Interface.createElements(...'tr '.repeat(results.length).split(' ').slice(0, results.length));
+const isFiltered = new Set();
+let filteredResultsElementsArray = [];
+const dateInputs = ui_Interface.getElements('#dateModal input');
+const scoreInputs = ui_Interface.getElements('#scoreModal input');
 resultsElementsArray.forEach(
     (resultElement, index) => {
         let score = results[index].score.split('/');
@@ -30,11 +33,14 @@ resultsElementsArray.forEach(
 resultsElementsArray.sort((a, b) => {
     return +a.querySelectorAll('td')[0].dataset.timestamp - +b.querySelectorAll('td')[0].dataset.timestamp
 });
-console.log(resultsElementsArray);
+filteredResultsElementsArray = cloneResultsElementsArray(filteredResultsElementsArray);
 ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], resultsElementsArray);
 
 const filterButtons = ui_Interface.getElements('.filter');
 ui_Interface.addEventListenerToElements([ui_Interface.getElements('.sort-scores-ascending')[0], ui_Interface.getElements('.sort-scores-descending')[0]], ['click', 'click'], [sortDataByDate, sortDataByDateReverse]);
+ui_Interface.addEventListenerToElements(scoreInputs, ['change'], [function () {
+    handlerHelper.limitNumericalEntry.call(this, [100, 0], ['max', 'min'])
+}])
 ui_Interface.addEventListenerToElements(Array.from(filterButtons), ['click'], [filterData])
 
 function sortDataByDate() {
@@ -47,8 +53,7 @@ function sortDataByDateReverse() {
 }
 function filterData() {
     let basis = []; let ranges = []; let childSelectors = [];
-    const dateInputs = ui_Interface.getElements('#dateModal input');
-    const scoreInputs = ui_Interface.getElements('#scoreModal input');
+    if (isFiltered.has(this.id)) { filteredResultsElementsArray = cloneResultsElementsArray(filteredResultsElementsArray); }
     switch (this.id) {
         case 'score':
             basis = ['score', 'timestamp'];
@@ -72,6 +77,10 @@ function filterData() {
         }
         if (!invalidInput) return true;
     })
-    resultsElementsArray = ui_Interface.filterData(resultsElementsArray, basis, true, childSelectors, ranges);
-    ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], resultsElementsArray);
+    ui_Interface.filterData(filteredResultsElementsArray, basis, true, childSelectors, ranges);
+    ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], filteredResultsElementsArray);
+    isFiltered.add(this.id);
+}
+function cloneResultsElementsArray(cloneTarget) {
+    return cloneTarget = [...resultsElementsArray]
 }
