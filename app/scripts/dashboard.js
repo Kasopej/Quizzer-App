@@ -11,7 +11,7 @@ const ui_CommandHelper = new UI_CommandHelperClass();
 
 //const categories = await api_Service.fetchData(CategoriesURL).then(data => data.trivia_categories);
 const results = resultData
-const resultsElementsArray = ui_Interface.createElements(...'tr '.repeat(results.length).split(' ').slice(0, results.length));
+let resultsElementsArray = ui_Interface.createElements(...'tr '.repeat(results.length).split(' ').slice(0, results.length));
 console.log(resultsElementsArray);
 resultsElementsArray.forEach(
     (resultElement, index) => {
@@ -46,58 +46,32 @@ function sortDataByDateReverse() {
     ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], resultsElementsArray);
 }
 function filterData() {
-    handlerHelper.filterDataByRanges(resultsElementsArray,)
-}
-
-/*
-function filterDateByRanges(dataArray = [], ranges = []) {
-    let filteredDataArray = [];
-    filteredDataArray = dataArray.filter(dataElement => {
-        return dataElement.querySelectorAll('td')[0].dataset.timestamp >= ranges[0] && dataElement.querySelectorAll('td')[0].dataset.timestamp <= ranges[1]
+    let basis = []; let ranges = []; let childSelectors = [];
+    const dateInputs = ui_Interface.getElements('#dateModal input');
+    const scoreInputs = ui_Interface.getElements('#scoreModal input');
+    switch (this.id) {
+        case 'score':
+            basis = ['score', 'timestamp'];
+            ranges = [ui_Interface.getInputValue(scoreInputs), ui_Interface.getInputValue(dateInputs)];
+            childSelectors = ['.score', '.time'];
+            break;
+        case 'time':
+            basis = ['timestamp', 'score'];
+            ranges = [ui_Interface.getInputValue(dateInputs), ui_Interface.getInputValue(scoreInputs)];
+            childSelectors = ['.time', '.score'];
+            break;
+        default:
+            break;
+    }
+    ranges = ranges.filter(range => {
+        let invalidInput;
+        for (let value of range) {
+            if (value === '' || value !== value) {
+                invalidInput = true;
+            }
+        }
+        if (!invalidInput) return true;
     })
-    ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], filteredDataArray);
-    return filteredDataArray;
+    resultsElementsArray = ui_Interface.filterData(resultsElementsArray, basis, true, childSelectors, ranges);
+    ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], resultsElementsArray);
 }
-
-
-function filterScoreByRanges(dataArray = [], ranges = []) {
-    let filteredDataArray = [];
-    filteredDataArray = dataArray.filter(dataElement => {
-        return dataElement.querySelectorAll('.score')[0].innerText.slice(0, -1) >= ranges[0] && dataElement.querySelectorAll('.score')[0].innerText.slice(0, -1) <= ranges[1]
-    })
-    ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], filteredDataArray);
-    return filteredDataArray;
-}
-function filterDate() {
-    filterDateByRanges(resultsElementsArray, [document.querySelector('.start-date').valueAsNumber, document.querySelector('.end-date').valueAsNumber])
-}
-function filterScore() {
-    filterScoreByRanges(resultsElementsArray, [document.querySelector('.start-score').value, document.querySelector('.end-score').value])
-}
-*/
-
-
-
-
-
-//const scoreRangeStart = prompt('Enter start of range', undefined);
-//const scoreRangeEnd = prompt('Enter end of range', undefined);
-function filterByScore() {
-    const filteredResultsElementsArray = resultsElementsArray.filter(resultElement => {
-        return resultElement.querySelector('.score').innerText.slice(0, -1) >= scoreRangeStart && resultElement.querySelector('.score').innerText.slice(0, -1) <= scoreRangeEnd;
-    })
-        (filteredResultsElementsArray.length) ? ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], filteredResultsElementsArray) : ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], resultsElementsArray);
-
-}
-//filterByScore();
-
-const dateRangeStart = new Date('2011-11-07T14:48:00.000Z').valueOf();
-const dateRangeEnd = new Date('2012-10-05T14:48:00.000Z').valueOf();
-function filterByDate() {
-    const filteredResultsElementsArray = resultsElementsArray.filter(resultElement => {
-        return resultElement.querySelector('.time').dataset.timestamp >= dateRangeStart && resultElement.querySelector('.time').dataset.timestamp <= dateRangeEnd;
-    })
-    console.log(filteredResultsElementsArray);
-    ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], filteredResultsElementsArray);
-}
-//filterByDate();

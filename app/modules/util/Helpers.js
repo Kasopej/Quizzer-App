@@ -71,16 +71,31 @@ export class UI_CommandHelperClass extends HelperClass {//contains methods that 
 
         dataArray.forEach(data => JSON.stringify(data))
     }
-    filterDataByRanges(dataArray = [], basis = [], sortBasedOnChild = Boolean, ranges = []) {
+    filterDataByRanges(caller, dataArray = [], basis = [], sortBasedOnChild = Boolean, childSelectors, ranges = []) {
         let index = 0;
-        const filteredDataArray = [];
+        if (ranges.length) {
+            dataArray = dataArray.filter(dataElement => {
+                if (sortBasedOnChild) dataElement = caller.getElementsFromNode(dataElement, childSelectors[index])[0];
+                return +dataElement.dataset[basis[index]] >= +ranges[index][0] && +dataElement.dataset[basis[index]] <= +ranges[index][1]
+            })
+            index++;
+            ranges = ranges.slice(index);
+            if (ranges.length) {
+                this.filterDataByRanges(caller, dataArray, basis.slice(index), sortBasedOnChild, childSelectors.slice(index), ranges)
+            }
+            //return filteredDataArray;
+        }
+        return dataArray;
+    }
+    filtersDataByRanges(dataArray = [], basis = [], sortBasedOnChild = Boolean, ranges = []) {
+        let index = 0;
+        let filteredDataArray = [];
         if (ranges.length == 1) {
             filteredDataArray = dataArray.filter(dataElement => {
                 return dataElement[basis[index]] >= ranges[index][0] && dataElement[basis[index]] <= ranges[index][1]
             })
             index++;
-            ranges.slice(index);
-            if (ranges.length) {
+            if (ranges.length - index) {
                 this.filterDataByRanges(filteredDataArray, basis.slice(index), ranges.slice(index))
             }
             return filteredDataArray;

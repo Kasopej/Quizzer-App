@@ -84,7 +84,10 @@ export default class UI_InterfaceClass {//this class carries out DOM operations
     getInputValue(elements = []) { //get input values from input elements
         let inputValuesArr = []
         elements.forEach(element => {
-            inputValuesArr.push(element.value)
+            if (element.getAttribute('type') !== 'date') {
+                inputValuesArr.push(element.value);
+            }
+            else inputValuesArr.push(element.valueAsNumber);
         })
         return inputValuesArr;
     }
@@ -154,5 +157,8 @@ export default class UI_InterfaceClass {//this class carries out DOM operations
     }
     sortData(dataArray = [], basis, sortBasedOnChild = Boolean, childSelector, reverse = Boolean) {
         this.helper.helpSortData(this, dataArray, basis, sortBasedOnChild, childSelector, reverse)
+    }
+    filterData(dataArray = [], basis = [], sortBasedOnChild = Boolean, childSelectors = [], ranges = []) {
+        return this.helper.filterDataByRanges(this, dataArray, basis, sortBasedOnChild, childSelectors, ranges);
     }
 }
