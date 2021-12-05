@@ -87,8 +87,16 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#next')[0]], 
     if (quizzerData.getData('currentQuestionAttempted')) {
         questionIndex = (questionIndex < questionsData.length - 1) ? ++questionIndex : questionIndex;
         renderQuizOnUI();
+        let invodivEl =  document.getElementById('informationDiv');
+        //  invodivEl.style.opacity=0;
+         invodivEl.style.display="none";
     }
-    else { alert('Select an option first') }
+    else { 
+        // alert('Select an option first')
+      let invodivEl =  document.getElementById('informationDiv');
+        //  invodivEl.style.opacity=1;
+         invodivEl.style.display= "block";
+}
     event.preventDefault();
 }]
 );
@@ -99,4 +107,15 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#submitBtn')[
     else { alert('Select an option first') }
     event.preventDefault();
 }])
+let closeInfoDiv = document.getElementById('closeInfoDiv');
+closeInfoDiv.addEventListener('click', function(){
+    let invodivEl =  document.getElementById('informationDiv');
+    invodivEl.style.display="none";
+});
+window.onclick = function(event) {
+    let invodivEl =  document.getElementById('informationDiv');
+    if (event.target == invodivEl ) {
+        invodivEl.style.display = "none";
+    }
+  }
 renderQuizOnUI()
