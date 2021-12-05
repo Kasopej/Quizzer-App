@@ -88,13 +88,11 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#next')[0]], 
         questionIndex = (questionIndex < questionsData.length - 1) ? ++questionIndex : questionIndex;
         renderQuizOnUI();
         let invodivEl =  document.getElementById('informationDiv');
-        //  invodivEl.style.opacity=0;
          invodivEl.style.display="none";
     }
     else { 
         // alert('Select an option first')
       let invodivEl =  document.getElementById('informationDiv');
-        //  invodivEl.style.opacity=1;
          invodivEl.style.display= "block";
 }
     event.preventDefault();
@@ -104,7 +102,10 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#submitBtn')[
     if (quizzerData.getData('currentQuestionAttempted')) {
         quizzerDataOperation.calculateScoresAndEndQuiz();
     }
-    else { alert('Select an option first') }
+    else { 
+        let invodivEl =  document.getElementById('informationDiv');
+        invodivEl.style.display= "block";
+ }
     event.preventDefault();
 }])
 let closeInfoDiv = document.getElementById('closeInfoDiv');

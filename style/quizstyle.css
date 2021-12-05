@@ -169,6 +169,22 @@ body {
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     
 }
+@media(max-width:850px){
+ .informationDiv{
+     width:50% ;
+ }   
+}
+@media(max-width:600px){
+    .informationDiv{
+        width:70% ;
+    }    
+    .infoText{
+        font-size: 16px !important;
+    }
+    .close{
+        right: 60px !important;
+    }
+}
 .infoChild{
     background-color: #fefefe;
     margin: auto;
@@ -192,7 +208,7 @@ body {
     cursor: pointer;
   }
 .animated {
-    animation-duration: 2.5s;
+    animation-duration: 1.5s;
     animation-fill-mode: both;
     animation-iteration-count: infinite;
   }
