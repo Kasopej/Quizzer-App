@@ -6,7 +6,7 @@ import { CategoriesURL, quizPageRelativePath } from "../Modules/Util/url.js";
 import API_ServiceClass from "../Services/apiService.js";
 import { ClipboardClass } from "../Services/userAgent.js";
 
-
+// Instantiate business logic classes
 const UI_Interface = new UI_InterfaceClass();
 const API_Service = new API_ServiceClass();
 const quizzerData = new QuizzerDataClass();
@@ -14,6 +14,8 @@ const quizzerDataOperation = new QuizzerDataOperationsClass(quizzerData);
 const handlerHelpers = new HandlerHelpersClass();
 const URL_Helper = new URL_HelperClass();
 const clipBoardObj = new ClipboardClass();
+
+// Import node objects from DOM
 const questionQtyElement = UI_Interface.getElements('#amountOfQuestions')[0];
 const selectCategoryElement = UI_Interface.getElements('#categorySelect')[0];
 const selectDifficultyElement = UI_Interface.getElements('#difficultySelect')[0];
