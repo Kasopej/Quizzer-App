@@ -1,16 +1,18 @@
-import { resultData } from "../Data/resultsData.js";
 import UI_InterfaceClass from "../modules/UI/ui_Interface.js";
 import { HandlerHelpersClass, UI_CommandHelperClass } from "../modules/Util/helpers.js";
 import { CategoriesURL } from "../modules/Util/url.js";
 import API_ServiceClass from "../Services/apiService.js";
+import { LocalDataPersistenceClass } from "../Services/persistentService.js";
 
 const ui_Interface = new UI_InterfaceClass();
 const handlerHelper = new HandlerHelpersClass();
 const ui_CommandHelper = new UI_CommandHelperClass();
 //const api_Service = new API_ServiceClass();
+const LocalDataPersistenceService = new LocalDataPersistenceClass()
+
 
 //const categories = await api_Service.fetchData(CategoriesURL).then(data => data.trivia_categories);
-const results = resultData
+const results = LocalDataPersistenceService.getData('resultsData');
 const resultsElementsArray = ui_Interface.createElements(...'tr '.repeat(results.length).split(' ').slice(0, results.length));
 const isFiltered = new Set();
 let filteredResultsElementsArray = [];
@@ -21,7 +23,7 @@ resultsElementsArray.forEach(
         let score = results[index].score.split('/');
         let percentScore = (score[0] / score[1]) * 100;
         let email = results[index].candidateEmail;
-        ui_Interface.attachHTML([resultElement], [`<td class="time" data-timestamp="${new Date(results[index].timeStamp).valueOf()}">${new Date(results[index].timeStamp).toDateString()}</td><td>${email}</td><td class="score" data-score="${percentScore}">${percentScore}%</td>`])
+        ui_Interface.attachHTML([resultElement], [`<td class="time" data-timestamp="${new Date(results[index].timeStamp)}">${new Date(results[index].timeStamp).toDateString()}</td><td>${email}</td><td class="score" data-score="${percentScore}">${percentScore}%</td>`])
         if (resultElement.querySelector('.score').innerText.slice(0, -1) >= 50) {
             resultElement.querySelector('.score').classList.add('goodResult')
         }

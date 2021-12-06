@@ -1,4 +1,5 @@
 import API_ServiceClass from "../../Services/apiService.js";
+import { LocalDataPersistenceClass } from "../../Services/persistentService.js";
 import RouterService from "../../Services/router.js";
 import UI_InterfaceClass from "../UI/ui_Interface.js";
 import { globalQtyOfQuestionsURL, qtyOfQuestionsInCategoryURL } from "../Util/url.js";
@@ -19,6 +20,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
         super();
         this.data = data;
         this.UI_Interface = new UI_InterfaceClass();
+        this.localDataService = new LocalDataPersistenceClass()
         this.router = new RouterService();
         this.data.updateData(['scores', new Map()]);
         this.data.updateData(['selected options', new Map()]);
@@ -100,6 +102,12 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
         let totalScore = Array.from(this.data.getData('scores').values()).reduce((a, b) => { return a + b }, 0);
         let candidateEmail = this.data.getConfigData('candidateEmail').replace('%20', ' ');
         this.data.updateData(['total score', totalScore]);
+        if (!this.localDataService.getData('resultsData')) {
+            this.localDataService.saveData('resultsData', [])
+        }
+        let resultsArray = this.localDataService.getData('resultsData');
+        resultsArray.push({ 'candidateEmail': candidateEmail, 'timeStamp': new Date().valueOf(), 'score': `${this.data.getData('total score')}/${this.data.getData('questions data').length}` });
+        this.localDataService.saveData('resultsData', resultsArray);
         alert(`Dear ${candidateEmail}, you scored ${this.data.getData('total score')} / ${this.data.getData('questions data').length}`);
         this.router.redirect('quiz-finished.html')
 
