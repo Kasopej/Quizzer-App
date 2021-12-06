@@ -38,16 +38,12 @@ else { //get questions from session storage. Remove splash screen if questions o
     }
 }
 
-function expireTest() {
-    questionsData = [];
-    alert('Test has expired!');
-    UI_Interface.replaceHTML([UI_Interface.getElements('body')[0]], ['']);
-}
-
 let questionIndex = 0;
 let questionsData = quizzerData.getData('questions data');
-if (+quizzerData.getConfigData('expiryDate') < new Date().valueOf) {
-    expireTest();
+if (quizzerData.getConfigData('expiryDate') < new Date().valueOf) {
+    questionsData = [];
+    alert('Test has expired!')
+    UI_Interface.replaceHTML([UI_Interface.getElements('body')[0]], ['']);
 }
 
 //Implement time countdown if test is timed
