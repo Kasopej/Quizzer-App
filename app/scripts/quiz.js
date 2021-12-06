@@ -99,14 +99,9 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#next')[0]], 
     if (quizzerData.getData('currentQuestionAttempted')) {
         questionIndex = (questionIndex < questionsData.length - 1) ? ++questionIndex : questionIndex;
         renderQuizOnUI();
-
-        let invodivEl = document.getElementById('informationDiv');
-        invodivEl.style.display = "none";
     }
     else {
-        // alert('Select an option first')
-        let invodivEl = document.getElementById('informationDiv');
-        invodivEl.style.display = "block";
+        UI_Interface.addClassToElements([UI_Interface.getElements('#infoAlert')[0]], 'd-block')
     }
     event.preventDefault();
 }]
@@ -116,22 +111,15 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#submitBtn')[
         quizzerDataOperation.calculateScoresAndEndQuiz();
     }
     else {
-        let invodivEl = document.getElementById('informationDiv');
-        invodivEl.style.display = "block";
+        UI_Interface.addClassToElements([UI_Interface.getElements('#infoAlert')[0]], 'd-block')
     }
     event.preventDefault();
 }])
 
-let closeInfoDiv = document.getElementById('closeInfoDiv');
-closeInfoDiv.addEventListener('click', function () {
-    let invodivEl = document.getElementById('informationDiv');
-    invodivEl.style.display = "none";
-});
-
-window.onclick = function (event) {
-    let invodivEl = document.getElementById('informationDiv');
-    if (event.target == invodivEl) {
-        invodivEl.style.display = "none";
-    }
-}
+UI_Interface.addEventListenerToElements([UI_Interface.getElements('#closeInfoAlert')[0]], ['click'], [function () {
+    UI_Interface.removeClassFromElements([UI_Interface.getElements('#infoAlert')[0]], 'd-block');
+}])
+UI_Interface.addEventListenerToElements([UI_Interface.getElements('#infoAlert')[0]], ['click'], [function () {
+    UI_Interface.removeClassFromElements([UI_Interface.getElements('#infoAlert')[0]], 'd-block');
+}])
 renderQuizOnUI()
