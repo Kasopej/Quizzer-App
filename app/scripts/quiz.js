@@ -49,9 +49,7 @@ let questionsData = quizzerData.getData('questions data');
 console.log(+quizzerData.getConfigData('expiryDate'));
 console.log(new Date().valueOf);
 if (+quizzerData.getConfigData('expiryDate') < new Date().valueOf()) {
-    questionsData = [];
-    alert('Test has expired!')
-    UI_Interface.replaceHTML([UI_Interface.getElements('body')[0]], ['']);
+    expireTest()
 }
 
 
