@@ -7,7 +7,7 @@ import API_ServiceClass from "../Services/apiService.js";
 import { ClipboardClass } from "../Services/userAgent.js";
 
 // Instantiate business logic classes
-const UI_Interface = new UI_InterfaceClass();
+const ui_Interface = new UI_InterfaceClass();
 const API_Service = new API_ServiceClass();
 const quizzerData = new QuizzerDataClass();
 const quizzerDataOperation = new QuizzerDataOperationsClass(quizzerData);
@@ -16,37 +16,38 @@ const URL_Helper = new URL_HelperClass();
 const clipBoardObj = new ClipboardClass();
 
 // Import node objects from DOM
-const questionQtyElement = UI_Interface.getElements('#amountOfQuestions')[0];
-const selectCategoryElement = UI_Interface.getElements('#categorySelect')[0];
-const selectDifficultyElement = UI_Interface.getElements('#difficultySelect')[0];
-const selectTypeElement = UI_Interface.getElements('#typeSelect')[0];
-const selectTimingElement = UI_Interface.getElements('#timingSelect')[0];
-const typeOptionElements = Array.from(UI_Interface.getElements('#typeSelect option'));
-const timingOptionElements = Array.from(UI_Interface.getElements('#timingSelect option'));
-const submitButtonElement = UI_Interface.getElements('#submitBtn')[0];
-const difficultyOptionElements = Array.from(UI_Interface.getElements('#difficultySelect option'));
+const questionQtyElement = ui_Interface.getElements('#amountOfQuestions')[0];
+const selectCategoryElement = ui_Interface.getElements('#categorySelect')[0];
+const selectDifficultyElement = ui_Interface.getElements('#difficultySelect')[0];
+const selectTypeElement = ui_Interface.getElements('#typeSelect')[0];
+const selectTimingElement = ui_Interface.getElements('#timingSelect')[0];
+const typeOptionElements = Array.from(ui_Interface.getElements('#typeSelect option'));
+const timingOptionElements = Array.from(ui_Interface.getElements('#timingSelect option'));
+const submitButtonElement = ui_Interface.getElements('#submitBtn')[0];
+const difficultyOptionElements = Array.from(ui_Interface.getElements('#difficultySelect option'));
+const testExpirationDateElement = ui_Interface.getElements('#expiryDate')[0];
 
 
 //Make call for categories and attach them to category form element
 quizzerData.updateData(['Quiz Categories', await API_Service.fetchData(CategoriesURL).then(data => data.trivia_categories)])
 quizzerData.getData('Quiz Categories').forEach(categoryObj => {
-    const optionElement = UI_Interface.createElements('option')
-    UI_Interface.setAttributes([optionElement], ['value'], [categoryObj.id]);
-    UI_Interface.attachText([optionElement], [categoryObj.name]);
-    UI_Interface.attachElements(selectCategoryElement, optionElement);
+    const optionElement = ui_Interface.createElements('option')
+    ui_Interface.setAttributes([optionElement], ['value'], [categoryObj.id]);
+    ui_Interface.attachText([optionElement], [categoryObj.name]);
+    ui_Interface.attachElements(selectCategoryElement, optionElement);
 })
-const categoryOptionElements = Array.from(UI_Interface.getElements('#categorySelect option'));
+const categoryOptionElements = Array.from(ui_Interface.getElements('#categorySelect option'));
 
 if (quizzerDataOperation.isDataAvailable(quizzerData, 'getData', 'Quiz Categories')) { //Checks if categories have been successfully saved in app. Returns boolean
-    UI_Interface.removeElement(UI_Interface.getElements('.category-options-spinner')[0])
+    ui_Interface.removeElement(ui_Interface.getElements('.category-options-spinner')[0])
 }
 function checkAndValidateQuantityInput() { //Checks number of questions available based on current form selection. Prevents submission while checking
-    UI_Interface.setAttributes([submitButtonElement], ['disabled'], ['']);
+    ui_Interface.setAttributes([submitButtonElement], ['disabled'], ['']);
     quizzerDataOperation.qtyOfQuestionsAvailable(categoryOptionElements[selectCategoryElement.selectedIndex].value, difficultyOptionElements[selectDifficultyElement.selectedIndex].value).then(quantity => {
-        UI_Interface.attachText([UI_Interface.getElements('.questionQuantityGroup .valid-feedback')[0]], [`Number of questions available: ${quantity}`]);
+        ui_Interface.attachText([ui_Interface.getElements('.questionQuantityGroup .valid-feedback')[0]], [`Number of questions available: ${quantity}`]);
         quizzerData.updateConfigData(['numberOfQuestionsAvailableInSelection', quantity]);
         validateQuantityInput();
-        UI_Interface.removeAttributes([submitButtonElement], ['disabled'])
+        ui_Interface.removeAttributes([submitButtonElement], ['disabled'])
     })
 }
 function validateQuantityInput() { //Prevent user from exceeding limits for available number of questions
@@ -58,20 +59,21 @@ function save_UI_Config_Entries(event) { //On form submit, save form selections 
     const selectedDifficultyOptionElement = difficultyOptionElements[selectDifficultyElement.selectedIndex];
     const selectedTypeOptionElement = typeOptionElements[selectTypeElement.selectedIndex];
     const selectedTimingOptionElement = timingOptionElements[selectTimingElement.selectedIndex]
-    let [candidatesEmails, numberOfQuestions] = UI_Interface.getInputValue([UI_Interface.getElements('#candidatesEmails')[0], questionQtyElement]);
+    let [candidatesEmails, numberOfQuestions] = ui_Interface.getInputValue([ui_Interface.getElements('#candidatesEmails')[0], questionQtyElement]);
     quizzerData.updateConfigData(['amount', numberOfQuestions]);
     handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'categoryName', selectedCategoryOptionElement.innerText);
     handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'category', selectedCategoryOptionElement.value);
     handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'difficulty', selectedDifficultyOptionElement.value);
     handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'type', selectedTypeOptionElement.value);
     handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'timing', selectedTimingOptionElement.value);
+    handlerHelpers.helpSaveData(quizzerData.updateConfigData, 'expiryDate', testExpirationDateElement.valueAsNumber);
     processEmailEntries(candidatesEmails);
     event.preventDefault()
 }
 
 function processEmailEntries(candidatesEmails) { //Validate emails and print links (if emails valid). Copy configuration data to each email link
-    const modalBodyElement = UI_Interface.getElements('#quiz-link-modal p')[0];
-    UI_Interface.replaceHTML([modalBodyElement], ['']);
+    const modalBodyElement = ui_Interface.getElements('#quiz-link-modal p')[0];
+    ui_Interface.replaceHTML([modalBodyElement], ['']);
 
     candidatesEmails = candidatesEmails.trim();
     const candidatesEmailsArray = candidatesEmails.split(',');
@@ -84,35 +86,33 @@ function processEmailEntries(candidatesEmails) { //Validate emails and print lin
             if (candidateEmail !== "" && !candidateEmail.includes(' ')) {
                 emailsValidated = true;
                 quizzerData.updateConfigData(['candidateEmail', candidateEmail]);
-                //UI_Interface.attachText([modalBodyElement], [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
-                let candidateEmailAnchorElement = UI_Interface.createElements('a');
-                UI_Interface.setAttributes([candidateEmailAnchorElement], ['href', 'id'], ['#', index]);
+                //ui_Interface.attachText([modalBodyElement], [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
+                let candidateEmailAnchorElement = ui_Interface.createElements('a');
+                ui_Interface.setAttributes([candidateEmailAnchorElement], ['href', 'id'], ['#', index]);
                 quizzerData.mapConfigDataClone(index);
-                UI_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function (e) {
+                ui_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function (e) {
                     clipBoardObj.write(location.origin + quizPageRelativePath + URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigDataClone(+this.id))), true))
                 }
                 ]);
 
                 /*
-                UI_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + quizPageRelativePath + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())), true))) }
+                ui_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + quizPageRelativePath + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())), true))) }
                 ]);
                 */
                 index++;
-                UI_Interface.attachText([candidateEmailAnchorElement], [`Click to copy link for Candidate (${candidateEmail})`]);
-                UI_Interface.attachElements(modalBodyElement, candidateEmailAnchorElement)
+                ui_Interface.attachText([candidateEmailAnchorElement], [`Click to copy link for Candidate (${candidateEmail})`]);
+                ui_Interface.attachElements(modalBodyElement, candidateEmailAnchorElement)
             }
         }
         if (emailsValidated) {
-            UI_Interface.removeClassFromElements([UI_Interface.getElements('#candidatesEmails')[0]], 'is-invalid');
+            ui_Interface.removeClassFromElements([ui_Interface.getElements('#candidatesEmails')[0]], 'is-invalid');
             return;
         }
     }
-    UI_Interface.attachText([modalBodyElement], ['Invalid entry, please enter one or more comma separated email addresses']);
-    UI_Interface.addClassToElements([UI_Interface.getElements('#candidatesEmails')[0]], 'is-invalid');
+    ui_Interface.attachText([modalBodyElement], ['Invalid entry, please enter one or more comma separated email addresses']);
+    ui_Interface.addClassToElements([ui_Interface.getElements('#candidatesEmails')[0]], 'is-invalid');
 }
 
 
-UI_Interface.addEventListenerToElements([submitButtonElement, questionQtyElement, selectCategoryElement, selectDifficultyElement], ['click', 'input', 'change'], [save_UI_Config_Entries, validateQuantityInput, checkAndValidateQuantityInput])
+ui_Interface.addEventListenerToElements([submitButtonElement, questionQtyElement, selectCategoryElement, selectDifficultyElement], ['click', 'input', 'change'], [save_UI_Config_Entries, validateQuantityInput, checkAndValidateQuantityInput])
 checkAndValidateQuantityInput();
-
-
