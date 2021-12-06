@@ -23,7 +23,7 @@ if (!sessionStorageQuestions && !sessionStorageConfigData) {
     const params = URL_Helper.getParamsFromQueryString(location.search.substr(1));
     quizzerData.updateConfigData(...Object.entries(params));
     sessionStoragePersistenceService.saveData('quizzer config data', params);
-    const questions = await API_Service.fetchData(`${QuestionsURL}+ ${URL_Helper.generateQuery(Object.entries(quizzerData.getConfigData()), true, ['numberOfQuestionsAvailableInSelection', 'candidateEmail', 'categoryName', 'timing', 'expiryDate'])}`).then(data => data.results);
+    const questions = await API_Service.fetchData(`${QuestionsURL}${URL_Helper.generateQuery(Object.entries(quizzerData.getConfigData()), true, ['numberOfQuestionsAvailableInSelection', 'candidateEmail', 'categoryName', 'timing', 'expiryDate'])}`).then(data => data.results);
     quizzerData.updateData(['questions data', quizzerMiddleWare.convertIncomingQuestionDataArray(questions)]);
     sessionStoragePersistenceService.saveData('questions data', quizzerData.getData('questions data'));
     if (quizzerDataOperation.isDataAvailable(quizzerData, 'getData', 'questions data')) {
@@ -45,9 +45,15 @@ function expireTest() {
 }
 let questionIndex = 0;
 let questionsData = quizzerData.getData('questions data');
-if (quizzerData.getConfigData('expiryDate') < new Date().valueOf) {
-    expireTest();
+
+console.log(+quizzerData.getConfigData('expiryDate'));
+console.log(new Date().valueOf);
+if (+quizzerData.getConfigData('expiryDate') < new Date().valueOf()) {
+    questionsData = [];
+    alert('Test has expired!')
+    UI_Interface.replaceHTML([UI_Interface.getElements('body')[0]], ['']);
 }
+
 
 //Implement time countdown if test is timed
 if (quizzerDataOperation.checkIfQuizIsTimed()) {
@@ -95,6 +101,7 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#next')[0]], 
     if (quizzerData.getData('currentQuestionAttempted')) {
         questionIndex = (questionIndex < questionsData.length - 1) ? ++questionIndex : questionIndex;
         renderQuizOnUI();
+
         let invodivEl = document.getElementById('informationDiv');
         invodivEl.style.display = "none";
     }
@@ -116,11 +123,13 @@ UI_Interface.addEventListenerToElements([UI_Interface.getElements('#submitBtn')[
     }
     event.preventDefault();
 }])
+
 let closeInfoDiv = document.getElementById('closeInfoDiv');
 closeInfoDiv.addEventListener('click', function () {
     let invodivEl = document.getElementById('informationDiv');
     invodivEl.style.display = "none";
 });
+
 window.onclick = function (event) {
     let invodivEl = document.getElementById('informationDiv');
     if (event.target == invodivEl) {

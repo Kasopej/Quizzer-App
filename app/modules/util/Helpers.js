@@ -161,7 +161,7 @@ export class URL_HelperClass extends HelperClass {
         let query = '';
         for (let index = 0; index < params.length; index++) {
             const parameterEntry = params[index];
-            if ((skipNullValues && parameterEntry[1] === '') || propertiesToSkip.includes(parameterEntry[0])) {
+            if ((skipNullValues && (parameterEntry[1] === '' || parameterEntry[1] === 'NaN')) || propertiesToSkip.includes(parameterEntry[0])) {
                 continue;
             }
 

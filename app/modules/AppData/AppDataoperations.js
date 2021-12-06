@@ -58,6 +58,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
                 this._totalTime = quantity * 30;
                 break;
             default:
+                this._totalTime = quantity * 20;
                 //Implement default timing
                 break;
         }
