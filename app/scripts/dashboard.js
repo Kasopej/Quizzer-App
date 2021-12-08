@@ -13,7 +13,10 @@ const LocalDataPersistenceService = new LocalDataPersistenceClass()
 
 //const categories = await api_Service.fetchData(CategoriesURL).then(data => data.trivia_categories);
 const results = LocalDataPersistenceService.getData('resultsData');
-const resultsElementsArray = ui_Interface.createElements(...'tr '.repeat(results.length).split(' ').slice(0, results.length));
+let resultsElementsArray = ui_Interface.createElements(...'tr '.repeat(results.length).split(' ').slice(0, results.length));
+if (!Array.isArray(resultsElementsArray)) {
+    resultsElementsArray = [resultsElementsArray]
+}
 const isFiltered = new Set();
 let filteredResultsElementsArray = [];
 const dateInputs = ui_Interface.getElements('#dateModal input');

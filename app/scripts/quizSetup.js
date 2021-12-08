@@ -77,7 +77,13 @@ function processEmailEntries(candidatesEmails) { //Validate emails and print lin
 
     candidatesEmails = candidatesEmails.trim();
     const candidatesEmailsArray = candidatesEmails.split(',');
-    let invalidEmail = candidatesEmailsArray.find(email => !email.includes('@') || !email.includes('.') || email.includes('@.') || email.startsWith('@'));
+    let invalidEmail = candidatesEmailsArray.find(email => {
+        let pos = -1; let numberOfAtSign = 0;
+        while ((pos = email.indexOf('@', pos + 1)) !== -1) {
+            numberOfAtSign++;
+        }
+        return !email.includes('.') || email.includes('@.') || email.startsWith('@') || numberOfAtSign === 0 || (numberOfAtSign > 1);
+    });
 
     if (candidatesEmails && !invalidEmail) {
         let emailsValidated; let index = 0;
@@ -103,6 +109,7 @@ function processEmailEntries(candidatesEmails) { //Validate emails and print lin
                 ui_Interface.attachText([candidateEmailAnchorElement], [`Click to copy link for Candidate (${candidateEmail})`]);
                 ui_Interface.attachElements(modalBodyElement, candidateEmailAnchorElement)
             }
+            else break;
         }
         if (emailsValidated) {
             ui_Interface.removeClassFromElements([ui_Interface.getElements('#candidatesEmails')[0]], 'is-invalid');
