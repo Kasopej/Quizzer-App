@@ -132,20 +132,22 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
   getAnswer() {}
   getCategories() {}
   calculateScoresAndEndQuiz() {
-    //Actions to end quiz. Calculates total scores from scores saved in AppData instance, saves score in local storage and redirects to finish quiz page
+    //Actions to end quiz. Calculates total scores from scores saved in AppData instance, saves result & test data in local storage and redirects to finish quiz page
+    let candidateEmail = this.data
+      .getConfigData("candidateEmail")
+      .replace("%20", " ");
     let totalScore = Array.from(this.data.getData("scores").values()).reduce(
       (a, b) => {
         return a + b;
       },
       0
     );
-    let candidateEmail = this.data
-      .getConfigData("candidateEmail")
-      .replace("%20", " ");
     this.data.updateData(["total score", totalScore]);
     if (!this.localDataService.getData("resultsData")) {
+      //creates array for saving results data if it does not exist
       this.localDataService.saveData("resultsData", []);
     }
+    //gets and updates array saved in local storage
     let resultsArray = this.localDataService.getData("resultsData");
     resultsArray.push({
       candidateEmail: candidateEmail,
@@ -155,12 +157,6 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
       }`,
     });
     this.localDataService.saveData("resultsData", resultsArray);
-    alert(
-      `Dear ${candidateEmail}, you scored ${this.data.getData(
-        "total score"
-      )} / ${this.data.getData("questions data").length}`
-    );
     this.router.redirect("quiz-finished.html");
   }
-  filterCategories() {}
 }
