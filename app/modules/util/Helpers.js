@@ -1,8 +1,8 @@
-import UI_InterfaceClass from "../ui/ui-interface.js";
+import UiInterfaceClass from "../ui/ui.js";
 
 export class HelperClass {}
 
-export class UI_CommandHelperClass extends HelperClass {
+export class UiCommandHelperClass extends HelperClass {
   //contains methods that extend functionality of UI_Operation class methods. They are called by UI_Operations class methods if needed
   constructor() {
     super();
@@ -153,7 +153,7 @@ export class HandlerHelpersClass extends HelperClass {
   }
 }
 
-export class URL_HelperClass extends HelperClass {
+export class UrlHelperClass extends HelperClass {
   generateTokenLink(data) {
     //encodes query
     function base64url(source) {

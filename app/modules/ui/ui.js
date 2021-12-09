@@ -1,4 +1,4 @@
-import { UI_CommandHelperClass } from "../util/helpers.js";
+import { UiCommandHelperClass } from "../util/helpers.js";
 
 class DOM_Operation_Error extends Error {
   constructor(message) {
@@ -10,7 +10,7 @@ class DOM_Operation_Error extends Error {
 export default class UI_InterfaceClass {
   //this class carries out DOM operations
   constructor() {
-    this.helper = new UI_CommandHelperClass();
+    this.helper = new UiCommandHelperClass();
   }
   createElements(...tagNames) {
     //this method creates as many elements as required in the same call

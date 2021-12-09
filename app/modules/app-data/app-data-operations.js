@@ -1,7 +1,7 @@
 import API_ServiceClass from "../../services/api-service.js";
 import { LocalDataPersistenceClass } from "../../services/persistent-service.js";
 import RouterService from "../../services/router.js";
-import UI_InterfaceClass from "../ui/ui-interface.js";
+import UI_InterfaceClass from "../ui/ui.js";
 import {
   globalQtyOfQuestionsURL,
   qtyOfQuestionsInCategoryURL,

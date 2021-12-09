@@ -1,27 +1,27 @@
-import UI_InterfaceClass from "../Modules/ui/ui-interface.js";
+import UiClass from "../Modules/ui/ui.js";
 import {
   HandlerHelpersClass,
-  UI_CommandHelperClass,
+  UiCommandHelperClass,
 } from "../Modules/util/helpers.js";
 import { CategoriesURL } from "../Modules/util/url.js";
-import API_ServiceClass from "../services/api-service.js";
+import ApiServiceClass from "../services/api-service.js";
 import { LocalDataPersistenceClass } from "../services/persistent-service.js";
 
-const ui_Interface = new UI_InterfaceClass();
+const ui = new UiClass();
 const handlerHelper = new HandlerHelpersClass();
-const ui_CommandHelper = new UI_CommandHelperClass();
-//const api_Service = new API_ServiceClass();
-const LocalDataPersistenceService = new LocalDataPersistenceClass();
+const uiCommandHelper = new UiCommandHelperClass();
+//const apiService = new ApiServiceClass();
+const localDataPersistenceService = new LocalDataPersistenceClass();
 
 const isFiltered = new Set(); //set for recording filtering actions
-const dateInputs = ui_Interface.getElements("#dateModal input");
-const scoreInputs = ui_Interface.getElements("#scoreModal input");
+const dateInputs = ui.getElements("#dateModal input");
+const scoreInputs = ui.getElements("#scoreModal input");
 
 let filteredResultsElementsArray = [];
-//const categories = await api_Service.fetchData(CategoriesURL).then(data => data.trivia_categories);
-const results = LocalDataPersistenceService.getData("resultsData");
+//const categories = await apiService.fetchData(CategoriesURL).then(data => data.trivia_categories);
+const results = localDataPersistenceService.getData("resultsData");
 //Create and store table elements for exact number of result objects available
-let resultsElementsArray = ui_Interface.createElements(
+let resultsElementsArray = ui.createElements(
   ..."tr ".repeat(results.length).split(" ").slice(0, results.length)
 );
 if (!Array.isArray(resultsElementsArray)) {
@@ -32,7 +32,7 @@ resultsElementsArray.forEach((resultElement, index) => {
   let score = results[index].score.split("/");
   let percentScore = (score[0] / score[1]) * 100;
   let email = results[index].candidateEmail;
-  ui_Interface.attachHTML(
+  ui.attachHTML(
     [resultElement],
     [
       `<td class="time" data-timestamp="${new Date(
@@ -57,8 +57,8 @@ resultsElementsArray.sort((a, b) => {
   );
 });
 
-ui_Interface.replaceChildren(
-  ui_Interface.getElements(".table-light tbody")[0],
+ui.replaceChildren(
+  ui.getElements(".table-light tbody")[0],
   resultsElementsArray
 );
 
@@ -67,17 +67,17 @@ filteredResultsElementsArray = cloneResultsElementsArray(
   filteredResultsElementsArray
 );
 
-const filterButtons = ui_Interface.getElements(".filter");
-ui_Interface.addEventListenerToElements(
+const filterButtons = ui.getElements(".filter");
+ui.addEventListenerToElements(
   [
-    ui_Interface.getElements(".sort-scores-ascending")[0],
-    ui_Interface.getElements(".sort-scores-descending")[0],
+    ui.getElements(".sort-scores-ascending")[0],
+    ui.getElements(".sort-scores-descending")[0],
   ],
   ["click", "click"],
   [sortElementsArrayByDateReverse, sortElementsArrayByDate]
 );
 
-ui_Interface.addEventListenerToElements(
+ui.addEventListenerToElements(
   scoreInputs,
   ["change"],
   [
@@ -87,7 +87,7 @@ ui_Interface.addEventListenerToElements(
   ]
 );
 
-ui_Interface.addEventListenerToElements(
+ui.addEventListenerToElements(
   Array.from(filterButtons),
   ["click"],
   [filterData]
@@ -98,16 +98,16 @@ function cloneResultsElementsArray(cloneTarget) {
 }
 
 function sortElementsArrayByDate() {
-  ui_Interface.sortData(resultsElementsArray, "score", true, ".score", false);
-  ui_Interface.replaceChildren(
-    ui_Interface.getElements(".table-light tbody")[0],
+  ui.sortData(resultsElementsArray, "score", true, ".score", false);
+  ui.replaceChildren(
+    ui.getElements(".table-light tbody")[0],
     resultsElementsArray
   );
 }
 function sortElementsArrayByDateReverse() {
-  ui_Interface.sortData(resultsElementsArray, "score", true, ".score", true);
-  ui_Interface.replaceChildren(
-    ui_Interface.getElements(".table-light tbody")[0],
+  ui.sortData(resultsElementsArray, "score", true, ".score", true);
+  ui.replaceChildren(
+    ui.getElements(".table-light tbody")[0],
     resultsElementsArray
   );
 }
@@ -127,16 +127,16 @@ function filterData() {
     case "score":
       filterBasis = ["score", "timestamp"];
       filterRanges = [
-        ui_Interface.getInputValue(scoreInputs),
-        ui_Interface.getInputValue(dateInputs),
+        ui.getInputValue(scoreInputs),
+        ui.getInputValue(dateInputs),
       ];
       childSelectors = [".score", ".time"];
       break;
     case "time":
       filterBasis = ["timestamp", "score"];
       filterRanges = [
-        ui_Interface.getInputValue(dateInputs),
-        ui_Interface.getInputValue(scoreInputs),
+        ui.getInputValue(dateInputs),
+        ui.getInputValue(scoreInputs),
       ];
       childSelectors = [".time", ".score"];
       break;
@@ -157,15 +157,15 @@ function filterData() {
   //If no valid range, alert user
   if (!filterRanges.length) alert("Invalid range! Please fill both boxes");
 
-  ui_Interface.filterData(
+  ui.filterData(
     filteredResultsElementsArray,
     filterBasis,
     true,
     childSelectors,
     filterRanges
   );
-  ui_Interface.replaceChildren(
-    ui_Interface.getElements(".table-light tbody")[0],
+  ui.replaceChildren(
+    ui.getElements(".table-light tbody")[0],
     filteredResultsElementsArray
   );
   isFiltered.add(this.id);
