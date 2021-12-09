@@ -2,10 +2,10 @@ import { QuizzerDataClass } from "../modules/app-data/app-data.js";
 import { QuizzerDataOperationsClass } from "../modules/app-data/app-data-operations.js";
 import { QuizzerMiddlewareClass } from "../modules/middleware/middleware.js";
 import UiClass from "../modules/ui/ui.js";
-import { QuestionsURL } from "../modules/Util/url.js";
+import { QuestionsURL } from "../modules/util/url.js";
 import { UrlHelperClass } from "../modules/util/helpers.js";
 import ApiServiceClass from "../services/api-service.js";
-import { sessionStoragePersistenceClass } from "../services/persistent-service.js";
+import { SessionStoragePersistenceClass } from "../services/persistent-service.js";
 
 // Instantiate business logic classes
 const urlHelper = new UrlHelperClass();
@@ -14,7 +14,7 @@ const ui = new UiClass();
 const quizzerMiddleware = new QuizzerMiddlewareClass();
 const quizzerData = new QuizzerDataClass();
 const quizzerDataOperation = new QuizzerDataOperationsClass(quizzerData);
-const sessionStoragePersistenceService = new sessionStoragePersistenceClass();
+const sessionStoragePersistenceService = new SessionStoragePersistenceClass();
 const sessionStorageQuestions =
   sessionStoragePersistenceService.getData("questions data");
 const sessionStorageConfigData = sessionStoragePersistenceService.getData(
@@ -22,7 +22,7 @@ const sessionStorageConfigData = sessionStoragePersistenceService.getData(
 );
 
 //Call for questions from API if not saved in session storage. Remove splash screen if questions called & saved in app(quizzer) data successfully
-if (!sessionStorageQuestions && !sessionStorageConfigData) {
+if (!sessionStorageQuestions || !sessionStorageConfigData) {
   const params = urlHelper.getParamsFromQueryString(location.search.substr(1));
   quizzerData.updateConfigData(...Object.entries(params));
   sessionStoragePersistenceService.saveData("quizzer config data", params);
@@ -73,16 +73,15 @@ if (!sessionStorageQuestions && !sessionStorageConfigData) {
   }
 }
 
+let questionIndex = 0;
+let questionsData = quizzerData.getData("questions data");
+
 function expireTest() {
   questionsData = [];
   alert("Test has expired!");
   ui.replaceHTML([ui.getElements("body")[0]], [""]);
 }
-let questionIndex = 0;
-let questionsData = quizzerData.getData("questions data");
 
-console.log(+quizzerData.getConfigData("expiryDate"));
-console.log(new Date().valueOf);
 if (+quizzerData.getConfigData("expiryDate") < new Date().valueOf()) {
   expireTest();
 }
@@ -94,16 +93,18 @@ if (quizzerDataOperation.checkIfQuizIsTimed()) {
 }
 
 function renderQuizOnUI() {
-  //Render current questions with options on UI. Implement functionality to recover previous selections. Implement functionality to toggle control buttons on & off
+  //Render current questions with options on UI. Implement functionality to recover previous selections. Implement functionality to toggle visibility of buttons on & off
   ui.replaceHTML(
     [ui.getElements("#question")[0]],
     [decodeURI(questionsData[questionIndex].question)]
   );
+  //get all h2 elements from specified selector and populate them with strings in the array. See attachText method in ui module
   ui.attachText(Array.from(ui.getElements(".quizNumberTracker h2")), [
     "Question",
     `${questionIndex + 1}`,
     `${questionsData.length}`,
   ]);
+  //create list html elements for each option in current question object
   let elementsCreated = ui.createElements(
     ..."li "
       .repeat(questionsData[questionIndex].answers.length)
@@ -122,6 +123,7 @@ function renderQuizOnUI() {
       ]
     );
   });
+  //attach elements to DOM
   ui.replaceChildren(ui.getElements(".answerOptions")[0], elementsCreated);
   const optionElementsArray = Array.from(
     ui.getElements(".answerOptions input")
@@ -131,6 +133,7 @@ function renderQuizOnUI() {
     ["change"],
     [
       function () {
+        //check if selected option is current and score, store attempt
         quizzerDataOperation.checkAnswer(
           ui.getInputValue([this])[0],
           questionIndex
@@ -139,10 +142,13 @@ function renderQuizOnUI() {
       },
     ]
   );
+
+  //upon rendering question, set attempted state to false
   quizzerData.updateData(["currentQuestionAttempted", false]);
   let selectedOptionIndex = quizzerData
     .getData("selected options")
     .get(questionIndex);
+  //Check if question has previously been attempted and update ui with the previous selection, and change state to attempted
   if (selectedOptionIndex != undefined) {
     ui.setAttributes(
       [optionElementsArray[selectedOptionIndex]],
@@ -151,7 +157,7 @@ function renderQuizOnUI() {
     );
     quizzerData.updateData(["currentQuestionAttempted", true]);
   }
-
+  //Toggle visibility of control buttons
   !questionIndex
     ? ui.addClassToElements([ui.getElements("#prev")[0]], "invisible")
     : ui.removeClassFromElements([ui.getElements("#prev")[0]], "invisible");

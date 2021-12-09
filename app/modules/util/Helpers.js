@@ -198,7 +198,8 @@ export class UrlHelperClass extends HelperClass {
       const parameterEntry = params[index];
       if (
         (skipNullValues &&
-          (parameterEntry[1] === "" || parameterEntry[1] === "NaN")) ||
+          (parameterEntry[1] === "" ||
+            parameterEntry[1] !== parameterEntry[1])) ||
         propertiesToSkip.includes(parameterEntry[0])
       ) {
         continue;
