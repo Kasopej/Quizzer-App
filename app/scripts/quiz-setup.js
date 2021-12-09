@@ -31,6 +31,7 @@ const typeOptionElements = Array.from(ui.getElements("#typeSelect option"));
 const timingOptionElements = Array.from(ui.getElements("#timingSelect option"));
 const submitButtonElement = ui.getElements("#submitBtn")[0];
 const testExpirationDateElement = ui.getElements("#expiryDate")[0];
+const modalBodyElement = ui.getElements("#quiz-link-modal p")[0];
 
 //Make call for categories and attach them to category form element
 quizzerData.updateData([
@@ -133,11 +134,21 @@ function save_UI_Config_Entries(event) {
     "timing",
     selectedTimingOptionElement.value
   );
-  handlerHelpers.helpSaveData(
-    quizzerData.updateConfigData,
-    "expiryDate",
-    testExpirationDateElement.valueAsNumber
-  );
+  if (
+    testExpirationDateElement.valueAsNumber >= new Date().valueOf() ||
+    testExpirationDateElement.valueAsNumber !==
+      testExpirationDateElement.valueAsNumber
+  ) {
+    handlerHelpers.helpSaveData(
+      quizzerData.updateConfigData,
+      "expiryDate",
+      testExpirationDateElement.valueAsNumber
+    );
+  } else {
+    alert("Please pick a date from today");
+    ui.replaceHTML([modalBodyElement], [""]);
+    return;
+  }
   //Emails entry requires processing before save
   processEmailEntries(candidatesEmails);
   event.preventDefault();
@@ -145,7 +156,6 @@ function save_UI_Config_Entries(event) {
 
 function processEmailEntries(candidatesEmails) {
   //Validate emails and print links (if emails valid). Generate unique configuration link for each email
-  const modalBodyElement = ui.getElements("#quiz-link-modal p")[0];
   ui.replaceHTML([modalBodyElement], [""]);
 
   candidatesEmails = candidatesEmails.trim();

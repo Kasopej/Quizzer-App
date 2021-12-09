@@ -4,8 +4,8 @@ import { LocalDataPersistenceClass } from "../../services/persistent-service.js"
 import RouterService from "../../services/router.js";
 import UiClass from "../ui/ui.js";
 import {
-  globalQtyOfQuestionsURL,
-  qtyOfQuestionsInCategoryURL,
+  GLOBAL_QTY_OF_QUESTIONS_URL,
+  QTY_OF_QUESTIONS_IN_CATEGORY_URL,
 } from "../util/url.js";
 import { AppDataClass } from "./app-data.js";
 
@@ -43,7 +43,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
       this.data.updateData([
         "globalQtyOfAvailableQuestions",
         await apiService
-          .fetchData(globalQtyOfQuestionsURL)
+          .fetchData(GLOBAL_QTY_OF_QUESTIONS_URL)
           .then((data) => data.overall.total_num_of_verified_questions),
       ]);
       return this.data.getData("globalQtyOfAvailableQuestions");
@@ -52,7 +52,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     this.data.updateData([
       "availableQuestionsInCategory",
       await apiService
-        .fetchData(qtyOfQuestionsInCategoryURL + categoryId)
+        .fetchData(QTY_OF_QUESTIONS_IN_CATEGORY_URL + categoryId)
         .then((data) => data.category_question_count),
     ]);
     switch (difficulty) {
