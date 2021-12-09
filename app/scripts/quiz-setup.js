@@ -161,6 +161,7 @@ function processEmailEntries(candidatesEmails) {
   //Find any invalid emails
   let invalidEmail = candidatesEmailsArray.find((email) => {
     //loops over each email to check the number of at signs. There should be only one
+    email = email.trim();
     let positionOfAtSign = -1;
     let numberOfAtSign = 0;
     while (
@@ -173,69 +174,69 @@ function processEmailEntries(candidatesEmails) {
       !email.includes(".") ||
       email.includes("@.") ||
       email.startsWith("@") ||
+      email.endsWith(".") ||
       numberOfAtSign === 0 ||
-      numberOfAtSign > 1
+      numberOfAtSign > 1 ||
+      email === "" ||
+      email.includes(" ")
     );
   });
 
+  //If email(s) all successfully validated, create links for them. Link elements when clicked should call function to copy unique configuration link to clipboard.
   if (candidatesEmails && !invalidEmail) {
-    let emailsValidated;
     let index = 0;
     for (let candidateEmail of candidatesEmailsArray) {
       candidateEmail = candidateEmail.trim();
-      if (candidateEmail !== "" && !candidateEmail.includes(" ")) {
-        emailsValidated = true;
-        quizzerData.updateConfigData(["candidateEmail", candidateEmail]);
-        //ui_Interface.attachText([modalBodyElement], [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
-        let candidateEmailAnchorElement = ui_Interface.createElements("a");
-        ui_Interface.setAttributes(
-          [candidateEmailAnchorElement],
-          ["href", "id"],
-          ["#", index]
-        );
-        quizzerData.mapConfigDataClone(index);
-        ui_Interface.addEventListenerToElements(
-          [candidateEmailAnchorElement],
-          ["click"],
-          [
-            function (e) {
-              clipBoardObj.write(
-                location.origin +
-                  quizPageRelativePath +
-                  URL_Helper.generateQuery(
-                    Array.from(
-                      Object.entries(quizzerData.getConfigDataClone(+this.id))
-                    ),
-                    true
-                  )
-              );
-            },
-          ]
-        );
+      quizzerData.updateConfigData(["candidateEmail", candidateEmail]);
+      //ui_Interface.attachText([modalBodyElement], [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
+      let candidateEmailAnchorElement = ui_Interface.createElements("a");
+      ui_Interface.setAttributes(
+        [candidateEmailAnchorElement],
+        ["href", "id"],
+        ["#", index]
+      );
+      quizzerData.mapConfigDataClone(index); //map clone of unique configuration data for current email by index
+      ui_Interface.addEventListenerToElements(
+        [candidateEmailAnchorElement],
+        ["click"],
+        [
+          function (e) {
+            clipBoardObj.write(
+              location.origin +
+                quizPageRelativePath +
+                URL_Helper.generateQuery(
+                  Array.from(
+                    Object.entries(quizzerData.getConfigDataClone(+this.id))
+                  ),
+                  true
+                )
+            );
+          },
+        ]
+      );
 
-        /*
+      /*
                 ui_Interface.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + quizPageRelativePath + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())), true))) }
                 ]);
                 */
-        index++;
-        ui_Interface.attachText(
-          [candidateEmailAnchorElement],
-          [`Click to copy link for Candidate (${candidateEmail})`]
-        );
-        ui_Interface.attachElements(
-          modalBodyElement,
-          candidateEmailAnchorElement
-        );
-      } else break;
-    }
-    if (emailsValidated) {
-      ui_Interface.removeClassFromElements(
-        [ui_Interface.getElements("#candidatesEmails")[0]],
-        "is-invalid"
+      index++;
+      ui_Interface.attachText(
+        [candidateEmailAnchorElement],
+        [`Click to copy link for Candidate (${candidateEmail})`]
       );
-      return;
+      ui_Interface.attachElements(
+        modalBodyElement,
+        candidateEmailAnchorElement
+      );
     }
+
+    ui_Interface.removeClassFromElements(
+      [ui_Interface.getElements("#candidatesEmails")[0]],
+      "is-invalid"
+    );
+    return;
   }
+  //If email(s) not successfully validated, attach error text & css class
   ui_Interface.attachText(
     [modalBodyElement],
     ["Invalid entry, please enter one or more comma separated email addresses"]
