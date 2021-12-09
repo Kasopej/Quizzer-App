@@ -1,3 +1,4 @@
+//This module provides methods that run operations that rely on data in app-data module
 import API_ServiceClass from "../../services/api-service.js";
 import { LocalDataPersistenceClass } from "../../services/persistent-service.js";
 import RouterService from "../../services/router.js";
@@ -6,10 +7,14 @@ import {
   globalQtyOfQuestionsURL,
   qtyOfQuestionsInCategoryURL,
 } from "../util/url.js";
+import { AppDataClass } from "./app-data.js";
+
 const api_Service = new API_ServiceClass();
 
 export class AppDataOperationsClass {
+  //base class that QuizzerDataOperationsClass is extended from. Allows for logical extension of application beyond quizzer solution
   isDataAvailable(dataObject, getter, key) {
+    //Checks if data requested is available in AppData and returns a boolean
     let dataAvailable;
     dataAvailable = dataObject[getter](key);
     if (Array.isArray(dataAvailable)) {
@@ -18,17 +23,23 @@ export class AppDataOperationsClass {
   }
 }
 export class QuizzerDataOperationsClass extends AppDataOperationsClass {
-  constructor(data) {
-    super();
-    this.data = data;
-    this.UI_Interface = new UI_InterfaceClass();
-    this.localDataService = new LocalDataPersistenceClass();
-    this.router = new RouterService();
-    this.data.updateData(["scores", new Map()]);
-    this.data.updateData(["selected options", new Map()]);
+  //Extension of base AppDataOperationsClass to provide functionality specific to quizzer
+
+  constructor(data /*expecting AppDataClass instance at call*/) {
+    if (data instanceof AppDataClass) {
+      super();
+      this.data = data;
+      this.UI_Interface = new UI_InterfaceClass();
+      this.localDataService = new LocalDataPersistenceClass();
+      this.router = new RouterService();
+      //add fields to data storage map in AppData instance
+      this.data.updateData(["scores", new Map()]);
+      this.data.updateData(["selected options", new Map()]);
+    }
   }
   async qtyOfQuestionsAvailable(categoryId, difficulty) {
-    if (!+categoryId) {
+    if (+categoryId === 0) {
+      //if categoryId is zero (all categories) get total number of questions
       this.data.updateData([
         "globalQtyOfAvailableQuestions",
         await api_Service
@@ -37,6 +48,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
       ]);
       return this.data.getData("globalQtyOfAvailableQuestions");
     }
+    //else get number of questions for specified category and also difficulty
     this.data.updateData([
       "availableQuestionsInCategory",
       await api_Service
@@ -59,10 +71,12 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     }
   }
   checkIfQuizIsTimed() {
+    //checks value of timing field in configDate object in AppData instance
     let timing = this.data.getConfigData("timing").slice(0, -7);
     return (timing = timing == "Timed" ? true : false);
   }
   calcTotalTime() {
+    //calculates total time to allocate to test based on selected amount of questions & difficulty
     const difficulty = this.data.getConfigData("difficulty");
     const quantity = this.data.getConfigData("amount");
     switch (difficulty) {
@@ -82,6 +96,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     }
   }
   updateAndRenderTimeLeft(element) {
+    //Implement countdown, update time everysecond and render on ui. Toggle classes
     let timerId = setInterval(() => {
       --this._totalTime;
       let minutes = Math.floor(this._totalTime / 60);
@@ -101,6 +116,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     }, 1000);
   }
   checkAnswer(selectedOption, questionId) {
+    //compares selected option to correct answer in AppData instance. Updates score
     if (
       selectedOption == this.data.getData("questions data")[questionId].answerId
     ) {
@@ -116,6 +132,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
   getAnswer() {}
   getCategories() {}
   calculateScoresAndEndQuiz() {
+    //Actions to end quiz. Calculates total scores from scores saved in AppData instance, saves score in local storage and redirects to finish quiz page
     let totalScore = Array.from(this.data.getData("scores").values()).reduce(
       (a, b) => {
         return a + b;
