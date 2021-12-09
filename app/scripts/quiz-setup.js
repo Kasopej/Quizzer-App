@@ -145,7 +145,7 @@ function save_UI_Config_Entries(event) {
       testExpirationDateElement.valueAsNumber
     );
   } else {
-    alert("Please pick a date from today");
+    alert("Please speciify a future date for test expiration");
     ui.replaceHTML([modalBodyElement], [""]);
     return;
   }
