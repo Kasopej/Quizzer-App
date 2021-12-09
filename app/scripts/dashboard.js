@@ -42,7 +42,7 @@ filteredResultsElementsArray = cloneResultsElementsArray(filteredResultsElements
 ui_Interface.replaceChildren(ui_Interface.getElements('.table-light tbody')[0], resultsElementsArray);
 
 const filterButtons = ui_Interface.getElements('.filter');
-ui_Interface.addEventListenerToElements([ui_Interface.getElements('.sort-scores-ascending')[0], ui_Interface.getElements('.sort-scores-descending')[0]], ['click', 'click'], [sortDataByDate, sortDataByDateReverse]);
+ui_Interface.addEventListenerToElements([ui_Interface.getElements('.sort-scores-ascending')[0], ui_Interface.getElements('.sort-scores-descending')[0]], ['click', 'click'], [sortDataByDateReverse, sortDataByDate]);
 ui_Interface.addEventListenerToElements(scoreInputs, ['change'], [function () {
     handlerHelper.limitNumericalEntry.call(this, [100, 0], ['max', 'min'])
 }])
