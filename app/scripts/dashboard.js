@@ -3,7 +3,7 @@ import {
   HandlerHelpersClass,
   UiCommandHelperClass,
 } from "../Modules/util/helpers.js";
-import { CategoriesURL } from "../Modules/util/url.js";
+import { CATEGORIES_URL } from "../Modules/util/url.js";
 import ApiServiceClass from "../services/api-service.js";
 import { LocalDataPersistenceClass } from "../services/persistent-service.js";
 
@@ -18,7 +18,7 @@ const dateInputs = ui.getElements("#dateModal input");
 const scoreInputs = ui.getElements("#scoreModal input");
 
 let filteredResultsElementsArray = [];
-//const categories = await apiService.fetchData(CategoriesURL).then(data => data.trivia_categories);
+//const categories = await apiService.fetchData(CATEGORIES_URL).then(data => data.trivia_categories);
 const results = localDataPersistenceService.getData("resultsData");
 //Create and store table elements for exact number of result objects available
 let resultsElementsArray = ui.createElements(

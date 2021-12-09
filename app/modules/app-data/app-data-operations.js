@@ -1,15 +1,15 @@
 //This module provides methods that run operations that rely on data in app-data module
-import API_ServiceClass from "../../services/api-service.js";
+import ApiServiceClass from "../../services/api-service.js";
 import { LocalDataPersistenceClass } from "../../services/persistent-service.js";
 import RouterService from "../../services/router.js";
-import UI_InterfaceClass from "../ui/ui.js";
+import UiClass from "../ui/ui.js";
 import {
   globalQtyOfQuestionsURL,
   qtyOfQuestionsInCategoryURL,
 } from "../util/url.js";
 import { AppDataClass } from "./app-data.js";
 
-const api_Service = new API_ServiceClass();
+const apiService = new ApiServiceClass();
 
 export class AppDataOperationsClass {
   //base class that QuizzerDataOperationsClass is extended from. Allows for logical extension of application beyond quizzer solution
@@ -29,7 +29,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     if (data instanceof AppDataClass) {
       super();
       this.data = data;
-      this.UI_Interface = new UI_InterfaceClass();
+      this.ui = new UiClass();
       this.localDataService = new LocalDataPersistenceClass();
       this.router = new RouterService();
       //add fields to data storage map in AppData instance
@@ -42,7 +42,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
       //if categoryId is zero (all categories) get total number of questions
       this.data.updateData([
         "globalQtyOfAvailableQuestions",
-        await api_Service
+        await apiService
           .fetchData(globalQtyOfQuestionsURL)
           .then((data) => data.overall.total_num_of_verified_questions),
       ]);
@@ -51,7 +51,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     //else get number of questions for specified category and also difficulty
     this.data.updateData([
       "availableQuestionsInCategory",
-      await api_Service
+      await apiService
         .fetchData(qtyOfQuestionsInCategoryURL + categoryId)
         .then((data) => data.category_question_count),
     ]);
@@ -104,8 +104,8 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
       let colorClasses = ["black-text", "red-text"];
       let selectedIndex = Math.floor(Math.random() * 2);
       let unselectedIndex = selectedIndex == 0 ? 1 : 0;
-      this.UI_Interface.attachText([element], [`${minutes}m : ${seconds}s`]);
-      this.UI_Interface.replaceClassOnElements(
+      this.ui.attachText([element], [`${minutes}m : ${seconds}s`]);
+      this.ui.replaceClassOnElements(
         [element],
         [colorClasses[unselectedIndex], colorClasses[selectedIndex]]
       );

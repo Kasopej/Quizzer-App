@@ -2,7 +2,7 @@ import { QuizzerDataClass } from "../modules/app-data/app-data.js";
 import { QuizzerDataOperationsClass } from "../modules/app-data/app-data-operations.js";
 import { QuizzerMiddlewareClass } from "../modules/middleware/middleware.js";
 import UiClass from "../modules/ui/ui.js";
-import { QuestionsURL } from "../modules/util/url.js";
+import { QUESTIONS_URL } from "../modules/util/url.js";
 import { UrlHelperClass } from "../modules/util/helpers.js";
 import ApiServiceClass from "../services/api-service.js";
 import { SessionStoragePersistenceClass } from "../services/persistent-service.js";
@@ -28,7 +28,7 @@ if (!sessionStorageQuestions || !sessionStorageConfigData) {
   sessionStoragePersistenceService.saveData("quizzer config data", params);
   const questions = await apiService
     .fetchData(
-      `${QuestionsURL}${urlHelper.generateQuery(
+      `${QUESTIONS_URL}${urlHelper.generateQuery(
         Object.entries(quizzerData.getConfigData()),
         true,
         [

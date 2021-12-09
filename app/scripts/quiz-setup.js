@@ -5,7 +5,7 @@ import {
   HandlerHelpersClass,
   UrlHelperClass,
 } from "../Modules/util/helpers.js";
-import { CategoriesURL, quizPageRelativePath } from "../Modules/util/url.js";
+import { CATEGORIES_URL, QUIZ_PAGE_PATH } from "../Modules/util/url.js";
 import ApiServiceClass from "../services/api-service.js";
 import { ClipboardClass } from "../services/user-agent.js";
 
@@ -36,7 +36,7 @@ const testExpirationDateElement = ui.getElements("#expiryDate")[0];
 quizzerData.updateData([
   "Quiz Categories",
   await apiService
-    .fetchData(CategoriesURL)
+    .fetchData(CATEGORIES_URL)
     .then((data) => data.trivia_categories),
 ]);
 quizzerData.getData("Quiz Categories").forEach((categoryObj) => {
@@ -195,7 +195,7 @@ function processEmailEntries(candidatesEmails) {
           function (e) {
             clipBoardObj.write(
               location.origin +
-                quizPageRelativePath +
+                QUIZ_PAGE_PATH +
                 URL_Helper.generateQuery(
                   Array.from(
                     Object.entries(quizzerData.getConfigDataClone(+this.id))
@@ -208,7 +208,7 @@ function processEmailEntries(candidatesEmails) {
       );
 
       /*
-                ui.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + quizPageRelativePath + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())), true))) }
+                ui.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + QUIZ_PAGE_PATH + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())), true))) }
                 ]);
                 */
       index++;

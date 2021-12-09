@@ -1,5 +1,3 @@
-import UiInterfaceClass from "../ui/ui.js";
-
 export class HelperClass {}
 
 export class UiCommandHelperClass extends HelperClass {

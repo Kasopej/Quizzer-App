@@ -1,7 +1,7 @@
 //this module carries out DOM operations
 import { UiCommandHelperClass } from "../util/helpers.js";
 
-class DOM_Operation_Error extends Error {
+class DOM_OperationError extends Error {
   constructor(message) {
     super(message);
     this.name = "DOM Operation Error";
@@ -27,9 +27,9 @@ export default class UiClass {
       const nodeList = document.querySelectorAll(selector);
       [...nodeList].forEach(() => nodeListLength++);
       if (nodeListLength) return nodeList;
-      throw new DOM_Operation_Error("No such HTML elements found in DOM!");
+      throw new DOM_OperationError("No such HTML elements found in DOM!");
     } catch (error) {
-      if (error instanceof DOM_Operation_Error) {
+      if (error instanceof DOM_OperationError) {
         console.log(error);
         return [];
       }
@@ -42,9 +42,9 @@ export default class UiClass {
       const nodeList = node.querySelectorAll(selector);
       [...nodeList].forEach(() => nodeListLength++);
       if (nodeListLength) return nodeList;
-      throw new DOM_Operation_Error("No such HTML elements found in DOM!");
+      throw new DOM_OperationError("No such HTML elements found in DOM!");
     } catch (error) {
-      if (error instanceof DOM_Operation_Error) {
+      if (error instanceof DOM_OperationError) {
         console.log(error);
         return [];
       }
@@ -83,7 +83,7 @@ export default class UiClass {
         elements,
         "removeAttributes",
         attributes,
-        DOM_Operation_Error
+        DOM_OperationError
       );
       return;
     }
@@ -102,12 +102,12 @@ export default class UiClass {
       try {
         attributeValuesArr.push(element.getAttribute(attributeName));
         if (!element.hasAttribute(attributeName)) {
-          throw new DOM_Operation_Error(
+          throw new DOM_OperationError(
             `Attribute: ${attributeName} does not exist on ${element}`
           );
         }
       } catch (error) {
-        if (error instanceof DOM_Operation_Error) console.log(error);
+        if (error instanceof DOM_OperationError) console.log(error);
       }
     });
     return attributeValuesArr;
@@ -134,7 +134,7 @@ export default class UiClass {
         elements,
         "attachText",
         texts,
-        DOM_Operation_Error
+        DOM_OperationError
       );
       return;
     }
@@ -158,7 +158,7 @@ export default class UiClass {
         elements,
         "attachHTML",
         htmlStrings,
-        DOM_Operation_Error
+        DOM_OperationError
       );
       return;
     }
@@ -181,7 +181,7 @@ export default class UiClass {
         elements,
         "replaceHTML",
         htmlStrings,
-        DOM_Operation_Error
+        DOM_OperationError
       );
       return;
     }
@@ -230,7 +230,7 @@ export default class UiClass {
       this.helper.throwAttachEventListenerError(
         elements[0],
         handlers[0],
-        DOM_Operation_Error
+        DOM_OperationError
       );
     } else {
       //handles multiple case (elements, events, listeners) by iteration
