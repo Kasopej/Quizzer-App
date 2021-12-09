@@ -26,7 +26,7 @@ resultsElementsArray.forEach(
         let score = results[index].score.split('/');
         let percentScore = (score[0] / score[1]) * 100;
         let email = results[index].candidateEmail;
-        ui_Interface.attachHTML([resultElement], [`<td class="time" data-timestamp="${new Date(results[index].timeStamp)}">${new Date(results[index].timeStamp).toDateString()}</td><td>${email}</td><td class="score" data-score="${percentScore}">${percentScore}%</td>`])
+        ui_Interface.attachHTML([resultElement], [`<td class="time" data-timestamp="${new Date(results[index].timeStamp).valueOf()}">${new Date(results[index].timeStamp).toDateString()}</td><td>${email}</td><td class="score" data-score="${percentScore}">${percentScore}%</td>`])
         if (resultElement.querySelector('.score').innerText.slice(0, -1) >= 50) {
             resultElement.querySelector('.score').classList.add('goodResult')
         }

@@ -54,6 +54,7 @@ export class UI_CommandHelperClass extends HelperClass {//contains methods that 
     }
     helpSortData(caller, dataArray = [], basis, sortBasedOnChild = Boolean, childSelector, reverse = Boolean) {//data to sort, basis for sorting
         if (!(reverse && this.btnState.sortReversed) && this.btnState.sortReversed !== 0) {
+            //Prevents unnecessary consecutive attempts to resort data in the same order
             this.btnState.sortReversed = 0;
             dataArray.sort((a, b) => {
                 if (!sortBasedOnChild) {
@@ -69,7 +70,6 @@ export class UI_CommandHelperClass extends HelperClass {//contains methods that 
             this.btnState.sortReversed = 1;
         }
 
-        dataArray.forEach(data => JSON.stringify(data))
     }
     filterDataByRanges(caller, dataArray = [], basis = [], sortBasedOnChild = Boolean, childSelectors, ranges = []) {
         let index = 0;
@@ -83,23 +83,9 @@ export class UI_CommandHelperClass extends HelperClass {//contains methods that 
             if (ranges.length) {
                 this.filterDataByRanges(caller, dataArray, basis.slice(index), sortBasedOnChild, childSelectors.slice(index), ranges)
             }
-            //return filteredDataArray;
+            //return filteredDataArray; 
         }
         //return dataArray;
-    }
-    filtersDataByRanges(dataArray = [], basis = [], sortBasedOnChild = Boolean, ranges = []) {
-        let index = 0;
-        let filteredDataArray = [];
-        if (ranges.length == 1) {
-            filteredDataArray = dataArray.filter(dataElement => {
-                return dataElement[basis[index]] >= ranges[index][0] && dataElement[basis[index]] <= ranges[index][1]
-            })
-            index++;
-            if (ranges.length - index) {
-                this.filterDataByRanges(filteredDataArray, basis.slice(index), ranges.slice(index))
-            }
-            return filteredDataArray;
-        }
     }
 }
 
