@@ -1,3 +1,4 @@
+//this module carries out DOM operations
 import { UiCommandHelperClass } from "../util/helpers.js";
 
 class DOM_Operation_Error extends Error {
@@ -7,8 +8,7 @@ class DOM_Operation_Error extends Error {
   }
 }
 
-export default class UI_InterfaceClass {
-  //this class carries out DOM operations
+export default class UiClass {
   constructor() {
     this.helper = new UiCommandHelperClass();
   }
@@ -60,7 +60,7 @@ export default class UI_InterfaceClass {
     ) {
       elements[0].setAttribute(attributes[0], values[0]);
     } else {
-      //handles multiple case (multiple elements, multiple attributes, multiple values)
+      //handles multiple case (multiple elements, multiple attributes, multiple values) by iteration via helper function
       this.helper.helpHandleEntriesOnMultipleElements(
         this,
         "setAttributes",
@@ -87,7 +87,7 @@ export default class UI_InterfaceClass {
       );
       return;
     }
-    //handles valid multiple case (multiple elements, multiple attributes)
+    //handles valid multiple case (multiple elements, multiple attributes) by iteration via helper function
     this.helper.helpHandleValuesOnMultipleElements(
       this,
       "removeAttributes",
@@ -138,7 +138,7 @@ export default class UI_InterfaceClass {
       );
       return;
     }
-    //valid multiple case
+    //handles valid multiple case by iteration via helper function
     this.helper.helpHandleValuesOnMultipleElements(
       this,
       "attachText",
@@ -162,7 +162,7 @@ export default class UI_InterfaceClass {
       );
       return;
     }
-    //valid multiple case
+    //handles valid multiple case by iteration via helper function
     this.helper.helpHandleValuesOnMultipleElements(
       this,
       "attachText",
@@ -185,7 +185,7 @@ export default class UI_InterfaceClass {
       );
       return;
     }
-    //valid multiple case
+    //handles valid multiple case by iteration via helper function
     this.helper.helpHandleValuesOnMultipleElements(
       this,
       "replaceHTML",

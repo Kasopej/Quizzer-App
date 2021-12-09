@@ -9,6 +9,7 @@ export class UiCommandHelperClass extends HelperClass {
     this.btnState = {};
   }
   helpCreateMultipleElements(caller, tagNames) {
+    //helper function that breaks down multiple elements call to single element call for the createElements method in ui module
     const listOfNewElements = [];
     tagNames.forEach((tagName) => {
       listOfNewElements.push(caller.createElements(tagName));
@@ -16,8 +17,9 @@ export class UiCommandHelperClass extends HelperClass {
     return listOfNewElements;
   }
   helpHandleEntriesOnMultipleElements(caller, method, elements, keys, values) {
-    //method allows UI_Operation methods to carry out multiple operations on multiple elements that have (key, value) pairs e.g setAttribute
+    //method allows ui module methods to set multiple (key, value) pairs on multiple elements that have  e.g setAttribute, by simplifying the operation throuh iteration
     if (elements.length == 1) {
+      //single element, multiple keys case
       keys.forEach((key, index) => {
         caller[method]([elements[0]], [key], [values[index]]);
       });
@@ -31,7 +33,7 @@ export class UiCommandHelperClass extends HelperClass {
     }
   }
   helpHandleValuesOnMultipleElements(caller, method, elements, values) {
-    //method allows UI_Interface methods to carry out multiple operations on multiple elements that require values only e.g innerText, innerHTML
+    //method helps ui module methods set multiple property values on multiple elements in one call e.g innerText, innerHTML
     let valueIndex = 0;
     elements.forEach((element, index) => {
       valueIndex = index < values.length ? index : valueIndex;
@@ -54,7 +56,7 @@ export class UiCommandHelperClass extends HelperClass {
     }
   }
   throwAttachEventListenerError(element, value, errorClass) {
-    //throw and log error if attempt is made to attache more than one listener to an element event at the same time
+    //throw and log error if attempt is made to attach an invalid listener (i.e not function or EventListener type object)
     try {
       throw new errorClass(
         `Unsupported operation: Cannot set ${value} as event listener callback on element: ${element}, as it is neither a function neither does it implement EventListener interface`
@@ -65,20 +67,21 @@ export class UiCommandHelperClass extends HelperClass {
   }
   helpSortData(
     caller,
-    dataArray = [],
+    elementsArray = [],
     basis,
     sortBasedOnChild = Boolean,
     childSelector,
     reverse = Boolean
   ) {
-    //data to sort, basis for sorting
+    //elements to sort, basis for sorting
     if (
+      //Checks to prevent unnecessary attempts to re-sort elements in the same order
       !(reverse && this.btnState.sortReversed) &&
       this.btnState.sortReversed !== 0
     ) {
-      //Prevents unnecessary consecutive attempts to resort data in the same order
+      //sorts elements inside array using basis and data stored in the element dataset field. Either targets the elements in the array directly or their children if sortBasedOnChild is true
       this.btnState.sortReversed = 0;
-      dataArray.sort((a, b) => {
+      elementsArray.sort((a, b) => {
         if (!sortBasedOnChild) {
           return a.dataset[basis] - b.dataset[basis];
         } else {
@@ -90,13 +93,14 @@ export class UiCommandHelperClass extends HelperClass {
       });
     }
     if (reverse && !this.btnState.sortReversed) {
-      dataArray.reverse();
+      //reverses order of elements in array if reverse operation is specified i.e descending order
+      elementsArray.reverse();
       this.btnState.sortReversed = 1;
     }
   }
   filterDataByRanges(
     caller,
-    dataArray = [],
+    elementsArray = [],
     basis = [],
     sortBasedOnChild = Boolean,
     childSelectors,
@@ -104,10 +108,11 @@ export class UiCommandHelperClass extends HelperClass {
   ) {
     let index = 0;
     if (ranges.length) {
-      dataArray.splice(
+      //filter elements based on basis specified and data in element dataset, replaces elementsArray with filtered elements. Targets child elements if sortBasedOnChild is true
+      elementsArray.splice(
         0,
-        dataArray.length,
-        ...dataArray.filter((dataElement) => {
+        elementsArray.length,
+        ...elementsArray.filter((dataElement) => {
           if (sortBasedOnChild)
             dataElement = caller.getElementsFromNode(
               dataElement,
@@ -122,18 +127,17 @@ export class UiCommandHelperClass extends HelperClass {
       index++;
       ranges = ranges.slice(index);
       if (ranges.length) {
+        //performs recursive calls till all ranges in ranges array are processed
         this.filterDataByRanges(
           caller,
-          dataArray,
+          elementsArray,
           basis.slice(index),
           sortBasedOnChild,
           childSelectors.slice(index),
           ranges
         );
       }
-      //return filteredDataArray;
     }
-    //return dataArray;
   }
 }
 
