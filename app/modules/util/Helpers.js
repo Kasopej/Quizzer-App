@@ -192,10 +192,11 @@ export class UrlHelperClass extends HelperClass {
     return signedToken;
   }
   generateQuery(params = [], skipNullValues = Boolean, propertiesToSkip = []) {
-    //generates query from parameters object. Skips null values and any specifid properties that should be omitted from the query string
+    //generates query string from parameters object properties.
     let query = "";
     for (let index = 0; index < params.length; index++) {
       const parameterEntry = params[index];
+      //next, check if parameter is null, NaN or is to be skipped over. If parameter passes check, append to query string
       if (
         (skipNullValues &&
           (parameterEntry[1] === "" ||
@@ -209,13 +210,14 @@ export class UrlHelperClass extends HelperClass {
       }
       query = query + parameterEntry[0] + "=" + parameterEntry[1];
     }
+    //In the case where the last parameter entry is skipped, there will be an & at the end of the query string
     if (query.endsWith("&")) {
       query = query.slice(0, query.length - 1);
     }
     return query;
   }
   getParamsFromQueryString(paramStr) {
-    //get params from query strings
+    //get parameters from query strings
     let params = {};
     var paramArr = paramStr.split("&");
     for (let i = 0; i < paramArr.length; i++) {

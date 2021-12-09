@@ -21,7 +21,7 @@ export default class UI_InterfaceClass {
     } //returns an array of the created elements (via helper) if more than one html tag name is specified. If only one html tag name is specified, then it returns the single created element
   }
   getElements(selector) {
-    //method to get elements from DOM. Throws & logs error if element could not be found i.e invalid selector
+    //method to get elements from DOM. Throws & logs error if element could not be found e.g invalid selector or deleted element
     try {
       let nodeListLength = 0;
       const nodeList = document.querySelectorAll(selector);
@@ -36,7 +36,7 @@ export default class UI_InterfaceClass {
     }
   }
   getElementsFromNode(node, selector) {
-    //method to get elements from HTML node. Throws & logs error if element could not be found i.e invalid selector
+    //method to get elements from HTML node. Throws & logs error if element could not be found e.g invalid selector or deleted element
     try {
       let nodeListLength = 0;
       const nodeList = node.querySelectorAll(selector);
@@ -51,14 +51,16 @@ export default class UI_InterfaceClass {
     }
   }
   setAttributes = (elements = [], attributes = [], values = []) => {
-    //sets as many attributes and their values for as many elements as required
+    //sets multiple attributes values for multiple elements in one call
     if (
-      !(elements.length > 1) &&
-      !(attributes.length > 1) &&
-      !(values.length > 1)
+      //handles simple case: one element and one attribute
+      elements.length === 1 &&
+      attributes.length === 1 &&
+      values.length === 1
     ) {
       elements[0].setAttribute(attributes[0], values[0]);
     } else {
+      //handles multiple case (multiple elements, multiple attributes, multiple values)
       this.helper.helpHandleEntriesOnMultipleElements(
         this,
         "setAttributes",
@@ -69,11 +71,14 @@ export default class UI_InterfaceClass {
     }
   };
   removeAttributes(elements = [], attributes = []) {
+    //remove multiple attributes from multiple elements in one call
     if (elements.length == 1) {
+      //handles simple case (single elment, single attribute)
       if (attributes.length == 1) {
         elements[0].removeAttribute(attributes[0]);
         return;
       }
+      //throw custom error if multiple attributes are passed with a single element
       this.helper.throwHandleMultipleValuesOnSingleElementError(
         elements,
         "removeAttributes",
@@ -82,6 +87,7 @@ export default class UI_InterfaceClass {
       );
       return;
     }
+    //handles valid multiple case (multiple elements, multiple attributes)
     this.helper.helpHandleValuesOnMultipleElements(
       this,
       "removeAttributes",
@@ -90,7 +96,7 @@ export default class UI_InterfaceClass {
     );
   }
   getAttributeFromElements(elements = [], attributeName) {
-    //obtains attribute value for as many elements as required
+    //obtains attribute value for as many elements as required. Returns an array of value(s)
     let attributeValuesArr = [];
     elements.forEach((element) => {
       try {
@@ -107,7 +113,7 @@ export default class UI_InterfaceClass {
     return attributeValuesArr;
   }
   getInputValue(elements = []) {
-    //get input values from input elements
+    //get input values from input elements. Returns an array of value(s)
     let inputValuesArr = [];
     elements.forEach((element) => {
       if (element.getAttribute("type") !== "date") {
@@ -117,8 +123,9 @@ export default class UI_InterfaceClass {
     return inputValuesArr;
   }
   attachText = (elements = [], texts = []) => {
-    //attach text strings to multiple elements as required
+    //attach multiple text strings to multiple elements in one call
     if (elements.length == 1) {
+      //simple case
       if (texts.length == 1) {
         elements[0].innerText = texts[0];
         return;
@@ -131,6 +138,7 @@ export default class UI_InterfaceClass {
       );
       return;
     }
+    //valid multiple case
     this.helper.helpHandleValuesOnMultipleElements(
       this,
       "attachText",
@@ -139,8 +147,9 @@ export default class UI_InterfaceClass {
     );
   };
   attachHTML = (elements = [], htmlStrings = []) => {
-    //append new HTML strings to multiple elements as required
+    //append new HTML strings to multiple elements in one call
     if (elements.length == 1) {
+      //simple case
       if (htmlStrings.length == 1) {
         elements[0].insertAdjacentHTML("beforeend", htmlStrings[0]);
         return;
@@ -153,6 +162,7 @@ export default class UI_InterfaceClass {
       );
       return;
     }
+    //valid multiple case
     this.helper.helpHandleValuesOnMultipleElements(
       this,
       "attachText",
@@ -161,7 +171,7 @@ export default class UI_InterfaceClass {
     );
   };
   replaceHTML = (elements = [], htmlStrings = []) => {
-    //attach new HTML strings to multiple elements as required, replacing the current HTML in the elements, if any
+    //attach new HTML strings to multiple elements in one call, replacing the current HTML in the elements, if any
     if (elements.length == 1) {
       if (htmlStrings.length == 1) {
         elements[0].innerHTML = htmlStrings[0];
@@ -175,6 +185,7 @@ export default class UI_InterfaceClass {
       );
       return;
     }
+    //valid multiple case
     this.helper.helpHandleValuesOnMultipleElements(
       this,
       "replaceHTML",
@@ -183,15 +194,18 @@ export default class UI_InterfaceClass {
     );
   };
   attachElements(parent, children) {
+    //attach node object or nodelist to node in DOM
     parent.append(children);
   }
   replaceChildren(parent, children) {
+    //attach node object or nodelist to node in DOM, replacing existing children
     parent.replaceChildren(...children);
   }
   removeElement(element) {
     element.remove();
   }
   replaceClassOnElements(elements = [], classTokens = []) {
+    //replace one class with another
     elements.forEach((element) =>
       element.classList.replace(classTokens[0], classTokens[1])
     );
@@ -203,13 +217,10 @@ export default class UI_InterfaceClass {
     elements.forEach((element) => element.classList.toggle(classToken, false));
   }
   addEventListenerToElements(elements = [], events = [], handlers = []) {
-    //attach listeners to events for elements as required. Calls helper method if required (i.e if multiple elements/methods/listeners passed)
-    if (
-      !(elements.length > 1) &&
-      !(events.length > 1) &&
-      !(handlers.length > 1)
-    ) {
+    //attach multiple listeners to multiple elements for multiple event types
+    if (elements.length === 1 && events.length === 1 && handlers.length === 1) {
       if (
+        //checks if listener is a function or valid EventListener interface i.e implements handleEvent method
         typeof handlers[0] === "function" ||
         (handlers[0] instanceof Object && "handleEvent" in handlers[0])
       ) {
@@ -222,6 +233,7 @@ export default class UI_InterfaceClass {
         DOM_Operation_Error
       );
     } else {
+      //handles multiple case (elements, events, listeners) by iteration
       this.helper.helpHandleEntriesOnMultipleElements(
         this,
         "addEventListenerToElements",
@@ -231,8 +243,8 @@ export default class UI_InterfaceClass {
       );
     }
   }
-  sortData(
-    dataArray = [],
+  sortData( //sort array of html elements via helper function
+    elementsArray = [],
     basis,
     sortBasedOnChild = Boolean,
     childSelector,
@@ -240,15 +252,15 @@ export default class UI_InterfaceClass {
   ) {
     this.helper.helpSortData(
       this,
-      dataArray,
+      elementsArray,
       basis,
       sortBasedOnChild,
       childSelector,
       reverse
     );
   }
-  filterData(
-    dataArray = [],
+  filterData( //filter array of html elements via helper function
+    elementsArray = [],
     basis = [],
     sortBasedOnChild = Boolean,
     childSelectors = [],
@@ -256,7 +268,7 @@ export default class UI_InterfaceClass {
   ) {
     this.helper.filterDataByRanges(
       this,
-      dataArray,
+      elementsArray,
       basis,
       sortBasedOnChild,
       childSelectors,
