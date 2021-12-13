@@ -1,4 +1,4 @@
-export class UserControl {
-    login() { }
-    logout() { }
+export default class UserControl {
+  login() {}
+  logout() {}
 }
