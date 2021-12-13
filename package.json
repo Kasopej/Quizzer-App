@@ -1,0 +1,20 @@
+{
+  "name": "quizzer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "my.conf.js",
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kasopej/Quizzer-App.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kasopej/Quizzer-App/issues"
+  },
+  "homepage": "https://github.com/Kasopej/Quizzer-App#readme"
+}

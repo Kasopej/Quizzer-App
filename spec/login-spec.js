@@ -1,3 +1,5 @@
+let app = require("../App/scripts/index.js");
+
 describe("Login", function () {
   it("gives an error if any paramters are undefined", function () {
     let entries = [
@@ -6,8 +8,7 @@ describe("Login", function () {
       [undefined, "Pshfgh5t55"],
     ];
     entries.forEach((entry) => {
-      beforeEach();
-      login(entry);
+      expect(app.login(entry));
     });
   });
 });
