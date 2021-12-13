@@ -5,13 +5,94 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome</title>
+    <link rel="stylesheet" href="Style/bootstrap4.4.min.css">
+    <link rel="stylesheet" href="Style/font-awesome.min.css">
+    <link rel="stylesheet" href="Style/login.css">
 </head>
 <body>
-    <form class="login-form" action="post">
+    <!-- <form class="login-form" action="post">
         <input type="text" name="user-name" id="">
         <input type="password" name="password" id="">
         <button type="submit"></button>
-    </form>
+    </form> -->
+
+    <div class="landingPage" id="loginModal">
+      <div class="formContent shadow">
+          <div class="formHead">
+              <b>Login</b>
+          </div>
+          <div class="formBody">
+              <form action="">
+                  <div class="formGroup">
+                      <div class="iconCont">
+                          <i class="fa fa-user"></i>
+                      </div>
+                      <input type="text" placeholder="Username">
+                  </div>
+                  <div class="formGroup">
+                      <div class="iconCont">
+                          <i class="fa fa-lock"></i>
+                      </div>
+                      <input type="password" placeholder="Password">
+                      <span onclick="togglePass(this)">Show</span>
+                  </div>
+                  <button class="btn" type="submit">
+                      <span>Login</span>
+                  </button>
+                  <p>Don't have an account? <a href="javascript:void(0)" onclick="openModal('signupModal')">Signup</a></p>
+              </form>
+          </div>
+      </div>
+  </div>
+  <div class="cusModal signup" id="signupModal">
+      <div class="formContent">
+          <div class="formHead">
+              <span class="closeBtn" onclick="this.parentElement.parentElement.parentElement.classList.remove('cusShow')">
+                  <svg viewBox="0 0 1000 1000" id="icon-x"><path fill="currentColor" d="M588.333 500l393.334-393.333C993.333 95 1000 80 1000 62.5 1000 28.333 971.667 0 937.5 0c-16.667 0-32.5 7.5-44.167 18.333L500 411.667 106.667 18.333C95 7.5 80 0 62.5 0 28.333 0 0 28.333 0 62.5 0 80 7.5 95 18.333 106.667L411.667 500 18.333 893.333C7.5 905 0 920.833 0 937.5c0 34.167 28.333 62.5 62.5 62.5 17.5 0 32.5-6.667 44.167-18.333L500 588.333l393.333 393.334C905 993.333 920.833 1000 937.5 1000c34.167 0 62.5-28.333 62.5-62.5 0-16.667-6.667-32.5-18.333-44.167z"></path></svg>
+              </span>
+              <b>Signup</b>
+          </div>
+          <div class="formBody">
+              <form action="">
+                  <div class="formGroup">
+                      <div class="iconCont">
+                          <i class="fa fa-user"></i>
+                      </div>
+                      <input type="text" placeholder="First Name">
+                  </div>
+                  <div class="formGroup">
+                      <div class="iconCont">
+                          <i class="fa fa-user"></i>
+                      </div>
+                      <input type="text" placeholder="Last Name">
+                  </div>
+                  <div class="formGroup">
+                      <div class="iconCont">
+                          <i class="fa fa-phone"></i>
+                      </div>
+                      <input type="text" placeholder="Phone">
+                  </div>
+                  <div class="formGroup">
+                      <div class="iconCont">
+                          <i class="fa fa-envelope"></i>
+                      </div>
+                      <input type="email" placeholder="Email">
+                  </div>
+                  <div class="formGroup">
+                      <div class="iconCont">
+                          <i class="fa fa-lock"></i>
+                      </div>
+                      <input type="password" placeholder="Password">
+                      <span onclick="togglePass(this)">Show</span>
+                  </div>
+                  <button class="btn" type="submit">
+                      <span>Signup</span>
+                  </button>
+                  <p>Already have an account? <a href="javascript:void(0)" onclick="openModal('loginModal')">Login</a></p>
+              </form>
+          </div>
+      </div>
+  </div>
 
     <script src="App/scripts/index.js"></script>
 </body>
