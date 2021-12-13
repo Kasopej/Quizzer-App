@@ -5,6 +5,9 @@ describe("Login", function () {
       ["kasope@gmail.com", undefined],
       [undefined, "Pshfgh5t55"],
     ];
-    entries.forEach((entry) => login(entry));
+    entries.forEach((entry) => {
+      beforeEach();
+      login(entry);
+    });
   });
 });
