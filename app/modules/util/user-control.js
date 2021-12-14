@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import fetch from "cross-fetch";
 
 export default class UserControl {
   async login(email, password) {}
