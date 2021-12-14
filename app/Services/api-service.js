@@ -1,3 +1,4 @@
+import fetch from "cross-fetch";
 export default class API_ServiceClass {
   async fetchData(url) {
     let resolvedData;
@@ -12,7 +13,12 @@ export default class API_ServiceClass {
     }
     return resolvedData;
   }
-  post() {}
+  async postData(url, data) {
+    let resolvedData;
+    const response = await fetch(url, data);
+    resolvedData = await response.json();
+    return resolvedData;
+  }
   update() {}
   delete() {}
 }

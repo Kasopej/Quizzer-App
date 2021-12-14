@@ -6,3 +6,4 @@ export const GLOBAL_QTY_OF_QUESTIONS_URL =
 export const QTY_OF_QUESTIONS_IN_CATEGORY_URL =
   "https://opentdb.com/api_count.php?category=";
 export const QUIZ_PAGE_PATH = "/quiz.html?";
+export const LOGIN_URL = "https://reqres.in/api/login";
