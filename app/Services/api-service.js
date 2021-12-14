@@ -1,4 +1,3 @@
-import fetch from "cross-fetch";
 export default class API_ServiceClass {
   async fetchData(url) {
     let resolvedData;

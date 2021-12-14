@@ -4,6 +4,7 @@ import RouterService from "../services/router.js";
 
 //Initialize business logic classes
 export const userControl = new UserControl();
+
 const ui = new UiClass();
 const router = new RouterService();
 
