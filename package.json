@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "my.conf.js",
+  "type": "module",
   "scripts": {
     "test": "jasmine"
   },
@@ -16,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/Kasopej/Quizzer-App/issues"
   },
-  "homepage": "https://github.com/Kasopej/Quizzer-App#readme"
+  "homepage": "https://github.com/Kasopej/Quizzer-App#readme",
+  "dependencies": {
+    "node-fetch": "^3.1.0"
+  }
 }

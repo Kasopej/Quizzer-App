@@ -1,4 +1,6 @@
+import fetch from "node-fetch";
+
 export default class UserControl {
-  login() {}
+  async login(email, password) {}
   logout() {}
 }

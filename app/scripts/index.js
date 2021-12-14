@@ -1,4 +1,2 @@
-//import UserControl from "../Modules/util/user-control.js";
-
-exports = module.exports = {};
-exports.login = function login(entry) {};
+import UserControl from "../Modules/util/user-control.js";
+export const login = new UserControl().login;
