@@ -8,7 +8,7 @@ export default class API_ServiceClass {
     if (response.ok) {
       resolvedData = await response.json();
     } else {
-      console.log(`Response status is ${response.ok}`);
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
     return resolvedData;
   }

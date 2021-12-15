@@ -8,49 +8,55 @@ export const userControl = new UserControl();
 const ui = new UiClass();
 const router = new RouterService();
 
-function startLogin() {
-  //get elements from DOM
-  const loginUserNameInput = ui.getElements("#loginModal .userName")[0];
-  const loginPasswordInput = ui.getElements("#loginModal .password")[0];
-  const loginButton = ui.getElements("#loginSubmit")[0];
+//get elements from DOM
+const loginUserNameInput = ui.getElements("#loginModal .userName")[0];
+const loginPasswordInput = ui.getElements("#loginModal .password")[0];
+const loginButton = ui.getElements("#loginSubmit")[0];
+const modalTriggers = ui.getElements(".openModal a");
+const modals = ui.getElements(".cusModal");
+const showPasswordToggles = ui.getElements("input[type='password'] + span");
 
-  ui.addEventListenerToElements(
-    [loginButton],
-    ["click"],
-    [
-      async function () {
-        let loginEntries = ui.getInputValue([
-          loginUserNameInput,
-          loginPasswordInput,
-        ]);
-        const loginResult = await userControl.login(
-          loginEntries[0],
-          loginEntries[1]
-        );
-        if (loginResult) router.goToRoute("dashboard.html");
-      },
-    ]
-  );
-}
+ui.addEventListenerToElements(
+  [loginButton],
+  ["click"],
+  [
+    async function (event) {
+      event.preventDefault();
+      let loginEntries = ui.getInputValue([
+        loginUserNameInput,
+        loginPasswordInput,
+      ]);
+      const loginResult = await userControl.login(
+        loginEntries[0],
+        loginEntries[1]
+      );
+      if (loginResult) {
+        router.goToRoute("dashboard.html");
+      } else {
+        alert("Incorrect login credentials");
+      }
+    },
+  ]
+);
 
-/*
-d
-d
-
-d
-d
-d
-d
-d
-d
-d
-dd
-d
-d
-*/
-/*
-(function openModal(id) {
-  const modals = document.querySelectorAll(".cusModal");
+ui.addEventListenerToElements(
+  Array.from(modalTriggers),
+  ["click", "click"],
+  [
+    function () {
+      openModal("signupModal");
+    },
+    function () {
+      openModal("loginModal");
+    },
+  ]
+);
+ui.addEventListenerToElements(
+  Array.from(showPasswordToggles),
+  ["click"],
+  [togglePassword]
+);
+function openModal(id) {
   for (let i = 0; i < modals.length; i++) {
     if (modals[i].id == id) {
       modals[i].classList.add("cusShow");
@@ -58,16 +64,15 @@ d
       modals[i].classList.remove("cusShow");
     }
   }
-})();
+}
 
-function togglePass(el) {
-  const input = el.previousElementSibling;
+function togglePassword() {
+  const input = this.previousElementSibling;
   if (input.type == "password") {
     input.type = "text";
-    el.innerHTML = "Hide";
+    this.innerHTML = "Hide";
   } else {
     input.type = "password";
-    el.innerHTML = "Show";
+    this.innerHTML = "Show";
   }
 }
-*/

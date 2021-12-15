@@ -22,7 +22,7 @@ export class UiCommandHelperClass extends HelperClass {
         caller[method]([elements[0]], [key], [values[index]]);
       });
     } else {
-      //If multiple elements passed, the loop iteratively selects a single set of (key, value) pairs to use for each of the elements
+      //If multiple elements passed, the loop iteratively selects a single set of (key, value) pairs to use for each of the elements.
       let valueIndex = 0;
       elements.forEach((element, index) => {
         valueIndex = index < values.length ? index : valueIndex;

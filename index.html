@@ -22,7 +22,7 @@
               <b>Login</b>
           </div>
           <div class="formBody">
-              <form action="">
+            <form>
                   <div class="formGroup">
                       <div class="iconCont">
                           <i class="fa fa-user"></i>
@@ -34,12 +34,13 @@
                           <i class="fa fa-lock"></i>
                       </div>
                     <input class="password" type="password" placeholder="Password">
-                      <span onclick="togglePass(this)">Show</span>
+                    <span>Show</span>
                   </div>
-                <button class="btn" id="loginSubmit" type="submit">
+                <button class="btn" id="loginSubmit">
                       <span>Login</span>
                   </button>
-                  <p>Don't have an account? <a href="javascript:void(0)" onclick="openModal('signupModal')">Signup</a></p>
+                <p class="openModal">Don't have an account? <a href="javascript:void(0)">Signup</a>
+                </p>
               </form>
           </div>
       </div>
@@ -53,7 +54,7 @@
               <b>Signup</b>
           </div>
           <div class="formBody">
-              <form action="">
+            <form>
                   <div class="formGroup">
                       <div class="iconCont">
                           <i class="fa fa-user"></i>
@@ -83,17 +84,17 @@
                           <i class="fa fa-lock"></i>
                       </div>
                       <input type="password" placeholder="Password">
-                      <span onclick="togglePass(this)">Show</span>
+                    <span>Show</span>
                   </div>
-                  <button class="btn" type="submit">
+                <button class="btn">
                       <span>Signup</span>
                   </button>
-                  <p>Already have an account? <a href="javascript:void(0)" onclick="openModal('loginModal')">Login</a></p>
+                <p class="openModal">Already have an account? <a href="javascript:void(0)">Login</a>
+                </p>
               </form>
           </div>
       </div>
-  </div>
-    <script src="https://www.jsdelivr.com/package/npm/cross-fetch"></script>
+</div>
     <script src="App/scripts/index.js" type="module"></script>
 </body>
 </html>

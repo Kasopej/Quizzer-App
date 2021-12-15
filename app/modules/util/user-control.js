@@ -16,7 +16,9 @@ export default class UserControl {
       referrerPolicy: "no-referrer",
       body: JSON.stringify({ email, password }),
     };
-    return await apiService.postData(LOGIN_URL, data);
+    let result = await apiService.postData(LOGIN_URL, data);
+    if ("token" in result) return true;
+    else if ("error" in result) return false;
   }
   logout() {}
 }
