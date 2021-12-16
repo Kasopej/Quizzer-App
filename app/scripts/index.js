@@ -1,5 +1,6 @@
 import UiClass from "../Modules/ui/ui.js";
 import UserControl from "../Modules/util/user-control.js";
+import { LocalDataPersistenceClass } from "../services/persistent-service.js";
 import RouterService from "../services/router.js";
 
 //Initialize business logic classes
@@ -15,6 +16,7 @@ const loginButton = ui.getElements("#loginSubmit")[0];
 const modalTriggers = ui.getElements(".openModal a");
 const modals = ui.getElements(".cusModal");
 const showPasswordToggles = ui.getElements("input[type='password'] + span");
+const localDataPersistenceService = new LocalDataPersistenceClass();
 
 ui.addEventListenerToElements(
   [loginButton],
@@ -30,7 +32,10 @@ ui.addEventListenerToElements(
         loginEntries[0],
         loginEntries[1]
       );
-      if (loginResult) {
+      if ("token" in loginResult) {
+        localDataPersistenceService.saveData("loginStatus", {
+          [loginEntries[0]]: loginResult,
+        });
         router.goToRoute("dashboard.html");
       } else {
         alert("Incorrect login credentials");
@@ -56,6 +61,10 @@ ui.addEventListenerToElements(
   ["click"],
   [togglePassword]
 );
+
+if (userControl.checkIfUserIsSignedIn()) {
+  router.goToRoute("dashboard.html");
+}
 function openModal(id) {
   for (let i = 0; i < modals.length; i++) {
     if (modals[i].id == id) {

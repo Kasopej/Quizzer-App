@@ -1,10 +1,8 @@
 import UserControl from "../../Modules/util/user-control.js";
-import { LocalDataPersistenceClass } from "../../services/persistent-service.js";
 describe("Login", function () {
-  let resultsArray, userControl;
+  let resultsArray;
   beforeEach(function () {
     resultsArray = [];
-    userControl = new UserControl();
   });
   it("return an object with a token field when correct login credentials are passed", async function () {
     let entries = [
@@ -13,7 +11,7 @@ describe("Login", function () {
       ["lindsay.ferguson@reqres.in", "ghshdhd"],
     ];
     for (const entry of entries) {
-      let loginResult = await userControl.login(entry[0], entry[1]);
+      let loginResult = await new UserControl().login(entry[0], entry[1]);
       if (loginResult) resultsArray.push(loginResult);
     }
     expect(resultsArray).toHaveSize(entries.length);
@@ -30,7 +28,7 @@ describe("Login", function () {
       [undefined, undefined],
     ];
     for (const entry of entries) {
-      let loginResult = await userControl.login(entry[0], entry[1]);
+      let loginResult = await new UserControl().login(entry[0], entry[1]);
       if (loginResult) resultsArray.push(loginResult);
     }
     expect(resultsArray).toHaveSize(0);
@@ -42,20 +40,7 @@ describe("Login", function () {
       [undefined, "cityslicka"],
     ];
     await expectAsync(
-      userControl.login(entries[0], entries[1])
+      new UserControl().login(entries[0], entries[1])
     ).not.toBeRejected();
-  });
-  it("keeps the user logged in even with refresh", async function () {
-    const localDataPersistenceService = new LocalDataPersistenceClass();
-    spyOn(userControl, "login").and.callThrough();
-    if (!userControl.checkIfUserIsSignedIn()) {
-      localDataPersistenceService.saveData("loginStatus", {
-        "eve.holt@reqres.in": await userControl.login(
-          "eve.holt@reqres.in",
-          "cityslicka"
-        ),
-      });
-    }
-    expect(userControl.login).not.toHaveBeenCalled();
   });
 });
