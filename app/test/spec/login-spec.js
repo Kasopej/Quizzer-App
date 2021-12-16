@@ -31,11 +31,10 @@ describe("Login", function () {
     }
     expect(dataArray).toHaveSize(0);
   });
-  it("throws an error if request could not be completed", function (done) {
+  it("throws an error if request could not be completed", async function () {
     let entries = ["eve.holt@reqres.in", "cityslicka"];
-    expect(
-      new UserControl().login.bind(null, entries[0], entries[1])
-    ).toThrowError();
-    done();
+    await expectAsync(
+      new UserControl().login(entries[0], entries[1])
+    ).not.toBeRejected();
   });
 });
