@@ -1,22 +1,29 @@
 import UserControl from "../../Modules/util/user-control.js";
-describe("Login", function () {
-  let resultsArray;
+import { apiService } from "../../Modules/util/user-control.js";
+describe("Register is a function that registers new admins with the following conditions", function () {
+  let resultsArray, userControl;
   beforeEach(function () {
     resultsArray = [];
+    userControl = new UserControl();
+    spyOn(apiService, "postData").and.callThrough();
   });
-  it("return an object with a token field when correct login credentials are passed", async function () {
+  it("it does not register the admins if the provided data does not fit the set format(s)", async function () {
+    /*
+    Email must be valid email format
+    Password must contain at least one uppercase letter and at least one number, and be 10 characters long
+    */
     let entries = [
-      ["eve.holt@reqres.in", "cityslicka"],
-      ["michael.lawson@reqres.in", "yhhdhdjk"],
-      ["lindsay.ferguson@reqres.in", "ghshdhd"],
+      ["eve.holt.in", "cityslicka"],
+      ["michael.lawson@reqres.in", "1yhhdhghto"],
+      ["lindsay.ferguson@reqres.in", "gHshhd"],
     ];
     for (const entry of entries) {
-      let loginResult = await new UserControl().login(entry[0], entry[1]);
+      let loginResult = await userControl.register(entry[0], entry[1]);
       if (loginResult) resultsArray.push(loginResult);
     }
-    expect(resultsArray).toHaveSize(entries.length);
+    expect(apiService.postData).not.toHaveBeenCalled();
   });
-  it("returns an object with an error field if incorrect or missing credentials (the email is undefined or does not exist in database or if password is missing)", async function () {
+  xit("returns an object with an error field if incorrect or missing credentials (the email is undefined or does not exist in database or if password is missing)", async function () {
     let entries = [
       ["eve.hot@reqres.in", "cityslicka"],
       [undefined, ""],
@@ -33,7 +40,7 @@ describe("Login", function () {
     }
     expect(resultsArray).toHaveSize(0);
   });
-  it("throws an error if request could not be completed", async function () {
+  xit("throws an error if request could not be completed", async function () {
     let entries = [
       ["eve.holt@reqres.in", "cityslicka"],
       ["eve.holt@reqres.in", undefined],
