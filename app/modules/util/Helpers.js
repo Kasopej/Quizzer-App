@@ -153,6 +153,37 @@ export class HandlerHelpersClass extends HelperClass {
       }
     }
   }
+  validateEmails(emailsArray = []) {
+    let invalidEmail = emailsArray.find((email) => {
+      //loops over each email to check the number of at signs. There should be only one
+      email = email.trim();
+      let positionOfAtSign = -1;
+      let numberOfAtSign = 0;
+      while (
+        (positionOfAtSign = email.indexOf("@", positionOfAtSign + 1)) !== -1
+      ) {
+        numberOfAtSign++;
+      }
+      return (
+        //If an email conforms to any of these conditions, it is invalid
+        !email.includes(".") ||
+        email.includes("@.") ||
+        email.startsWith("@") ||
+        email.endsWith(".") ||
+        numberOfAtSign === 0 ||
+        numberOfAtSign > 1 ||
+        email === "" ||
+        email.includes(" ")
+      );
+    });
+    if (!invalidEmail) return true; //no invalid email
+  }
+  validatePassword(password) {
+    let goodPasswordRegex = new RegExp(
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+    );
+    return goodPasswordRegex.test(password);
+  }
 }
 
 export class UrlHelperClass extends HelperClass {

@@ -1,31 +1,36 @@
 import UiClass from "../Modules/ui/ui.js";
+import { HandlerHelpersClass } from "../Modules/util/helpers.js";
 import UserControl from "../Modules/util/user-control.js";
 import { LocalDataPersistenceClass } from "../services/persistent-service.js";
 import RouterService from "../services/router.js";
 
 //Initialize business logic classes
-export const userControl = new UserControl();
+const userControl = new UserControl();
+const handlerHelpers = new HandlerHelpersClass();
 
 const ui = new UiClass();
 const router = new RouterService();
 
 //get elements from DOM
-const loginUserNameInput = ui.getElements("#loginModal .userName")[0];
+const loginEmailInput = ui.getElements("#loginModal .email")[0];
 const loginPasswordInput = ui.getElements("#loginModal .password")[0];
 const loginButton = ui.getElements("#loginSubmit")[0];
+const signUpEmailInput = ui.getElements("#signupModal .email")[0];
+const signUpPasswordInput = ui.getElements("#signupModal .password")[0];
+const signUpButton = ui.getElements("#signupSubmit")[0];
 const modalTriggers = ui.getElements(".openModal a");
 const modals = ui.getElements(".cusModal");
 const showPasswordToggles = ui.getElements("input[type='password'] + span");
 const localDataPersistenceService = new LocalDataPersistenceClass();
 
 ui.addEventListenerToElements(
-  [loginButton],
-  ["click"],
+  [loginButton, signUpButton],
+  ["click", "click"],
   [
     async function (event) {
       event.preventDefault();
       let loginEntries = ui.getInputValue([
-        loginUserNameInput,
+        loginEmailInput,
         loginPasswordInput,
       ]);
       const loginResult = await userControl.login(
@@ -40,6 +45,22 @@ ui.addEventListenerToElements(
       } else {
         alert("Incorrect login credentials");
       }
+    },
+    async function (event) {
+      event.preventDefault();
+      let signUpEntries = ui.getInputValue([
+        signUpEmailInput,
+        signUpPasswordInput,
+      ]);
+      if (
+        handlerHelpers.validateEmails([signUpEntries[0]]) &&
+        handlerHelpers.validatePassword(signUpEntries[1])
+      ) {
+        const signUpResult = await userControl.register(
+          signUpEntries[0],
+          signUpEntries[1]
+        );
+      } else alert("Invalid registration");
     },
   ]
 );

@@ -1,10 +1,12 @@
+import { HandlerHelpersClass } from "../../Modules/util/helpers.js";
 import UserControl from "../../Modules/util/user-control.js";
 import { apiService } from "../../Modules/util/user-control.js";
 describe("Register is a function that registers new admins with the following conditions", function () {
-  let resultsArray, userControl;
+  let resultsArray, userControl, handlerHelpers;
   beforeEach(function () {
     resultsArray = [];
     userControl = new UserControl();
+    handlerHelpers = new HandlerHelpersClass();
     spyOn(apiService, "postData").and.callThrough();
   });
   it("it does not register the admins if the provided data does not fit the set format(s)", async function () {
@@ -14,12 +16,17 @@ describe("Register is a function that registers new admins with the following co
     */
     let entries = [
       ["eve.holt.in", "cityslicka"],
-      ["michael.lawson@reqres.in", "1yhhdhghto"],
+      ["michael.lawson@reqres.in", "1yhhdR%ghto"],
       ["lindsay.ferguson@reqres.in", "gHshhd"],
     ];
     for (const entry of entries) {
-      let loginResult = await userControl.register(entry[0], entry[1]);
-      if (loginResult) resultsArray.push(loginResult);
+      if (
+        handlerHelpers.validateEmails([entry[0]]) &&
+        handlerHelpers.validatePassword(entry[0])
+      ) {
+        let loginResult = await userControl.register(entry[0], entry[1]);
+        if (loginResult) resultsArray.push(loginResult);
+      }
     }
     expect(apiService.postData).not.toHaveBeenCalled();
   });

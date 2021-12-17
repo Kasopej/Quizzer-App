@@ -161,6 +161,7 @@ function processEmailEntries(candidatesEmails) {
   candidatesEmails = candidatesEmails.trim();
   const candidatesEmailsArray = candidatesEmails.split(",");
   //Find any invalid emails
+  /*
   let invalidEmail = candidatesEmailsArray.find((email) => {
     //loops over each email to check the number of at signs. There should be only one
     email = email.trim();
@@ -183,9 +184,13 @@ function processEmailEntries(candidatesEmails) {
       email.includes(" ")
     );
   });
+  */
 
   //If email(s) all successfully validated, create links for them. Link elements when clicked should call function to copy unique configuration link to clipboard.
-  if (candidatesEmails && !invalidEmail) {
+  if (
+    candidatesEmails &&
+    handlerHelpers.validateEmails(candidatesEmailsArray)
+  ) {
     let index = 0;
     for (let candidateEmail of candidatesEmailsArray) {
       candidateEmail = candidateEmail.trim();
