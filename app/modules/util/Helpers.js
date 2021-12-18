@@ -172,11 +172,12 @@ export class HandlerHelpersClass extends HelperClass {
         email.endsWith(".") ||
         numberOfAtSign === 0 ||
         numberOfAtSign > 1 ||
-        email === "" ||
-        email.includes(" ")
+        email == "" ||
+        email.includes(" ") ||
+        !(email instanceof String)
       );
     });
-    if (!invalidEmail) return true; //no invalid email
+    if (invalidEmail === undefined) return true; //no invalid email
   }
   validatePassword(password) {
     let goodPasswordRegex = new RegExp(
