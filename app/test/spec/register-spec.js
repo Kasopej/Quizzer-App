@@ -9,20 +9,22 @@ describe("Register is a function that registers new admins with the following co
     handlerHelpers = new HandlerHelpersClass();
     spyOn(apiService, "postData").and.callThrough();
   });
-  it("it does not register the admins if the provided data does not fit the set format(s)", async function () {
+  it("it does not register the admins if the provided email & password does not fit the set format(s), or if they are not provided", async function () {
     /*
     Email must be valid email format
     Password must contain at least one uppercase letter and at least one number, and be 10 characters long
     */
     let entries = [
       ["eve.holt.in", "cityslicka"],
-      ["michael.lawson@reqres.in", "1yhhdR%ghto"],
+      ["michael.lawson@reqres.in", "yhdddhR%o"],
       ["lindsay.ferguson@reqres.in", "gHshhd"],
+      ["", "1yfffhR%o"],
+      ["samuel.lanxin@reqres.in", ""],
     ];
     for (const entry of entries) {
       if (
         handlerHelpers.validateEmails([entry[0]]) &&
-        handlerHelpers.validatePassword(entry[0])
+        handlerHelpers.validatePassword(entry[1])
       ) {
         let loginResult = await userControl.register(entry[0], entry[1]);
         if (loginResult) resultsArray.push(loginResult);
@@ -30,7 +32,7 @@ describe("Register is a function that registers new admins with the following co
     }
     expect(apiService.postData).not.toHaveBeenCalled();
   });
-  xit("returns an object with an error field if incorrect or missing credentials (the email is undefined or does not exist in database or if password is missing)", async function () {
+  xit("it does not register the admin if the provided email already exists", async function () {
     let entries = [
       ["eve.hot@reqres.in", "cityslicka"],
       [undefined, ""],
