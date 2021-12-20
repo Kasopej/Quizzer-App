@@ -11,7 +11,7 @@ describe("Register is a function that registers new admins with the following co
   });
   it("it does not register the admins if the provided email & password does not fit the set format(s), or if they are not provided", async function () {
     /*
-    Email must be valid email format
+    Email must be string and in valid email format
     Password must contain at least one uppercase letter and at least one number, and be 10 characters long
     */
     let entries = [
@@ -19,7 +19,8 @@ describe("Register is a function that registers new admins with the following co
       ["michael.lawson@reqres.in", "yhdddhR%o"],
       ["lindsay.ferguson@reqres.in", "gHshhd"],
       ["", "1yfffhR%o"],
-      ["samuel.lanxin@reqres.in", ""],
+      ["samuel.lanxin@reqres.in", undefined],
+      [{}, "1yfffhR%o"],
     ];
     for (const entry of entries) {
       if (
@@ -32,31 +33,40 @@ describe("Register is a function that registers new admins with the following co
     }
     expect(apiService.postData).not.toHaveBeenCalled();
   });
-  xit("it does not register the admin if the provided email already exists", async function () {
-    let entries = [
-      ["eve.hot@reqres.in", "cityslicka"],
-      [undefined, ""],
-      [null, "cityslicka"],
-      [NaN, "cityslicka"],
-      ["eve.holt@reqres.in", ""],
-      ["eve.holt@reqres.in", null],
-      ["eve.holt@reqres.in", undefined],
-      [undefined, undefined],
-    ];
+  it("it does not register the admin if the provided email already exists", async function () {
+    let entries = [["eve.holt@reqres.in", "cityslicka"]];
     for (const entry of entries) {
-      let loginResult = await new UserControl().login(entry[0], entry[1]);
-      if (loginResult) resultsArray.push(loginResult);
+      if (
+        handlerHelpers.validateEmails([entry[0]]) &&
+        handlerHelpers.validatePassword(entry[1])
+      ) {
+        if (!userControl.isEmailAlreadyRegistered(entry[0])) {
+          let registerationResult = await userControl.register(
+            entry[0],
+            entry[1]
+          );
+          if (registerationResult) resultsArray.push(registerationResult);
+        }
+      }
     }
-    expect(resultsArray).toHaveSize(0);
+    expect(apiService.postData).not.toHaveBeenCalled();
   });
-  xit("throws an error if request could not be completed", async function () {
-    let entries = [
-      ["eve.holt@reqres.in", "cityslicka"],
-      ["eve.holt@reqres.in", undefined],
-      [undefined, "cityslicka"],
-    ];
-    await expectAsync(
-      new UserControl().login(entries[0], entries[1])
-    ).not.toBeRejected();
+  it("return an object with a token field when correct login credentials are passed", async function () {
+    let entries = [["eve.holt@reqres.in", "2tttffhR%o"]];
+    for (const entry of entries) {
+      if (
+        handlerHelpers.validateEmails([entry[0]]) &&
+        handlerHelpers.validatePassword(entry[1])
+      ) {
+        if (!userControl.isEmailAlreadyRegistered(entry[0])) {
+          let registerationResult = await userControl.register(
+            entry[0],
+            entry[1]
+          );
+          if (registerationResult) resultsArray.push(registerationResult);
+        }
+      }
+    }
+    expect(resultsArray).toHaveSize(entries.length);
   });
 });

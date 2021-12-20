@@ -3,11 +3,11 @@ import { HandlerHelpersClass } from "../Modules/util/helpers.js";
 import UserControl from "../Modules/util/user-control.js";
 import { LocalDataPersistenceClass } from "../services/persistent-service.js";
 import RouterService from "../services/router.js";
+import { LIST_USERS_URL } from "../Modules/util/url.js";
 
 //Initialize business logic classes
 const userControl = new UserControl();
 const handlerHelpers = new HandlerHelpersClass();
-
 const ui = new UiClass();
 const router = new RouterService();
 
@@ -22,6 +22,10 @@ const modalTriggers = ui.getElements(".openModal a");
 const modals = ui.getElements(".cusModal");
 const showPasswordToggles = ui.getElements("input[type='password'] + span");
 const localDataPersistenceService = new LocalDataPersistenceClass();
+
+//make API calls
+localDataPersistenceService.removeData("allUserAccounts");
+userControl.getAndSaveAllUsers(LIST_USERS_URL + 1);
 
 ui.addEventListenerToElements(
   [loginButton, signUpButton],
@@ -56,6 +60,7 @@ ui.addEventListenerToElements(
         handlerHelpers.validateEmails([signUpEntries[0]]) &&
         handlerHelpers.validatePassword(signUpEntries[1])
       ) {
+        if (userControl.isEmailAlreadyRegistered(signUpEntries[0])) return;
         const signUpResult = await userControl.register(
           signUpEntries[0],
           signUpEntries[1]

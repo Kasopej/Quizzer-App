@@ -7,6 +7,9 @@ export class LocalDataPersistenceClass extends PersistenceServiceClass {
   getData(key) {
     return JSON.parse(localStorage.getItem(key));
   }
+  removeData(key) {
+    localStorage.removeItem(key);
+  }
   clear() {
     localStorage.clear();
   }

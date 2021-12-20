@@ -155,8 +155,9 @@ export class HandlerHelpersClass extends HelperClass {
   }
   validateEmails(emailsArray = []) {
     let invalidEmail = emailsArray.find((email) => {
-      //loops over each email to check the number of at signs. There should be only one
+      if (typeof email !== "string") return true; //filters out email entries that are not strings
       email = email.trim();
+      //loops over each email to check the number of at(@) signs. There should be only one
       let positionOfAtSign = -1;
       let numberOfAtSign = 0;
       while (
@@ -173,8 +174,7 @@ export class HandlerHelpersClass extends HelperClass {
         numberOfAtSign === 0 ||
         numberOfAtSign > 1 ||
         email == "" ||
-        email.includes(" ") ||
-        !(email instanceof String)
+        email.includes(" ")
       );
     });
     if (invalidEmail === undefined) return true; //no invalid email
