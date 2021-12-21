@@ -6,6 +6,7 @@ import { QUESTIONS_URL } from "../modules/util/url.js";
 import { UrlHelperClass } from "../modules/util/helpers.js";
 import ApiServiceClass from "../services/api-service.js";
 import { SessionStoragePersistenceClass } from "../services/persistent-service.js";
+import { questionBag } from "./test.js";
 
 // Instantiate business logic classes
 const urlHelper = new UrlHelperClass();
@@ -26,6 +27,8 @@ if (!sessionStorageQuestions || !sessionStorageConfigData) {
   const params = urlHelper.getParamsFromQueryString(location.search.substr(1));
   quizzerData.updateConfigData(...Object.entries(params));
   sessionStoragePersistenceService.saveData("quizzer config data", params);
+
+  /*
   const questions = await apiService
     .fetchData(
       `${QUESTIONS_URL}${urlHelper.generateQuery(
@@ -41,10 +44,13 @@ if (!sessionStorageQuestions || !sessionStorageConfigData) {
       )}`
     )
     .then((data) => data.results);
+    
   quizzerData.updateData([
     "questions data",
     quizzerMiddleware.convertIncomingQuestionDataArray(questions),
   ]);
+  */
+  quizzerData.updateData(["questions data", questionBag]);
   sessionStoragePersistenceService.saveData(
     "questions data",
     quizzerData.getData("questions data")

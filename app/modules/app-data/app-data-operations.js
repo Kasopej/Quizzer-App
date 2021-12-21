@@ -84,7 +84,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
         this._totalTime = quantity * 10;
         break;
       case "medium":
-        this._totalTime = quantity * 20;
+        this._totalTime = quantity * 90;
         break;
       case "hard":
         this._totalTime = quantity * 30;
