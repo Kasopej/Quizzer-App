@@ -28,9 +28,32 @@ localDataPersistenceService.removeData("allUserAccounts");
 userControl.getAndSaveAllUsers(LIST_USERS_URL + 1);
 
 ui.addEventListenerToElements(
-  [loginButton, signUpButton],
-  ["click", "click"],
-  [(event) => startLogin(event), (event) => startSignup(event)]
+  [loginButton, signUpButton, signUpPasswordInput],
+  ["click", "click", "keyup"],
+  [
+    (event) => startLogin(event),
+    (event) => startSignup(event),
+    function () {
+      const passwordValidationTextElement = ui.getElements(
+        "#password-validation-message"
+      );
+      if (!handlerHelpers.validatePassword.call(null, this.value)) {
+        ui.replaceClassOnElements(passwordValidationTextElement, [
+          "success-message",
+          "failure-message",
+        ]);
+        ui.attachText(passwordValidationTextElement, [
+          "Weak password. password must contain a number [0-9], a special symbol [#,@,<,$ etc] and be at least 8 characters long",
+        ]);
+        return;
+      }
+      ui.replaceClassOnElements(passwordValidationTextElement, [
+        "failure-message",
+        "success-message",
+      ]);
+      ui.attachText(passwordValidationTextElement, ["strong password"]);
+    },
+  ]
 );
 
 ui.addEventListenerToElements(
