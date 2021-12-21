@@ -41,9 +41,7 @@ describe("Login", function () {
       ["eve.holt@reqres.in", undefined],
       [undefined, "cityslicka"],
     ];
-    await expectAsync(
-      userControl.login(entries[0], entries[1])
-    ).not.toBeRejected();
+    await expectAsync(userControl.login(entries[0], entries[1])).toBeRejected();
   });
   it("keeps the user logged in even with refresh", async function () {
     const localDataPersistenceService = new LocalDataPersistenceClass();
