@@ -22,11 +22,15 @@ const modalTriggers = ui.getElements(".openModal a");
 const modals = ui.getElements(".cusModal");
 const showPasswordToggles = ui.getElements("input[type='password'] + span");
 const localDataPersistenceService = new LocalDataPersistenceClass();
+const passwordValidationTextElement = ui.getElements(
+  "#password-validation-message"
+)[0];
 
 //make API calls
 localDataPersistenceService.removeData("allUserAccounts");
 userControl.getAndSaveAllUsers(LIST_USERS_URL + 1);
 
+//Add event listeners
 ui.addEventListenerToElements(
   [loginButton, signUpButton, signUpPasswordInput],
   ["click", "click", "keyup"],
@@ -34,24 +38,7 @@ ui.addEventListenerToElements(
     (event) => startLogin(event),
     (event) => startSignup(event),
     function () {
-      const passwordValidationTextElement = ui.getElements(
-        "#password-validation-message"
-      );
-      if (!handlerHelpers.validatePassword.call(null, this.value)) {
-        ui.replaceClassOnElements(passwordValidationTextElement, [
-          "success-message",
-          "failure-message",
-        ]);
-        ui.attachText(passwordValidationTextElement, [
-          "Weak password. password must contain a number [0-9], a special symbol [#,@,<,$ etc] and be at least 8 characters long",
-        ]);
-        return;
-      }
-      ui.replaceClassOnElements(passwordValidationTextElement, [
-        "failure-message",
-        "success-message",
-      ]);
-      ui.attachText(passwordValidationTextElement, ["strong password"]);
+      ui.displayPasswordValidationResult(this, passwordValidationTextElement);
     },
   ]
 );
@@ -93,22 +80,25 @@ ui.addEventListenerToElements(
   ]
 );
 
+//If a user is already signed in, route to dashboard page
 if (userControl.checkIfUserIsSignedIn()) {
   router.goToRoute("dashboard.html");
 }
+
 async function startLogin(event) {
   event.preventDefault();
   let loginEntries = ui.getInputValue([loginEmailInput, loginPasswordInput]);
   ui.attachText([loginButton], ["logging in..."]);
   const loginResult = await userControl.login(loginEntries[0], loginEntries[1]);
   if (loginResult) {
+    //if login successful, save logged in user details to local storage
     localDataPersistenceService.saveData("loginStatus", {
       [loginEntries[0]]: loginResult,
     });
     router.goToRoute("dashboard.html");
   } else {
     ui.attachText([loginButton], ["Login"]);
-    displayAlert("Incorrect login credentials");
+    ui.displayAlert("Incorrect login credentials");
   }
 }
 
@@ -119,24 +109,23 @@ async function startSignup(event) {
     handlerHelpers.validateEmails([signUpEntries[0]]) &&
     handlerHelpers.validatePassword(signUpEntries[1])
   ) {
-    if (userControl.isEmailAlreadyRegistered(signUpEntries[0])) {
-      displayAlert("Email is already registered");
-      return;
-    }
+    //if email & password are validated, attempt to register admin
     ui.attachText([signUpButton], ["registering..."]);
     const signUpResult = await userControl.register(
       signUpEntries[0],
       signUpEntries[1]
     );
+    if (!signUpResult) {
+      ui.displayAlert(
+        "Registeration failed. Please check your network & try again"
+      );
+    }
   } else {
-    displayAlert("Please check email & password provided");
+    ui.displayAlert("Please check email & password provided");
   }
   ui.attachText([signUpButton], ["Signup"]);
 }
-function displayAlert(text) {
-  ui.addClassToElements([ui.getElements("#infoAlert")[0]], "d-block");
-  ui.attachText(ui.getElements(".infoText"), [text]);
-}
+
 function openModal(id) {
   for (let i = 0; i < modals.length; i++) {
     if (modals[i].id == id) {

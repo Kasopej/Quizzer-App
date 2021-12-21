@@ -1,10 +1,11 @@
 import UserControl from "../../Modules/util/user-control.js";
 import { LocalDataPersistenceClass } from "../../services/persistent-service.js";
-describe("Login", function () {
+describe("Login is a method that logs in admins, with the following conditions:", function () {
   let resultsArray, userControl;
   beforeEach(function () {
     resultsArray = [];
     userControl = new UserControl();
+    spyOn(userControl, "login").and.callThrough();
   });
   it("return an object with a token field when correct login credentials are passed", async function () {
     let entries = [
@@ -18,7 +19,7 @@ describe("Login", function () {
     }
     expect(resultsArray).toHaveSize(entries.length);
   });
-  it("returns an object with an error field if incorrect or missing credentials (the email is undefined or does not exist in database or if password is missing)", async function () {
+  it("returns false if there are incorrect or missing credentials (the email is undefined or does not exist in database or if password is empty)", async function () {
     let entries = [
       ["eve.hot@reqres.in", "cityslicka"],
       [undefined, ""],
@@ -30,12 +31,12 @@ describe("Login", function () {
       [undefined, undefined],
     ];
     for (const entry of entries) {
-      let loginResult = await userControl.login(entry[0], entry[1]);
+      let loginResult = await userControl.login(entry[0], entry[1]); //should return false
       if (loginResult) resultsArray.push(loginResult);
     }
     expect(resultsArray).toHaveSize(0);
   });
-  it("throws an error if request could not be completed", async function () {
+  it("throws an error if request could not be completed (Failed connection)", async function () {
     let entries = [
       ["eve.holt@reqres.in", "cityslicka"],
       ["eve.holt@reqres.in", undefined],
@@ -44,8 +45,8 @@ describe("Login", function () {
     await expectAsync(userControl.login(entries[0], entries[1])).toBeRejected();
   });
   it("keeps the user logged in even with refresh", async function () {
+    //This test may fail the first time it is ran i.e if no user is currently logged in
     const localDataPersistenceService = new LocalDataPersistenceClass();
-    spyOn(userControl, "login").and.callThrough();
     if (!userControl.checkIfUserIsSignedIn()) {
       localDataPersistenceService.saveData("loginStatus", {
         "eve.holt@reqres.in": await userControl.login(

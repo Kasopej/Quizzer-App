@@ -137,6 +137,32 @@ export class UiCommandHelperClass extends HelperClass {
       }
     }
   }
+  displayPasswordValidationResult(
+    caller,
+    passwordInputElement,
+    passwordValidationTextElement
+  ) {
+    if (
+      !new HandlerHelpersClass().validatePassword(passwordInputElement.value)
+    ) {
+      caller.replaceClassOnElements(
+        [passwordValidationTextElement],
+        ["success-message", "failure-message"]
+      );
+      caller.attachText(
+        [passwordValidationTextElement],
+        [
+          "Weak password. password must contain a number [0-9], a special symbol [#,@,<,$ etc] and be at least 8 characters long",
+        ]
+      );
+      return;
+    }
+    caller.replaceClassOnElements(
+      [passwordValidationTextElement],
+      ["failure-message", "success-message"]
+    );
+    caller.attachText([passwordValidationTextElement], ["strong password"]);
+  }
 }
 
 export class HandlerHelpersClass extends HelperClass {

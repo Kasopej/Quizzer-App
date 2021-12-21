@@ -275,4 +275,18 @@ export default class UiClass {
       ranges
     );
   }
+  displayAlert(text) {
+    this.addClassToElements([this.getElements("#infoAlert")[0]], "d-block");
+    this.attachText(this.getElements(".infoText"), [text]);
+  }
+  displayPasswordValidationResult(
+    passwordInputElement,
+    passwordValidationTextElement
+  ) {
+    this.helper.displayPasswordValidationResult(
+      this,
+      passwordInputElement,
+      passwordValidationTextElement
+    );
+  }
 }
