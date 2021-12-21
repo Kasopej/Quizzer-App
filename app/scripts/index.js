@@ -30,44 +30,7 @@ userControl.getAndSaveAllUsers(LIST_USERS_URL + 1);
 ui.addEventListenerToElements(
   [loginButton, signUpButton],
   ["click", "click"],
-  [
-    async function (event) {
-      event.preventDefault();
-      let loginEntries = ui.getInputValue([
-        loginEmailInput,
-        loginPasswordInput,
-      ]);
-      const loginResult = await userControl.login(
-        loginEntries[0],
-        loginEntries[1]
-      );
-      if ("token" in loginResult) {
-        localDataPersistenceService.saveData("loginStatus", {
-          [loginEntries[0]]: loginResult,
-        });
-        router.goToRoute("dashboard.html");
-      } else {
-        alert("Incorrect login credentials");
-      }
-    },
-    async function (event) {
-      event.preventDefault();
-      let signUpEntries = ui.getInputValue([
-        signUpEmailInput,
-        signUpPasswordInput,
-      ]);
-      if (
-        handlerHelpers.validateEmails([signUpEntries[0]]) &&
-        handlerHelpers.validatePassword(signUpEntries[1])
-      ) {
-        if (userControl.isEmailAlreadyRegistered(signUpEntries[0])) return;
-        const signUpResult = await userControl.register(
-          signUpEntries[0],
-          signUpEntries[1]
-        );
-      } else alert("Invalid registration");
-    },
-  ]
+  [(event) => startLogin(event), (event) => startSignup(event)]
 );
 
 ui.addEventListenerToElements(
@@ -90,6 +53,34 @@ ui.addEventListenerToElements(
 
 if (userControl.checkIfUserIsSignedIn()) {
   router.goToRoute("dashboard.html");
+}
+async function startLogin(event) {
+  event.preventDefault();
+  let loginEntries = ui.getInputValue([loginEmailInput, loginPasswordInput]);
+  const loginResult = await userControl.login(loginEntries[0], loginEntries[1]);
+  if (loginResult) {
+    localDataPersistenceService.saveData("loginStatus", {
+      [loginEntries[0]]: loginResult,
+    });
+    router.goToRoute("dashboard.html");
+  } else {
+    alert("Incorrect login credentials");
+  }
+}
+
+async function startSignup(event) {
+  event.preventDefault();
+  let signUpEntries = ui.getInputValue([signUpEmailInput, signUpPasswordInput]);
+  if (
+    handlerHelpers.validateEmails([signUpEntries[0]]) &&
+    handlerHelpers.validatePassword(signUpEntries[1])
+  ) {
+    if (userControl.isEmailAlreadyRegistered(signUpEntries[0])) return;
+    const signUpResult = await userControl.register(
+      signUpEntries[0],
+      signUpEntries[1]
+    );
+  } else alert("Please check the email & password provided");
 }
 function openModal(id) {
   for (let i = 0; i < modals.length; i++) {
