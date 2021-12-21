@@ -74,6 +74,25 @@ ui.addEventListenerToElements(
   [togglePassword]
 );
 
+ui.addEventListenerToElements(
+  [ui.getElements("#closeInfoAlert")[0]],
+  ["click"],
+  [
+    function () {
+      ui.removeClassFromElements([ui.getElements("#infoAlert")[0]], "d-block");
+    },
+  ]
+);
+ui.addEventListenerToElements(
+  [ui.getElements("#infoAlert")[0]],
+  ["click"],
+  [
+    function () {
+      ui.removeClassFromElements([ui.getElements("#infoAlert")[0]], "d-block");
+    },
+  ]
+);
+
 if (userControl.checkIfUserIsSignedIn()) {
   router.goToRoute("dashboard.html");
 }
@@ -89,7 +108,7 @@ async function startLogin(event) {
     router.goToRoute("dashboard.html");
   } else {
     ui.attachText([loginButton], ["Login"]);
-    alert("Incorrect login credentials");
+    displayAlert("Incorrect login credentials");
   }
 }
 
@@ -100,14 +119,23 @@ async function startSignup(event) {
     handlerHelpers.validateEmails([signUpEntries[0]]) &&
     handlerHelpers.validatePassword(signUpEntries[1])
   ) {
-    if (userControl.isEmailAlreadyRegistered(signUpEntries[0])) return;
+    if (userControl.isEmailAlreadyRegistered(signUpEntries[0])) {
+      displayAlert("Email is already registered");
+      return;
+    }
     ui.attachText([signUpButton], ["registering..."]);
     const signUpResult = await userControl.register(
       signUpEntries[0],
       signUpEntries[1]
     );
-  } else alert("Please check the email & password provided");
+  } else {
+    displayAlert("Please check email & password provided");
+  }
   ui.attachText([signUpButton], ["Signup"]);
+}
+function displayAlert(text) {
+  ui.addClassToElements([ui.getElements("#infoAlert")[0]], "d-block");
+  ui.attachText(ui.getElements(".infoText"), [text]);
 }
 function openModal(id) {
   for (let i = 0; i < modals.length; i++) {

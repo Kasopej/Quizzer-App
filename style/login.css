@@ -181,6 +181,76 @@
   -ms-flex-pack: center;
   justify-content: center;
 }
+.infoAlert{
+  display: none;
+  text-align: center;
+  justify-content: center;
+  position: fixed; /* Stay in place */
+  z-index: 3000; /* Sit on top */
+  padding: 50px; /* Location of the box */
+  width: 100%; /* Full width */
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.d-block{display: block;}
+/*
+@media(max-width:850px){
+.infoAlert{
+   width:50% ;
+}   
+}
+@media(max-width:600px){
+  .infoAlert{
+      width:70% ;
+  }    
+  .infoText{
+      font-size: 16px !important;
+  }
+  .close{
+      right: 60px !important;
+  }
+}
+*/
+.infoChild{
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  right: 100px;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+.animated {
+  animation-duration: 1.5s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+  40% {transform: translateY(-30px);}
+  60% {transform: translateY(-15px);}
+}
+.bounce {
+  animation-name: bounce;
+}
 #password-validation-message{margin-top: 30px; font-size: 10px;}
 .success-message{color: green;}
 .failure-message{color: red;}
