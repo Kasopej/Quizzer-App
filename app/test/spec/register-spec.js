@@ -36,7 +36,7 @@ describe("Register is a method that registers new admins with the following cond
     }
     expect(apiService.postData).not.toHaveBeenCalled();
   });
-  it("it does not post data if the admin if the provided email already exists", async function () {
+  it("it does not post data if the provided email already exists", async function () {
     let entries = [
       ["eve.holt@reqres.in", "cl2&Dcka"],
       ["george.bluth@reqres.in", "touGhb0y$"],

@@ -26,9 +26,8 @@ const passwordValidationTextElement = ui.getElements(
   "#password-validation-message"
 )[0];
 
-//make API calls
 localDataPersistenceService.removeData("allUserAccounts");
-userControl.getAndSaveAllUsers(LIST_USERS_URL + 1);
+await userControl.getAndSaveAllUsers(LIST_USERS_URL + 1);
 
 //Add event listeners
 ui.addEventListenerToElements(
