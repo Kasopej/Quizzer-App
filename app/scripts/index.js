@@ -80,6 +80,7 @@ if (userControl.checkIfUserIsSignedIn()) {
 async function startLogin(event) {
   event.preventDefault();
   let loginEntries = ui.getInputValue([loginEmailInput, loginPasswordInput]);
+  ui.attachText([loginButton], ["logging in..."]);
   const loginResult = await userControl.login(loginEntries[0], loginEntries[1]);
   if (loginResult) {
     localDataPersistenceService.saveData("loginStatus", {
@@ -87,6 +88,7 @@ async function startLogin(event) {
     });
     router.goToRoute("dashboard.html");
   } else {
+    ui.attachText([loginButton], ["Login"]);
     alert("Incorrect login credentials");
   }
 }
@@ -99,11 +101,13 @@ async function startSignup(event) {
     handlerHelpers.validatePassword(signUpEntries[1])
   ) {
     if (userControl.isEmailAlreadyRegistered(signUpEntries[0])) return;
+    ui.attachText([signUpButton], ["registering..."]);
     const signUpResult = await userControl.register(
       signUpEntries[0],
       signUpEntries[1]
     );
   } else alert("Please check the email & password provided");
+  ui.attachText([signUpButton], ["Signup"]);
 }
 function openModal(id) {
   for (let i = 0; i < modals.length; i++) {

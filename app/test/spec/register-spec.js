@@ -35,7 +35,10 @@ describe("Register is a function that registers new admins with the following co
     expect(apiService.postData).not.toHaveBeenCalled();
   });
   it("it does not register the admin if the provided email already exists", async function () {
-    let entries = [["eve.holt@reqres.in", "cityslicka"]];
+    let entries = [
+      ["eve.holt@reqres.in", "cityslicka"],
+      ["george.bluth@reqres.in", "toooughboys"],
+    ];
     for (const entry of entries) {
       if (
         handlerHelpers.validateEmails([entry[0]]) &&
@@ -48,8 +51,11 @@ describe("Register is a function that registers new admins with the following co
     }
     expect(userControl.register).not.toHaveBeenCalled();
   });
-  it("return an object with a token field when correct login credentials are passed", async function () {
-    let entries = [["adam.don@reqres.in", "2tytffhR%o"]];
+  it("return an object when correct registeration credentials are passed", async function () {
+    let entries = [
+      ["adam.don@reqres.in", "2tytffhR%o"],
+      ["sola.johnson@smartflow.in", "Dt5tffhR%o"],
+    ];
     for (const entry of entries) {
       if (
         handlerHelpers.validateEmails([entry[0]]) &&
