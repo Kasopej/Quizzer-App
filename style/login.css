@@ -278,6 +278,9 @@
 .failure-message {
   color: red;
 }
+.CopyrightText {
+  font-size: 15px;
+}
 @media (max-width: 480px) {
   .CopyrightText {
     font-size: 13px;
