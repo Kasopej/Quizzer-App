@@ -180,27 +180,21 @@ export class HandlerHelpersClass extends HelperClass {
     }
   }
   validateEmails(emailsArray = []) {
+    let invalidEmailCharactersRegex = new RegExp("^(?=.*[!#$%^&*])");
     let invalidEmail = emailsArray.find((email) => {
       if (typeof email !== "string") return true; //filters out email entries that are not strings
       email = email.trim();
-      //loops over each email to check the number of at(@) signs. There should be only one
-      let positionOfAtSign = -1;
-      let numberOfAtSign = 0;
-      while (
-        (positionOfAtSign = email.indexOf("@", positionOfAtSign + 1)) !== -1
-      ) {
-        numberOfAtSign++;
-      }
       return (
         //If an email conforms to any of these conditions, it is invalid
         !email.includes(".") ||
         email.includes("@.") ||
         email.startsWith("@") ||
+        email.startsWith(".") ||
         email.endsWith(".") ||
-        numberOfAtSign === 0 ||
-        numberOfAtSign > 1 ||
+        !email.includes("@") ||
         email == "" ||
-        email.includes(" ")
+        email.includes(" ") ||
+        invalidEmailCharactersRegex.test(email)
       );
     });
     if (invalidEmail === undefined) return true; //no invalid email
@@ -210,6 +204,22 @@ export class HandlerHelpersClass extends HelperClass {
       "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
     );
     return goodPasswordRegex.test(password);
+  }
+  preventSuccessiveIdenticalCharacterEntry(char) {
+    let position = 0;
+    while (position < this.value.length) {
+      let charPosition = this.value.indexOf(char, position);
+      if (charPosition !== -1) {
+        if (charPosition === position) {
+          if (!this.value.startsWith(char) && charPosition === 1) continue;
+          this.value =
+            this.value.slice(0, charPosition) +
+            this.value.slice(charPosition + 1);
+          --charPosition;
+        }
+        position = charPosition + 1;
+      } else break;
+    }
   }
 }
 

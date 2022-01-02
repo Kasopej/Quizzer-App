@@ -32,6 +32,7 @@ const timingOptionElements = Array.from(ui.getElements("#timingSelect option"));
 const submitButtonElement = ui.getElements("#submitBtn")[0];
 const testExpirationDateElement = ui.getElements("#expiryDate")[0];
 const modalBodyElement = ui.getElements("#quiz-link-modal p")[0];
+const emailTextAreaElement = ui.getElements("#candidatesEmails")[0];
 
 //Make call for categories and attach them to category form element
 quizzerData.updateData([
@@ -104,7 +105,7 @@ function save_UI_Config_Entries(event) {
   const selectedTimingOptionElement =
     timingOptionElements[timingSelectElement.selectedIndex];
   let [candidatesEmails, numberOfQuestions] = ui.getInputValue([
-    ui.getElements("#candidatesEmails")[0],
+    emailTextAreaElement,
     questionQtyInputElement,
   ]);
   //save actions
@@ -160,32 +161,6 @@ function processEmailEntries(candidatesEmails) {
 
   candidatesEmails = candidatesEmails.trim();
   const candidatesEmailsArray = candidatesEmails.split(",");
-  //Find any invalid emails
-  /*
-  let invalidEmail = candidatesEmailsArray.find((email) => {
-    //loops over each email to check the number of at signs. There should be only one
-    email = email.trim();
-    let positionOfAtSign = -1;
-    let numberOfAtSign = 0;
-    while (
-      (positionOfAtSign = email.indexOf("@", positionOfAtSign + 1)) !== -1
-    ) {
-      numberOfAtSign++;
-    }
-    return (
-      //If an email conforms to any of these conditions, it is invalid
-      !email.includes(".") ||
-      email.includes("@.") ||
-      email.startsWith("@") ||
-      email.endsWith(".") ||
-      numberOfAtSign === 0 ||
-      numberOfAtSign > 1 ||
-      email === "" ||
-      email.includes(" ")
-    );
-  });
-  */
-
   //If email(s) all successfully validated, create links for them. Link elements when clicked should call function to copy unique configuration link to clipboard.
   if (
     candidatesEmails &&
@@ -202,7 +177,7 @@ function processEmailEntries(candidatesEmails) {
         ["href", "id"],
         ["#", index]
       );
-      quizzerData.mapConfigDataClone(index); //map clone of unique configuration data for current email by index
+      quizzerData.mapConfigDataClone(index); //map clone of unique configuration data (for current email) by index
       ui.addEventListenerToElements(
         [candidateEmailAnchorElement],
         ["click"],
@@ -254,8 +229,19 @@ ui.addEventListenerToElements(
     questionQtyInputElement,
     categorySelectElement,
     difficultySelectElement,
+    emailTextAreaElement,
   ],
-  ["click", "input", "change"],
-  [save_UI_Config_Entries, validateQuantityInput, checkAndValidateQuantityInput]
+  ["click", "input", "change", "change", "change"],
+  [
+    save_UI_Config_Entries,
+    validateQuantityInput,
+    checkAndValidateQuantityInput,
+    checkAndValidateQuantityInput,
+    function () {
+      handlerHelpers.preventSuccessiveIdenticalCharacterEntry.call(this, ".");
+      handlerHelpers.preventSuccessiveIdenticalCharacterEntry.call(this, ",");
+      handlerHelpers.preventSuccessiveIdenticalCharacterEntry.call(this, "@");
+    },
+  ]
 );
 checkAndValidateQuantityInput();
