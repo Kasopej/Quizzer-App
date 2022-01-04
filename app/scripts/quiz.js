@@ -83,7 +83,21 @@ if (+quizzerData.getConfigData("expiryDate") < new Date().valueOf()) {
 //Implement time countdown if test is timed
 if (quizzerDataOperation.checkIfQuizIsTimed()) {
   quizzerDataOperation.calcTotalTime();
-  quizzerDataOperation.updateAndRenderTimeLeft(ui.getElements("#timer")[0]);
+  quizzerDataOperation.calculateTimeLeft();
+  let interval = setInterval(() => {
+    if (quizzerData.getData("timeLeft")) {
+      ui.attachText(
+        [ui.getElements("#timer")[0]],
+        [
+          `${quizzerData.getData("timeLeft")[0]}m : ${
+            quizzerData.getData("timeLeft")[1]
+          }s`,
+        ]
+      );
+    } else {
+      clearInterval(interval);
+    }
+  }, 1000);
 }
 
 function renderQuizOnUI() {
@@ -128,10 +142,7 @@ function renderQuizOnUI() {
     [
       function () {
         //check if selected option is current and score, store attempt
-        quizzerDataOperation.checkAnswer(
-          ui.getInputValue([this])[0],
-          questionIndex
-        );
+        quizzerDataOperation.score(ui.getInputValue([this])[0], questionIndex);
         quizzerData.updateData(["currentQuestionAttempted", true]);
       },
     ]

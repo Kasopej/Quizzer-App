@@ -2,7 +2,6 @@
 import ApiServiceClass from "../../services/api-service.js";
 import { LocalDataPersistenceClass } from "../../services/persistent-service.js";
 import RouterService from "../../services/router.js";
-import UiClass from "../ui/ui.js";
 import {
   GLOBAL_QTY_OF_QUESTIONS_URL,
   QTY_OF_QUESTIONS_IN_CATEGORY_URL,
@@ -29,7 +28,6 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     if (data instanceof AppDataClass) {
       super();
       this.data = data;
-      this.ui = new UiClass();
       this.localDataService = new LocalDataPersistenceClass();
       this.router = new RouterService();
       //add fields to data storage map in AppData instance
@@ -49,14 +47,9 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     }
     //else get number of questions for specified category and also difficulty
     else {
-      /*
-      this.data.updateData([
-        "questionsCountInSelection",
-        */
       let selectedCategoryCountData = await apiService
         .fetchData(QTY_OF_QUESTIONS_IN_CATEGORY_URL + categoryId)
-        .then((data) => data.category_question_count); //,
-      //]);
+        .then((data) => data.category_question_count);
       switch (difficulty) {
         case "easy":
           this.data.updateData([
@@ -95,41 +88,34 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
     const quantity = this.data.getConfigData("amount");
     switch (difficulty) {
       case "easy":
-        this._totalTime = quantity * 10;
+        this.data.updateData(["totalTime", quantity * 10]);
         break;
       case "medium":
-        this._totalTime = quantity * 20;
+        this.data.updateData(["totalTime", quantity * 20]);
         break;
       case "hard":
-        this._totalTime = quantity * 30;
+        this.data.updateData(["totalTime", quantity * 30]);
         break;
       default:
-        this._totalTime = quantity * 20;
-        //Implement default timing
+        this.data.updateData(["totalTime", quantity * 20]);
         break;
     }
   }
-  updateAndRenderTimeLeft(element) {
+  calculateTimeLeft(element) {
     //Implement countdown, update time everysecond and render on ui. Toggle classes
+    let timeLeft = this.data.getData("totalTime");
     let timerId = setInterval(() => {
-      --this._totalTime;
-      let minutes = Math.floor(this._totalTime / 60);
-      let seconds = this._totalTime - minutes * 60;
-      let colorClasses = ["black-text", "red-text"];
-      let selectedIndex = Math.floor(Math.random() * 2);
-      let unselectedIndex = selectedIndex == 0 ? 1 : 0;
-      this.ui.attachText([element], [`${minutes}m : ${seconds}s`]);
-      this.ui.replaceClassOnElements(
-        [element],
-        [colorClasses[unselectedIndex], colorClasses[selectedIndex]]
-      );
-      if (this._totalTime == 0) {
+      --timeLeft;
+      let minutes = Math.floor(timeLeft / 60);
+      let seconds = timeLeft - minutes * 60;
+      this.data.updateData(["timeLeft", [minutes, seconds]]);
+      if (timeLeft == 0) {
         clearInterval(timerId);
         this.calculateScoresAndEndQuiz();
       }
     }, 1000);
   }
-  checkAnswer(selectedOption, questionId) {
+  score(selectedOption, questionId) {
     //compares selected option to correct answer in AppData instance. Updates score
     if (
       selectedOption == this.data.getData("questions data")[questionId].answerId
