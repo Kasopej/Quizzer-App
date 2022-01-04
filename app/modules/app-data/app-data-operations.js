@@ -37,37 +37,51 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
       this.data.updateData(["selected options", new Map()]);
     }
   }
-  async qtyOfQuestionsAvailable(categoryId, difficulty) {
+  async getQtyOfQuestionsAvailable(categoryId, difficulty) {
     if (+categoryId === 0) {
       //if categoryId is zero (all categories) get total number of questions
       this.data.updateData([
-        "globalQtyOfAvailableQuestions",
+        "questionsCountInSelection",
         await apiService
           .fetchData(GLOBAL_QTY_OF_QUESTIONS_URL)
           .then((data) => data.overall.total_num_of_verified_questions),
       ]);
-      return this.data.getData("globalQtyOfAvailableQuestions");
     }
     //else get number of questions for specified category and also difficulty
-    this.data.updateData([
-      "availableQuestionsInCategory",
-      await apiService
+    else {
+      /*
+      this.data.updateData([
+        "questionsCountInSelection",
+        */
+      let selectedCategoryCountData = await apiService
         .fetchData(QTY_OF_QUESTIONS_IN_CATEGORY_URL + categoryId)
-        .then((data) => data.category_question_count),
-    ]);
-    switch (difficulty) {
-      case "easy":
-        return this.data.getData("availableQuestionsInCategory")
-          .total_easy_question_count;
-      case "medium":
-        return this.data.getData("availableQuestionsInCategory")
-          .total_medium_question_count;
-      case "hard":
-        return this.data.getData("availableQuestionsInCategory")
-          .total_hard_question_count;
-      default:
-        return this.data.getData("availableQuestionsInCategory")
-          .total_question_count;
+        .then((data) => data.category_question_count); //,
+      //]);
+      switch (difficulty) {
+        case "easy":
+          this.data.updateData([
+            "questionsCountInSelection",
+            selectedCategoryCountData.total_easy_question_count,
+          ]);
+          break;
+        case "medium":
+          this.data.updateData([
+            "questionsCountInSelection",
+            selectedCategoryCountData.total_medium_question_count,
+          ]);
+          break;
+        case "hard":
+          this.data.updateData([
+            "questionsCountInSelection",
+            selectedCategoryCountData.total_hard_question_count,
+          ]);
+          break;
+        default:
+          this.data.updateData([
+            "questionsCountInSelection",
+            selectedCategoryCountData.total_question_count,
+          ]);
+      }
     }
   }
   checkIfQuizIsTimed() {

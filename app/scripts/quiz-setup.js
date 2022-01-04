@@ -66,21 +66,19 @@ function checkAndValidateQuantityInput() {
   /*Checks number of questions available, based on current form selection. Prevents submission while checking 
   Then validates quantity selected by user to ensure it is not more than available quantity
   */
+  let selectedCategory =
+    categoryOptionElements[categorySelectElement.selectedIndex].value;
+  let selectedDifficulty =
+    difficultyOptionElements[difficultySelectElement.selectedIndex].value;
   ui.setAttributes([submitButtonElement], ["disabled"], [""]);
   quizzerDataOperation
-    .qtyOfQuestionsAvailable(
-      categoryOptionElements[categorySelectElement.selectedIndex].value,
-      difficultyOptionElements[difficultySelectElement.selectedIndex].value
-    )
-    .then((quantity) => {
+    .getQtyOfQuestionsAvailable(selectedCategory, selectedDifficulty)
+    .then(() => {
+      let quantity = quizzerData.getData("questionsCountInSelection");
       ui.attachText(
         [ui.getElements(".questionQuantityGroup .valid-feedback")[0]],
         [`Number of questions available: ${quantity}`]
       );
-      quizzerData.updateConfigData([
-        "numberOfQuestionsAvailableInSelection",
-        quantity,
-      ]);
       validateQuantityInput();
       ui.removeAttributes([submitButtonElement], ["disabled"]);
     });
@@ -89,7 +87,7 @@ function validateQuantityInput() {
   //Prevent user from exceeding limits for available number of questions
   handlerHelpers.limitNumericalEntry.call(
     questionQtyInputElement,
-    [quizzerData.getConfigData("numberOfQuestionsAvailableInSelection"), 1],
+    [quizzerData.getData("questionsCountInSelection"), 1],
     ["max", "min"]
   );
 }

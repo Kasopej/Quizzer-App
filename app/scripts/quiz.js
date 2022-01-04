@@ -31,13 +31,7 @@ if (!sessionStorageQuestions || !sessionStorageConfigData) {
       `${QUESTIONS_URL}${urlHelper.generateQuery(
         Object.entries(quizzerData.getConfigData()),
         true,
-        [
-          "numberOfQuestionsAvailableInSelection",
-          "candidateEmail",
-          "categoryName",
-          "timing",
-          "expiryDate",
-        ]
+        ["candidateEmail", "categoryName", "timing", "expiryDate"]
       )}`
     )
     .then((data) => data.results);
