@@ -108,10 +108,10 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
       --timeLeft;
       let minutes = Math.floor(timeLeft / 60);
       let seconds = timeLeft - minutes * 60;
-      this.data.updateData(["timeLeft", [minutes, seconds]]);
+      this.data.updateData(["timeLeftArray", [minutes, seconds]]);
       if (timeLeft == 0) {
         clearInterval(timerId);
-        this.calculateScoresAndEndQuiz();
+        this.totalScoresAndSaveResult();
       }
     }, 1000);
   }
@@ -131,7 +131,7 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
   }
   getAnswer() {}
   getCategories() {}
-  calculateScoresAndEndQuiz() {
+  totalScoresAndSaveResult() {
     //Actions to end quiz. Calculates total scores from scores saved in AppData instance, saves result & test data in local storage and redirects to finish quiz page
     let candidateEmail = this.data
       .getConfigData("candidateEmail")
@@ -157,6 +157,5 @@ export class QuizzerDataOperationsClass extends AppDataOperationsClass {
       }`,
     });
     this.localDataService.saveData("resultsData", resultsArray);
-    this.router.redirect("quiz-finished.html");
   }
 }

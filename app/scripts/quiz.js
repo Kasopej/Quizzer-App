@@ -6,6 +6,7 @@ import { QUESTIONS_URL } from "../modules/util/url.js";
 import { UrlHelperClass } from "../modules/util/helpers.js";
 import ApiServiceClass from "../services/api-service.js";
 import { SessionStoragePersistenceClass } from "../services/persistent-service.js";
+import RouterService from "../services/router.js";
 
 // Instantiate business logic classes
 const urlHelper = new UrlHelperClass();
@@ -20,6 +21,7 @@ const sessionStorageQuestions =
 const sessionStorageConfigData = sessionStoragePersistenceService.getData(
   "quizzer config data"
 );
+const router = new RouterService();
 
 //Call for questions from API if not saved in session storage. Remove splash screen if questions called & saved in app(quizzer) data successfully
 if (!sessionStorageQuestions || !sessionStorageConfigData) {
@@ -85,17 +87,16 @@ if (quizzerDataOperation.checkIfQuizIsTimed()) {
   quizzerDataOperation.calcTotalTime();
   quizzerDataOperation.calculateTimeLeft();
   let interval = setInterval(() => {
-    if (quizzerData.getData("timeLeft")) {
+    let timeLeftArray = quizzerData.getData("timeLeftArray");
+    if (timeLeftArray[0] || timeLeftArray[1]) {
       ui.attachText(
         [ui.getElements("#timer")[0]],
-        [
-          `${quizzerData.getData("timeLeft")[0]}m : ${
-            quizzerData.getData("timeLeft")[1]
-          }s`,
-        ]
+        [`${timeLeftArray[0]}m : ${timeLeftArray[1]}s`]
       );
     } else {
-      clearInterval(interval);
+      setTimeout(() => {
+        router.redirect("quiz-finished.html");
+      }, 1000);
     }
   }, 1000);
 }
@@ -214,7 +215,8 @@ ui.addEventListenerToElements(
   [
     function (event) {
       if (quizzerData.getData("currentQuestionAttempted")) {
-        quizzerDataOperation.calculateScoresAndEndQuiz();
+        quizzerDataOperation.totalScoresAndSaveResult();
+        router.redirect("quiz-finished.html");
       } else {
         ui.addClassToElements([ui.getElements("#infoAlert")[0]], "d-block");
       }
