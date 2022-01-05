@@ -19,7 +19,8 @@ const scoreInputs = ui.getElements("#scoreModal input");
 
 let filteredResultsElementsArray = [];
 //const categories = await apiService.fetchData(CATEGORIES_URL).then(data => data.trivia_categories);
-const results = localDataPersistenceService.getData("resultsData");
+let results = localDataPersistenceService.getData("resultsData");
+if (!results) results = [];
 //Create and store table elements for exact number of result objects available
 let resultsElementsArray = ui.createElements(
   ..."tr ".repeat(results.length).split(" ").slice(0, results.length)
