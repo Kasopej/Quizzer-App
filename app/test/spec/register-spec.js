@@ -1,13 +1,13 @@
-import { HandlerHelpersClass } from "../../Modules/util/helpers.js";
+import { InputValidationHelpersClass } from "../../Modules/util/helpers.js";
 import UserControl from "../../Modules/util/user-control.js";
 import { apiService, ui } from "../../Modules/util/user-control.js";
 
 describe("Register is a method that registers new admins with the following conditions:", function () {
-  let resultsArray, userControl, handlerHelpers;
+  let resultsArray, userControl, inputValidationHelpers;
   beforeEach(function () {
     resultsArray = [];
     userControl = new UserControl();
-    handlerHelpers = new HandlerHelpersClass();
+    inputValidationHelpers = new InputValidationHelpersClass();
     spyOn(userControl, "register").and.callThrough();
     spyOn(apiService, "postData").and.callThrough();
     spyOn(ui, "displayAlert");
@@ -27,8 +27,8 @@ describe("Register is a method that registers new admins with the following cond
     ];
     for (const entry of entries) {
       if (
-        handlerHelpers.validateEmails([entry[0]]) &&
-        handlerHelpers.validatePassword(entry[1])
+        inputValidationHelpers.validateEmails([entry[0]]) &&
+        inputValidationHelpers.validatePassword(entry[1])
       ) {
         let loginResult = await userControl.register(entry[0], entry[1]);
         if (loginResult) resultsArray.push(loginResult);
@@ -43,8 +43,8 @@ describe("Register is a method that registers new admins with the following cond
     ];
     for (const entry of entries) {
       if (
-        handlerHelpers.validateEmails([entry[0]]) &&
-        handlerHelpers.validatePassword(entry[1])
+        inputValidationHelpers.validateEmails([entry[0]]) &&
+        inputValidationHelpers.validatePassword(entry[1])
       ) {
         await userControl.register(entry[0], entry[1]);
       }
@@ -58,8 +58,8 @@ describe("Register is a method that registers new admins with the following cond
     ];
     for (const entry of entries) {
       if (
-        handlerHelpers.validateEmails([entry[0]]) &&
-        handlerHelpers.validatePassword(entry[1])
+        inputValidationHelpers.validateEmails([entry[0]]) &&
+        inputValidationHelpers.validatePassword(entry[1])
       ) {
         let registerationResult = await userControl.register(
           entry[0],
