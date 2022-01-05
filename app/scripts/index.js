@@ -1,5 +1,5 @@
 import UiClass from "../Modules/ui/ui.js";
-import { HandlerHelpersClass } from "../Modules/util/helpers.js";
+import { InputValidationHelpersClass } from "../Modules/util/helpers.js";
 import UserControl from "../Modules/util/user-control.js";
 import { LocalDataPersistenceClass } from "../services/persistent-service.js";
 import RouterService from "../services/router.js";
@@ -7,7 +7,7 @@ import { LIST_USERS_URL } from "../Modules/util/url.js";
 
 //Initialize business logic classes
 const userControl = new UserControl();
-const handlerHelpers = new HandlerHelpersClass();
+const inputValidationHelpers = new InputValidationHelpersClass();
 const ui = new UiClass();
 const router = new RouterService();
 
@@ -105,8 +105,8 @@ async function startSignup(event) {
   event.preventDefault();
   let signUpEntries = ui.getInputValue([signUpEmailInput, signUpPasswordInput]);
   if (
-    handlerHelpers.validateEmails([signUpEntries[0]]) &&
-    handlerHelpers.validatePassword(signUpEntries[1])
+    inputValidationHelpers.validateEmails([signUpEntries[0]]) &&
+    inputValidationHelpers.validatePassword(signUpEntries[1])
   ) {
     //if email & password are validated, attempt to register admin
     ui.attachText([signUpButton], ["registering..."]);

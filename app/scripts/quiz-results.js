@@ -1,6 +1,6 @@
 import UiClass from "../Modules/ui/ui.js";
 import {
-  HandlerHelpersClass,
+  InputValidationHelpersClass,
   UiCommandHelperClass,
 } from "../Modules/util/helpers.js";
 import { CATEGORIES_URL } from "../Modules/util/url.js";
@@ -8,7 +8,7 @@ import ApiServiceClass from "../services/api-service.js";
 import { LocalDataPersistenceClass } from "../services/persistent-service.js";
 
 const ui = new UiClass();
-const handlerHelper = new HandlerHelpersClass();
+const inputValidationHelper = new InputValidationHelpersClass();
 const uiCommandHelper = new UiCommandHelperClass();
 //const apiService = new ApiServiceClass();
 const localDataPersistenceService = new LocalDataPersistenceClass();
@@ -83,7 +83,11 @@ ui.addEventListenerToElements(
   ["change"],
   [
     function () {
-      handlerHelper.limitNumericalEntry.call(this, [100, 0], ["max", "min"]);
+      inputValidationHelper.limitNumericalEntry.call(
+        this,
+        [100, 0],
+        ["max", "min"]
+      );
     },
   ]
 );

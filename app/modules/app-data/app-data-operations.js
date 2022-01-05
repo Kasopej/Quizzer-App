@@ -20,6 +20,9 @@ export class AppDataOperationsClass {
       return (dataAvailable = dataObject[getter](key).length ? true : false);
     }
   }
+  helpSaveData(saveMethod, ...entries) {
+    saveMethod(entries);
+  }
 }
 export class QuizzerDataOperationsClass extends AppDataOperationsClass {
   //Extension of base AppDataOperationsClass to provide functionality specific to quizzer

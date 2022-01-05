@@ -2,7 +2,7 @@ import { QuizzerDataClass } from "../Modules/app-data/app-data.js";
 import { QuizzerDataOperationsClass } from "../Modules/app-data/app-data-operations.js";
 import UiClass from "../Modules/ui/ui.js";
 import {
-  HandlerHelpersClass,
+  InputValidationHelpersClass,
   UrlHelperClass,
 } from "../Modules/util/helpers.js";
 import { CATEGORIES_URL, QUIZ_PAGE_PATH } from "../Modules/util/url.js";
@@ -14,7 +14,7 @@ const ui = new UiClass();
 const apiService = new ApiServiceClass();
 const quizzerData = new QuizzerDataClass();
 const quizzerDataOperation = new QuizzerDataOperationsClass(quizzerData);
-const handlerHelpers = new HandlerHelpersClass();
+const inputValidationHelpers = new InputValidationHelpersClass();
 const URL_Helper = new UrlHelperClass();
 const clipBoardObj = new ClipboardClass();
 
@@ -85,7 +85,7 @@ function checkAndValidateQuantityInput() {
 }
 function validateQuantityInput() {
   //Prevent user from exceeding limits for available number of questions
-  handlerHelpers.limitNumericalEntry.call(
+  inputValidationHelpers.limitNumericalEntry.call(
     questionQtyInputElement,
     [quizzerData.getData("questionsCountInSelection"), 1],
     ["max", "min"]
@@ -107,42 +107,23 @@ function save_UI_Config_Entries(event) {
     questionQtyInputElement,
   ]);
   //save actions
-  quizzerData.updateConfigData(["amount", numberOfQuestions]);
-  handlerHelpers.helpSaveData(
-    quizzerData.updateConfigData,
-    "categoryName",
-    selectedCategoryOptionElement.innerText
-  );
-  handlerHelpers.helpSaveData(
-    quizzerData.updateConfigData,
-    "category",
-    selectedCategoryOptionElement.value
-  );
-  handlerHelpers.helpSaveData(
-    quizzerData.updateConfigData,
-    "difficulty",
-    selectedDifficultyOptionElement.value
-  );
-  handlerHelpers.helpSaveData(
-    quizzerData.updateConfigData,
-    "type",
-    selectedTypeOptionElement.value
-  );
-  handlerHelpers.helpSaveData(
-    quizzerData.updateConfigData,
-    "timing",
-    selectedTimingOptionElement.value
+  quizzerData.updateConfigData(
+    ["amount", numberOfQuestions],
+    ["categoryName", selectedCategoryOptionElement.innerText],
+    ["category", selectedCategoryOptionElement.value],
+    ["difficulty", selectedDifficultyOptionElement.value],
+    ["type", selectedTypeOptionElement.value],
+    ["timing", selectedTimingOptionElement.value]
   );
   if (
     testExpirationDateElement.valueAsNumber >= new Date().valueOf() ||
     testExpirationDateElement.valueAsNumber !==
       testExpirationDateElement.valueAsNumber
   ) {
-    handlerHelpers.helpSaveData(
-      quizzerData.updateConfigData,
+    quizzerData.updateConfigData([
       "expiryDate",
-      testExpirationDateElement.valueAsNumber
-    );
+      testExpirationDateElement.valueAsNumber,
+    ]);
   } else {
     alert("Please speciify a future date for test expiration");
     ui.replaceHTML([modalBodyElement], [""]);
@@ -162,7 +143,7 @@ function processEmailEntries(candidatesEmails) {
   //If email(s) all successfully validated, create links for them. Link elements when clicked should call function to copy unique configuration link to clipboard.
   if (
     candidatesEmails &&
-    handlerHelpers.validateEmails(candidatesEmailsArray)
+    inputValidationHelpers.validateEmails(candidatesEmailsArray)
   ) {
     let index = 0;
     for (let candidateEmail of candidatesEmailsArray) {
@@ -236,9 +217,18 @@ ui.addEventListenerToElements(
     checkAndValidateQuantityInput,
     checkAndValidateQuantityInput,
     function () {
-      handlerHelpers.preventSuccessiveIdenticalCharacterEntry.call(this, ".");
-      handlerHelpers.preventSuccessiveIdenticalCharacterEntry.call(this, ",");
-      handlerHelpers.preventSuccessiveIdenticalCharacterEntry.call(this, "@");
+      inputValidationHelpers.preventSuccessiveSameCharacterEntry.call(
+        this,
+        "."
+      );
+      inputValidationHelpers.preventSuccessiveSameCharacterEntry.call(
+        this,
+        ","
+      );
+      inputValidationHelpers.preventSuccessiveSameCharacterEntry.call(
+        this,
+        "@"
+      );
     },
   ]
 );

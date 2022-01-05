@@ -165,10 +165,7 @@ export class UiCommandHelperClass extends HelperClass {
   }
 }
 
-export class HandlerHelpersClass extends HelperClass {
-  helpSaveData(saveMethod, ...entries) {
-    saveMethod(entries);
-  }
+export class InputValidationHelpersClass extends HelperClass {
   limitNumericalEntry(limits = [], modes = []) {
     //Prevents user from entering numerical values beyond set limits
     for (let mode of modes) {
@@ -205,7 +202,7 @@ export class HandlerHelpersClass extends HelperClass {
     );
     return goodPasswordRegex.test(password);
   }
-  preventSuccessiveIdenticalCharacterEntry(char) {
+  preventSuccessiveSameCharacterEntry(char) {
     let position = 0;
     while (position < this.value.length) {
       let charPosition = this.value.indexOf(char, position);
