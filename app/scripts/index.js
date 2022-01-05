@@ -81,7 +81,7 @@ ui.addEventListenerToElements(
 
 //If a user is already signed in, route to dashboard page
 if (userControl.checkIfUserIsSignedIn()) {
-  router.goToRoute("dashboard.html");
+  router.goToRoute("quiz-results.html");
 }
 
 async function startLogin(event) {
@@ -94,7 +94,7 @@ async function startLogin(event) {
     localDataPersistenceService.saveData("loginStatus", {
       [loginEntries[0]]: loginResult,
     });
-    router.goToRoute("dashboard.html");
+    router.goToRoute("quiz-results.html");
   } else {
     ui.attachText([loginButton], ["Login"]);
     ui.displayAlert("Incorrect login credentials");
