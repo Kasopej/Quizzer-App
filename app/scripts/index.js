@@ -1,12 +1,12 @@
 import UiClass from "../Modules/ui/ui.js";
 import { InputValidationHelpersClass } from "../Modules/util/helpers.js";
-import UserControl from "../Modules/util/user-control.js";
+import User from "../modules/util/user.js";
 import { LocalDataPersistenceClass } from "../services/persistent-service.js";
 import RouterService from "../services/router.js";
 import { LIST_USERS_URL } from "../Modules/util/url.js";
 
 //Initialize business logic classes
-const userControl = new UserControl();
+const user = new User();
 const inputValidationHelpers = new InputValidationHelpersClass();
 const ui = new UiClass();
 const router = new RouterService();
@@ -27,7 +27,7 @@ const passwordValidationTextElement = ui.getElements(
 )[0];
 
 localDataPersistenceService.removeData("allUserAccounts");
-await userControl.getAndSaveAllUsers(LIST_USERS_URL + 1);
+await user.getAndSaveAllUsers(LIST_USERS_URL + 1);
 
 //Add event listeners
 ui.addEventListenerToElements(
@@ -80,7 +80,7 @@ ui.addEventListenerToElements(
 );
 
 //If a user is already signed in, route to dashboard page
-if (userControl.checkIfUserIsSignedIn()) {
+if (user.checkIfUserIsSignedIn()) {
   router.goToRoute("quiz-results.html");
 }
 
@@ -88,7 +88,7 @@ async function startLogin(event) {
   event.preventDefault();
   let loginEntries = ui.getInputValue([loginEmailInput, loginPasswordInput]);
   ui.attachText([loginButton], ["logging in..."]);
-  const loginResult = await userControl.login(loginEntries[0], loginEntries[1]);
+  const loginResult = await user.login(loginEntries[0], loginEntries[1]);
   if (loginResult) {
     //if login successful, save logged in user details to local storage
     localDataPersistenceService.saveData("loginStatus", {
@@ -110,7 +110,7 @@ async function startSignup(event) {
   ) {
     //if email & password are validated, attempt to register admin
     ui.attachText([signUpButton], ["registering..."]);
-    const signUpResult = await userControl.register(
+    const signUpResult = await user.register(
       signUpEntries[0],
       signUpEntries[1]
     );

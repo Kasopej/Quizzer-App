@@ -6,7 +6,7 @@ import { LOGIN_URL, REGISTER_URL } from "./url.js";
 const localDataPersistenceService = new LocalDataPersistenceClass();
 export const ui = new UiClass();
 export const apiService = new API_ServiceClass();
-export default class UserControl {
+export default class User {
   constructor() {}
   async login(email, password) {
     const data = {
@@ -99,7 +99,7 @@ export default class UserControl {
   accessLevel() {}
 }
 
-export class AdminControl extends UserControl {
+export class Admin extends User {
   isUserAdmin(user) {}
   getToken() {}
   updatePreferences() {}
