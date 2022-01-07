@@ -7,9 +7,7 @@ const localDataPersistenceService = new LocalDataPersistenceClass();
 export const ui = new UiClass();
 export const apiService = new API_ServiceClass();
 export default class UserControl {
-  constructor() {
-    this.apiService = new API_ServiceClass();
-  }
+  constructor() {}
   async login(email, password) {
     const data = {
       method: "POST",
@@ -62,7 +60,7 @@ export default class UserControl {
       //if data does not exist in localStorage, it initiliazes he field with an empty array
       localDataPersistenceService.saveData("allUserAccounts", []);
     }
-    let responseData = await this.apiService.fetchData(url);
+    let responseData = await apiService.fetchData(url);
     let arrayOfUserAccounts =
       localDataPersistenceService.getData("allUserAccounts"); //gets user accounts data sacved in localStorage already
     arrayOfUserAccounts.push(...responseData.data); //adds accounts fetched from the database to those gotten from localStorage
@@ -90,4 +88,19 @@ export default class UserControl {
     }
     return false;
   }
+  getPreferences() {
+    return this._preferences;
+  }
+  updatePreferences(preferences) {
+    this._preferences = preferences;
+  }
+  getProfile() {}
+  updateProfile() {}
+  accessLevel() {}
+}
+
+export class AdminControl extends UserControl {
+  isUserAdmin(user) {}
+  getToken() {}
+  updatePreferences() {}
 }
