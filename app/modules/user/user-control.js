@@ -1,12 +1,12 @@
 import API_ServiceClass from "../../services/api-service.js";
 import { LocalDataPersistenceClass } from "../../services/persistent-service.js";
 import UiClass from "../ui/ui.js";
-import { LOGIN_URL, REGISTER_URL } from "./url.js";
+import { LOGIN_URL, REGISTER_URL } from "../util/url.js";
 
 const localDataPersistenceService = new LocalDataPersistenceClass();
 export const ui = new UiClass();
 export const apiService = new API_ServiceClass();
-export default class User {
+export default class UserControl {
   constructor() {}
   async login(email, password) {
     const data = {
@@ -99,7 +99,7 @@ export default class User {
   accessLevel() {}
 }
 
-export class Admin extends User {
+export class Admin extends UserControl {
   isUserAdmin(user) {}
   getToken() {}
   updatePreferences() {}

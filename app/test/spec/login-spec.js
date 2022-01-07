@@ -1,11 +1,11 @@
-import User from "../../modules/util/user.js";
+import UserControl from "../../modules/user/user-control.js";
 import { LocalDataPersistenceClass } from "../../services/persistent-service.js";
 describe("Login is a method that logs in admins, with the following conditions:", function () {
-  let resultsArray, user;
+  let resultsArray, userControl;
   beforeEach(function () {
     resultsArray = [];
-    user = new User();
-    spyOn(user, "login").and.callThrough();
+    userControl = new UserControl();
+    spyOn(userControl, "login").and.callThrough();
   });
   it("return an object with a token field when correct login credentials are passed", async function () {
     let entries = [
@@ -14,7 +14,7 @@ describe("Login is a method that logs in admins, with the following conditions:"
       ["lindsay.ferguson@reqres.in", "ghshdhd"],
     ];
     for (const entry of entries) {
-      let loginResult = await user.login(entry[0], entry[1]);
+      let loginResult = await userControl.login(entry[0], entry[1]);
       if (loginResult) resultsArray.push(loginResult);
     }
     expect(resultsArray).toHaveSize(entries.length);
@@ -31,7 +31,7 @@ describe("Login is a method that logs in admins, with the following conditions:"
       [undefined, undefined],
     ];
     for (const entry of entries) {
-      let loginResult = await user.login(entry[0], entry[1]); //should return false
+      let loginResult = await userControl.login(entry[0], entry[1]); //should return false
       if (loginResult) resultsArray.push(loginResult);
     }
     expect(resultsArray).toHaveSize(0);
@@ -42,19 +42,19 @@ describe("Login is a method that logs in admins, with the following conditions:"
       ["eve.holt@reqres.in", undefined],
       [undefined, "cityslicka"],
     ];
-    await expectAsync(user.login(entries[0], entries[1])).toBeRejected();
+    await expectAsync(userControl.login(entries[0], entries[1])).toBeRejected();
   });
   it("keeps the user logged in even with refresh", async function () {
     //This test may fail the first time it is ran i.e if no user is currently logged in
     const localDataPersistenceService = new LocalDataPersistenceClass();
-    if (!user.checkIfUserIsSignedIn()) {
+    if (!userControl.checkIfUserIsSignedIn()) {
       localDataPersistenceService.saveData("loginStatus", {
-        "eve.holt@reqres.in": await user.login(
+        "eve.holt@reqres.in": await userControl.login(
           "eve.holt@reqres.in",
           "cityslicka"
         ),
       });
     }
-    expect(user.login).not.toHaveBeenCalled();
+    expect(userControl.login).not.toHaveBeenCalled();
   });
 });
