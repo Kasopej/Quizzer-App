@@ -32,15 +32,17 @@ export default class UserControl {
       this.user.timeLastLoggedIn = new Date().valueOf();
       this.user.profile.email = email;
       this.user.isLoggedIn = true;
-      localDataPersistenceService.saveData("currentUser", this.user);
+      localDataPersistenceService.saveData("loggedUser", this.user);
       return this.user;
     } else if ("error" in result) return false;
   }
-  checkIfUserIsSignedIn() {
-    if (localDataPersistenceService.getData("loginStatus")) {
-      return true;
+  attemptAutoLogin() {
+    let loggedUser = localDataPersistenceService.getData("loggedUser")
+    if(loggedUser){
+      Object.assign(this.user, loggedUser);
+      this.user.isLoggedIn = true;
+      this.user.timeLastLoggedIn = new Date().valueOf();
     }
-    return false;
   }
   async register(email, password) {
     if (this.isEmailAlreadyRegistered(email)) {

@@ -4,9 +4,11 @@ import UserControl from "../modules/user/user-control.js";
 import { LocalDataPersistenceClass } from "../services/persistent-service.js";
 import RouterService from "../services/router.js";
 import { LIST_USERS_URL } from "../Modules/util/url.js";
+import User from "../modules/user/user.js";
 
 //Initialize business logic classes
-const userControl = new UserControl();
+const user = new User();
+const userControl = new UserControl(user);
 const inputValidationHelpers = new InputValidationHelpersClass();
 const ui = new UiClass();
 const router = new RouterService();
@@ -80,20 +82,21 @@ ui.addEventListenerToElements(
 );
 
 //If a user is already signed in, route to dashboard page
-if (userControl.checkIfUserIsSignedIn()) {
+userControl.attemptAutoLogin();
+if (user.isLoggedIn) {
   router.goToRoute("quiz-results.html");
 }
 ui.removeElement(ui.getElements(".page-blocker")[0]);
 
 async function startLogin(event) {
   event.preventDefault();
-  let loginEntries = ui.getInputValue([loginEmailInput, loginPasswordInput]);
+  let loginEntry = ui.getInputValue([loginEmailInput, loginPasswordInput]);
   ui.attachText([loginButton], ["logging in..."]);
-  const loginResult = await userControl.login(loginEntries[0], loginEntries[1]);
+  const loginResult = await userControl.login(loginEntry[0], loginEntry[1]);
   if (loginResult) {
     /*
     localDataPersistenceService.saveData("loginStatus", {
-      [loginEntries[0]]: loginResult,
+      [loginEntry[0]]: loginResult,
     });
     */
     router.goToRoute("quiz-results.html");
@@ -105,16 +108,16 @@ async function startLogin(event) {
 
 async function startSignup(event) {
   event.preventDefault();
-  let signUpEntries = ui.getInputValue([signUpEmailInput, signUpPasswordInput]);
+  let signUpEntry = ui.getInputValue([signUpEmailInput, signUpPasswordInput]);
   if (
-    inputValidationHelpers.validateEmails([signUpEntries[0]]) &&
-    inputValidationHelpers.validatePassword(signUpEntries[1])
+    inputValidationHelpers.validateEmails([signUpEntry[0]]) &&
+    inputValidationHelpers.validatePassword(signUpEntry[1])
   ) {
     //if email & password are validated, attempt to register admin
     ui.attachText([signUpButton], ["registering..."]);
     const signUpResult = await userControl.register(
-      signUpEntries[0],
-      signUpEntries[1]
+      signUpEntry[0],
+      signUpEntry[1]
     );
     if (!signUpResult) {
       ui.displayAlert(
