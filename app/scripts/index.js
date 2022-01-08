@@ -83,6 +83,7 @@ ui.addEventListenerToElements(
 if (userControl.checkIfUserIsSignedIn()) {
   router.goToRoute("quiz-results.html");
 }
+ui.removeElement(ui.getElements(".page-blocker")[0]);
 
 async function startLogin(event) {
   event.preventDefault();
@@ -90,10 +91,11 @@ async function startLogin(event) {
   ui.attachText([loginButton], ["logging in..."]);
   const loginResult = await userControl.login(loginEntries[0], loginEntries[1]);
   if (loginResult) {
-    //if login successful, save logged in user details to local storage
+    /*
     localDataPersistenceService.saveData("loginStatus", {
       [loginEntries[0]]: loginResult,
     });
+    */
     router.goToRoute("quiz-results.html");
   } else {
     ui.attachText([loginButton], ["Login"]);

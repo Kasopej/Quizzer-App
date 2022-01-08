@@ -2,12 +2,17 @@ import API_ServiceClass from "../../services/api-service.js";
 import { LocalDataPersistenceClass } from "../../services/persistent-service.js";
 import UiClass from "../ui/ui.js";
 import { LOGIN_URL, REGISTER_URL } from "../util/url.js";
+import User from "./user.js";
 
 const localDataPersistenceService = new LocalDataPersistenceClass();
 export const ui = new UiClass();
 export const apiService = new API_ServiceClass();
 export default class UserControl {
-  constructor() {}
+  constructor(user) {
+    if (user instanceof User) {
+      this.user = user;
+    }
+  }
   async login(email, password) {
     const data = {
       method: "POST",
@@ -22,9 +27,14 @@ export default class UserControl {
       body: JSON.stringify({ email, password }),
     };
     let result = await apiService.postData(LOGIN_URL, data);
-    if ("token" in result)
-      return { ...result, timeLoggedIn: new Date().valueOf() };
-    else if ("error" in result) return false;
+    if ("token" in result) {
+      this.user.token = result.token;
+      this.user.timeLastLoggedIn = new Date().valueOf();
+      this.user.profile.email = email;
+      this.user.isLoggedIn = true;
+      localDataPersistenceService.saveData("currentUser", this.user);
+      return this.user;
+    } else if ("error" in result) return false;
   }
   checkIfUserIsSignedIn() {
     if (localDataPersistenceService.getData("loginStatus")) {
@@ -50,9 +60,13 @@ export default class UserControl {
       body: JSON.stringify({ email, password }),
     };
     let result = await apiService.postData(REGISTER_URL, data);
-    if ("token" in result)
-      return { ...result, timeLoggedIn: new Date().valueOf() };
-    else if ("error" in result) return false;
+    if ("token" in result) {
+      this.user.token = result.token;
+      return this.user;
+    } else if ("error" in result) {
+      this.user.token = result.error;
+      return false;
+    }
   }
   logout() {}
   async getAndSaveAllUsers(url) {
@@ -88,19 +102,13 @@ export default class UserControl {
     }
     return false;
   }
-  getPreferences() {
-    return this._preferences;
-  }
-  updatePreferences(preferences) {
-    this._preferences = preferences;
-  }
-  getProfile() {}
-  updateProfile() {}
   accessLevel() {}
 }
 
-export class Admin extends UserControl {
-  isUserAdmin(user) {}
-  getToken() {}
-  updatePreferences() {}
+export class AdminControl extends UserControl {
+  isUserAdmin(user) {
+    if (user.token) {
+      return true;
+    }
+  }
 }

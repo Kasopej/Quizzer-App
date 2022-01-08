@@ -1,10 +1,12 @@
 import UserControl from "../../modules/user/user-control.js";
+import User from "../../modules/user/user.js";
 import { LocalDataPersistenceClass } from "../../services/persistent-service.js";
 describe("Login is a method that logs in admins, with the following conditions:", function () {
-  let resultsArray, userControl;
+  let resultsArray, userControl, user;
   beforeEach(function () {
     resultsArray = [];
-    userControl = new UserControl();
+    user = new User();
+    userControl = new UserControl(user);
     spyOn(userControl, "login").and.callThrough();
   });
   it("return an object with a token field when correct login credentials are passed", async function () {
