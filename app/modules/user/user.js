@@ -3,4 +3,12 @@ export default class User {
     this.isLoggedIn = false;
     this.profile = {};
   }
+  getPreferences() {
+    return this._preferences;
+  }
+  updatePreferences(preferences) {
+    this._preferences = preferences;
+  }
+  getProfile() {}
+  updateProfile() {}
 }
