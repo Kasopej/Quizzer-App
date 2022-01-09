@@ -1,3 +1,6 @@
+import TestsLogger from "../tests-logger/tests-logger.js";
+
+const testsLogger = new TestsLogger();
 export default class User {
   constructor() {
     this.isLoggedIn = false;
@@ -16,7 +19,9 @@ export class Admin extends User {
   constructor() {
     super();
   }
-  createTest() {}
+  createTest() {
+    testsLogger.addNewTest();
+  }
   updateTest() {}
   deleteTest() {}
   viewResults() {}

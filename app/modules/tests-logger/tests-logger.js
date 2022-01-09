@@ -1,1 +1,3 @@
-export default class TestsLogger {}
+export default class TestsLogger {
+  addNewTest() {}
+}
