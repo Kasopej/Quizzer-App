@@ -2,7 +2,7 @@ import API_ServiceClass from "../../services/api-service.js";
 import { LocalDataPersistenceClass } from "../../services/persistent-service.js";
 import UiClass from "../ui/ui.js";
 import { LOGIN_URL, REGISTER_URL } from "../util/url.js";
-import User from "./user.js";
+import User, { Admin } from "./user.js";
 
 const localDataPersistenceService = new LocalDataPersistenceClass();
 export const ui = new UiClass();
@@ -37,16 +37,16 @@ export default class UserControl {
     } else if ("error" in result) return false;
   }
   attemptAutoLogin() {
-    let loggedUser = localDataPersistenceService.getData("loggedUser")
-    if(loggedUser){
+    let loggedUser = localDataPersistenceService.getData("loggedUser");
+    if (loggedUser) {
       Object.assign(this.user, loggedUser);
       this.user.timeLastLoggedIn = new Date().valueOf();
     }
   }
   async register(email, password) {
     if (this.isEmailAlreadyRegistered(email)) {
-      ui.displayAlert("Email is already registered");
-      return false;
+      //ui.displayAlert("Email is already registered");
+      //return false;
     }
     const data = {
       method: "POST",
@@ -65,7 +65,7 @@ export default class UserControl {
       this.user.token = result.token;
       return this.user;
     } else if ("error" in result) {
-      this.user.token = result.error;
+      //this.user.token = result.error;
       return false;
     }
   }
@@ -107,9 +107,13 @@ export default class UserControl {
 }
 
 export class AdminControl extends UserControl {
-  isUserAdmin(user) {
-    if (user.token) {
-      return true;
+  isUserAdmin(admin) {
+    if (admin instanceof Admin) {
+      if (admin.token) {
+        return true;
+      }
+      return false;
     }
+    return false;
   }
 }

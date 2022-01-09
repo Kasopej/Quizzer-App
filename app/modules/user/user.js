@@ -9,6 +9,15 @@ export default class User {
   updatePreferences(preferences) {
     this._preferences = preferences;
   }
-  getProfile() {}
   updateProfile() {}
+}
+
+export class Admin extends User {
+  constructor() {
+    super();
+  }
+  createTest() {}
+  updateTest() {}
+  deleteTest() {}
+  viewResults() {}
 }

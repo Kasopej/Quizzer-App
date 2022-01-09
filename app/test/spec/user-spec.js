@@ -11,9 +11,4 @@ describe("User is a class that instantiates a user and has fields to record the 
     await adminControl.login(entry[0], entry[1]);
     expect(user.isLoggedIn).toBeTrue();
   });
-  it("can confirm if a user instance has admin authorization", async function () {
-    let entry = ["john.holt@reqres.in", "cityslicka"];
-    await adminControl.register(entry[0], entry[1]);
-    expect(adminControl.isUserAdmin(user)).toBeTrue();
-  });
 });
