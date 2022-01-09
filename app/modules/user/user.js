@@ -19,10 +19,14 @@ export class Admin extends User {
   constructor() {
     super();
   }
-  createTest() {
-    testsLogger.addNewTest();
+  createTest(testSetData) {
+    testsLogger.addNewTest(testSetData);
   }
-  updateTest() {}
-  deleteTest() {}
+  updateTest(testSetData) {
+    testsLogger.editExistingTest(testSetData);
+  }
+  deleteTest() {
+    testsLogger.deleteTest();
+  }
   viewResults() {}
 }

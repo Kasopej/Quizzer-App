@@ -29,4 +29,26 @@ describe("Admin is a class that instantiates a admin and has fields to record th
     admin.createTest(testSetData);
     expect(TestsLogger.prototype.addNewTest).toHaveBeenCalled();
   });
+  it("can initiate update of  an exisitng test set", function () {
+    spyOn(TestsLogger.prototype, "editExistingTest");
+    let testSetData = {
+      amount: 10,
+      categoryName: "Science",
+      category: "17",
+      difficulty: "easy",
+      type: "multiple",
+      timing: "UntimedQuiz",
+      expiryDate: "1640304000000",
+      candidateEmails: ["ben@dev.com"],
+      testGroupId: "14596033566555",
+      adminToken: "QpwL5tke4Pnpja7X4",
+    };
+    admin.updateTest(testSetData);
+    expect(TestsLogger.prototype.editExistingTest).toHaveBeenCalled();
+  });
+  it("can initiate delete of a test set", function () {
+    spyOn(TestsLogger.prototype, "deleteTest");
+    admin.deleteTest();
+    expect(TestsLogger.prototype.deleteTest).toHaveBeenCalled();
+  });
 });
