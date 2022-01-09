@@ -40,7 +40,6 @@ export default class UserControl {
     let loggedUser = localDataPersistenceService.getData("loggedUser")
     if(loggedUser){
       Object.assign(this.user, loggedUser);
-      this.user.isLoggedIn = true;
       this.user.timeLastLoggedIn = new Date().valueOf();
     }
   }

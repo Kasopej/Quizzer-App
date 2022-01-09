@@ -12,6 +12,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+  <script>
+    let pageBlocker = document.createElement("div");
+    pageBlocker.classList.add("page-blocker");
+    pageBlocker.innerHTML = '<h1>...Checking your browser...</h1>';
+    document.body.appendChild(pageBlocker)
+  </script>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#"><img src="assets/Images/smartflow-logo.png" alt=""></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">

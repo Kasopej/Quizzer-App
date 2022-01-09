@@ -84,7 +84,7 @@ ui.addEventListenerToElements(
 //If a user is already signed in, route to dashboard page
 userControl.attemptAutoLogin();
 if (user.isLoggedIn) {
-  router.goToRoute("quiz-results.html");
+  router.goToRoute("admin-home.html");
 }
 ui.removeElement(ui.getElements(".page-blocker")[0]);
 
@@ -99,7 +99,7 @@ async function startLogin(event) {
       [loginEntry[0]]: loginResult,
     });
     */
-    router.goToRoute("quiz-results.html");
+    router.goToRoute("admin-home.html");
   } else {
     ui.attachText([loginButton], ["Login"]);
     ui.displayAlert("Incorrect login credentials");
