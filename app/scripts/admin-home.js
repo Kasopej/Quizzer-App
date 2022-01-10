@@ -3,6 +3,8 @@ import { AdminControl } from "../modules/user/user-control.js";
 import RouterService from "../services/router.js";
 import UiClass from "../modules/ui/ui.js";
 import TestsLogger from "../modules/tests-logger/tests-logger.js";
+import API_ServiceClass from "../services/api-service.js";
+import { CATEGORIES_URL } from "../modules/util/url.js";
 
 //Instantiate business logic classes
 const admin = new Admin();
@@ -10,9 +12,16 @@ const adminControl = new AdminControl(admin);
 const router = new RouterService();
 const ui = new UiClass();
 const testsLogger = new TestsLogger();
+const apiService = new API_ServiceClass();
 
 //import DOM objects
 const testsLogTableBodyElement = ui.getElements("table.tests-logs tbody")[0];
+const categorySelectElement = ui.getElements("#categorySelect")[0];
+const difficultySelectElement = ui.getElements("#difficultySelect")[0];
+const difficultyOptionElements = Array.from(
+  ui.getElements("#difficultySelect option")
+);
+const questionQtyInputElement = ui.getElements("#amountOfQuestions")[0];
 
 let actionsSelectElement, actionOptionElement;
 adminControl.attemptAutoLogin();
@@ -61,6 +70,41 @@ if (testsLogArray.length) {
     ui.getElements(".do-action"),
     ["click"],
     [executeSelectedAction]
+  );
+}
+
+//Make call for categories and attach them to category form element
+const categories = await apiService
+  .fetchData(CATEGORIES_URL)
+  .then((data) => data.trivia_categories);
+categories.forEach((categoryObj) => {
+  const optionElement = ui.createElements("option");
+  ui.setAttributes([optionElement], ["value"], [categoryObj.id]);
+  ui.attachText([optionElement], [categoryObj.name]);
+  ui.attachElements(categorySelectElement, optionElement);
+});
+const categoryOptionElements = Array.from(
+  ui.getElements("#categorySelect option")
+);
+ui.removeElement(ui.getElements(".category-options-spinner")[0]);
+ui.addEventListenerToElements(
+  [ui.getElements(".update-preferences-btn")[0]],
+  ["click"],
+  [savePreferences]
+);
+
+function savePreferences() {
+  const selectedCategoryOptionElement =
+    categoryOptionElements[categorySelectElement.selectedIndex];
+  const selectedDifficultyOptionElement =
+    difficultyOptionElements[difficultySelectElement.selectedIndex];
+
+  let [numberOfQuestions] = ui.getInputValue([questionQtyInputElement]);
+  admin.updatePreferences(
+    ["amount", numberOfQuestions],
+    ["categoryName", selectedCategoryOptionElement.innerText],
+    ["category", selectedCategoryOptionElement.value],
+    ["difficulty", selectedDifficultyOptionElement.value]
   );
 }
 
