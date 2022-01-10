@@ -22,6 +22,13 @@ const difficultyOptionElements = Array.from(
   ui.getElements("#difficultySelect option")
 );
 const questionQtyInputElement = ui.getElements("#amountOfQuestions")[0];
+const preferredDifficultyDisplaElement = ui.getElements(
+  ".difficulty-preference"
+)[0];
+const preferredCategoryDisplaElement = ui.getElements(
+  ".category-preference"
+)[0];
+const preferredAmountDisplaElement = ui.getElements(".amount-preference")[0];
 
 let actionsSelectElement, actionOptionElement;
 adminControl.attemptAutoLogin();
@@ -93,6 +100,20 @@ ui.addEventListenerToElements(
   [savePreferences]
 );
 
+//Display admin preferences
+function displayUpdatedPreferences() {
+  const adminPreferences = Object.assign({}, admin.getPreferences());
+  if (Object.keys(adminPreferences).length) {
+    preferredCategoryDisplaElement.value = adminPreferences.categoryName;
+    preferredAmountDisplaElement.value = adminPreferences.amount;
+    preferredDifficultyDisplaElement.value = adminPreferences.difficulty;
+    categorySelectElement.value = adminPreferences.category;
+    questionQtyInputElement.value = +adminPreferences.amount;
+    difficultySelectElement.value = adminPreferences.difficulty;
+  }
+}
+displayUpdatedPreferences();
+
 function savePreferences() {
   const selectedCategoryOptionElement =
     categoryOptionElements[categorySelectElement.selectedIndex];
@@ -106,6 +127,7 @@ function savePreferences() {
     ["category", selectedCategoryOptionElement.value],
     ["difficulty", selectedDifficultyOptionElement.value]
   );
+  displayUpdatedPreferences();
 }
 
 async function executeSelectedAction() {

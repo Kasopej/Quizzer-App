@@ -1,4 +1,4 @@
-.HomeWrapper {
+.homeWrapper {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -13,7 +13,7 @@
   margin-right: 35px;
 }
 
-.prefrenceWrapper {
+.preference-wrapper {
   width: 25%;
   padding: 10px;
 }
@@ -30,13 +30,13 @@
   height: 1.5rem;
 }
 @media (max-width: 970px) {
-  .HomeWrapper {
+  .homeWrapper {
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
     justify-content: center;
   }
-  .prefrenceWrapper {
+  .preference-wrapper {
     width: 100%;
   }
   .testLogWrapper {
