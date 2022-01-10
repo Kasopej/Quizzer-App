@@ -19,8 +19,8 @@ export class Admin extends User {
   constructor() {
     super();
   }
-  createTest(testSetData) {
-    testsLogger.addNewTest(testSetData);
+  async createTest(testSetData) {
+    await testsLogger.addNewTest(testSetData);
   }
   updateTest(testSetData, resourceId) {
     testsLogger.editExistingTest(testSetData, resourceId);

@@ -8,8 +8,12 @@ import {
 import { CATEGORIES_URL, QUIZ_PAGE_PATH } from "../Modules/util/url.js";
 import ApiServiceClass from "../services/api-service.js";
 import { ClipboardClass } from "../services/user-agent.js";
+import { Admin } from "../modules/user/user.js";
+import { AdminControl } from "../modules/user/user-control.js";
 
 // Instantiate business logic classes
+const admin = new Admin();
+const adminControl = new AdminControl(admin);
 const ui = new UiClass();
 const apiService = new ApiServiceClass();
 const quizzerData = new QuizzerDataClass();
@@ -34,6 +38,10 @@ const testExpirationDateElement = ui.getElements("#expiryDate")[0];
 const modalBodyElement = ui.getElements("#quiz-link-modal p")[0];
 const emailTextAreaElement = ui.getElements("#candidatesEmails")[0];
 
+adminControl.attemptAutoLogin();
+if (!(admin.isLoggedIn && adminControl.isUserAdmin(admin))) {
+  router.redirect();
+}
 //Make call for categories and attach them to category form element
 quizzerData.updateData([
   "Quiz Categories",
@@ -134,7 +142,7 @@ function save_UI_Config_Entries(event) {
   event.preventDefault();
 }
 
-function processEmailEntries(candidatesEmails) {
+async function processEmailEntries(candidatesEmails) {
   //Validate emails and print links (if emails valid). Generate unique configuration link for each email
   ui.replaceHTML([modalBodyElement], [""]);
 
@@ -145,6 +153,11 @@ function processEmailEntries(candidatesEmails) {
     candidatesEmails &&
     inputValidationHelpers.validateEmails(candidatesEmailsArray)
   ) {
+    quizzerData.updateConfigData(
+      ["candidateEmails", candidatesEmailsArray],
+      ["adminToken", admin.token]
+    );
+    await admin.createTest(quizzerData.getConfigData());
     let index = 0;
     for (let candidateEmail of candidatesEmailsArray) {
       candidateEmail = candidateEmail.trim();

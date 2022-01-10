@@ -1,5 +1,19 @@
 {
   "testSets": [
-    
+    {
+      "amount": "15",
+      "categoryName": "Animals",
+      "category": "27",
+      "difficulty": "easy",
+      "type": "multiple",
+      "timing": "Timed Quiz",
+      "expiryDate": null,
+      "candidateEmails": [
+        "adam@dev.com",
+        " sade@product.com"
+      ],
+      "adminToken": "QpwL5tke4Pnpja7X4",
+      "id": 1
+    }
   ]
 }
