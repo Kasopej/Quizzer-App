@@ -1,13 +1,13 @@
 {
   "testSets": [
     {
-      "amount": "9",
-      "categoryName": "Art",
-      "category": "25",
-      "difficulty": "easy",
+      "amount": "45",
+      "categoryName": "Politics",
+      "category": "24",
+      "difficulty": "",
       "type": "multiple",
       "timing": "Timed Quiz",
-      "expiryDate": 1642118400000,
+      "expiryDate": 1643241600000,
       "candidateEmails": [
         "adam@dev.com",
         " sade@product.com",
@@ -15,7 +15,7 @@
         " kasope@smartflow.com"
       ],
       "adminToken": "QpwL5tke4Pnpja7X4",
-      "timeStamp": 1641787465072,
+      "timeStamp": 1641819859008,
       "id": 1
     }
   ]
