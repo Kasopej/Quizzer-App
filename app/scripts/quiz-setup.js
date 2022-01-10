@@ -74,6 +74,7 @@ if (
 
 //if page is in edit mode, fetch test set data and populate UI
 const params = urlHelper.getParamsFromQueryString(location.search.substr(1));
+const adminPreferences = Object.assign({}, admin.getPreferences());
 if (params.mode == "edit") {
   const existingTestSet = await testsLogger.getSpecificTest(params.id);
   quizzerData.updateConfigData(...Object.entries(existingTestSet));
@@ -86,6 +87,10 @@ if (params.mode == "edit") {
     testExpirationDateElement.value = new Date(existingTestSet.expiryDate)
       .toISOString()
       .slice(0, 10);
+} else if (Object.keys(adminPreferences).length) {
+  categorySelectElement.value = adminPreferences.category;
+  questionQtyInputElement.value = +adminPreferences.amount;
+  difficultySelectElement.value = adminPreferences.difficulty;
 }
 
 function checkAndValidateQuantityInput() {

@@ -14,6 +14,21 @@
       "adminToken": "QpwL5tke4Pnpja7X4",
       "timeStamp": 1641819047642,
       "id": 1
+    },
+    {
+      "amount": "15",
+      "categoryName": "Politics",
+      "category": "24",
+      "difficulty": "hard",
+      "type": "",
+      "timing": "Timed Quiz",
+      "expiryDate": null,
+      "candidateEmails": [
+        "adam@dev.com"
+      ],
+      "adminToken": "QpwL5tke4Pnpja7X3",
+      "timeStamp": 1641848277632,
+      "id": 2
     }
   ]
 }
