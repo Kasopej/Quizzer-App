@@ -155,7 +155,8 @@ async function processEmailEntries(candidatesEmails) {
   ) {
     quizzerData.updateConfigData(
       ["candidateEmails", candidatesEmailsArray],
-      ["adminToken", admin.token]
+      ["adminToken", admin.token],
+      ["timeStamp", new Date().valueOf()]
     );
     await admin.createTest(quizzerData.getConfigData());
     let index = 0;

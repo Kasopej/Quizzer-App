@@ -3,6 +3,10 @@ import { TESTS_SETS_RESOURCE_BASEURL } from "../util/url.js";
 
 const apiService = new API_ServiceClass();
 export default class TestsLogger {
+  async getTests() {
+    let response = await apiService.fetchData(TESTS_SETS_RESOURCE_BASEURL);
+    return response;
+  }
   async addNewTest(testSetData) {
     let response = await apiService.updatePut(TESTS_SETS_RESOURCE_BASEURL, {
       method: "POST",

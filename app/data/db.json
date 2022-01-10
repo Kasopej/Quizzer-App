@@ -1,10 +1,10 @@
 {
   "testSets": [
     {
-      "amount": "15",
-      "categoryName": "Animals",
-      "category": "27",
-      "difficulty": "easy",
+      "amount": "32",
+      "categoryName": "Vehicles",
+      "category": "28",
+      "difficulty": "medium",
       "type": "multiple",
       "timing": "Timed Quiz",
       "expiryDate": null,
@@ -13,6 +13,7 @@
         " sade@product.com"
       ],
       "adminToken": "QpwL5tke4Pnpja7X4",
+      "timeStamp": 1641779182924,
       "id": 1
     }
   ]

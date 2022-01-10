@@ -199,7 +199,13 @@ export default class UiClass {
   }
   replaceChildren(parent, children) {
     //attach node object or nodelist to node in DOM, replacing existing children
-    parent.replaceChildren(...children);
+    if (children) {
+      parent.replaceChildren(...children);
+      return;
+    }
+    //if no child element specified, empty parent element of all child nodes
+    parent.replaceChildren();
+    
   }
   removeElement(element) {
     element.remove();

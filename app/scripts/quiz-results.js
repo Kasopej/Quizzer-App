@@ -33,13 +33,14 @@ resultsElementsArray.forEach((resultElement, index) => {
   let score = results[index].score.split("/");
   let percentScore = (score[0] / score[1]) * 100;
   let email = results[index].candidateEmail;
+  let timeTestTaken = results[index].timeStamp;
   ui.attachHTML(
     [resultElement],
     [
       `<td class="time" data-timestamp="${new Date(
-        results[index].timeStamp
+        timeTestTaken
       ).valueOf()}">${new Date(
-        results[index].timeStamp
+        timeTestTaken
       ).toDateString()}</td><td>${email}</td><td class="score" data-score="${percentScore}">${percentScore}%</td>`,
     ]
   );
