@@ -14,12 +14,12 @@ const testsLogger = new TestsLogger();
 //import DOM objects
 const testsLogTableBodyElement = ui.getElements("table.tests-logs tbody")[0];
 
+let actionsSelectElement, actionOptionElement;
 adminControl.attemptAutoLogin();
 if (!(admin.isLoggedIn && adminControl.isUserAdmin(admin))) {
   router.redirect();
 }
 ui.removeElement(ui.getElements(".page-blocker")[0]);
-console.log(JSON.stringify(admin));
 ui.replaceChildren(testsLogTableBodyElement);
 
 const testsLogArray = await testsLogger.getTests();
@@ -33,6 +33,7 @@ if (!Array.isArray(testSetElementsArray)) {
   testSetElementsArray = [testSetElementsArray];
 }
 testSetElementsArray.forEach((testSetElement, index) => {
+  testSetElement.classList.add("set" + (index + 1));
   let testSet = testsLogArray[index];
   let testSetExpiryDate = testSet.expiryDate;
   let testStatus =
@@ -48,9 +49,42 @@ testSetElementsArray.forEach((testSetElement, index) => {
         testSet.candidateEmails.length
       }</td><td>${
         testSet.categoryName
-      }</td><td><select name="action" class="custom-select w-75"><option selected>Select Action</option><option value="view">View Result</option><option value="modify">Modify</option><option value="delete">Delete</option></select><button class="btn btn-danger do-action">Go</button></td>`,
+      }</td><td><select name="admin-action" class="admin-action custom-select w-75"><option selected>Select Action</option><option value="view">View Result</option><option value="modify">Modify</option><option value="delete">Delete</option></select><button class="btn btn-danger do-action" id="${
+        index + 1
+      }">Go</button></td>`,
     ]
   );
 });
+if (testsLogArray.length) {
+  ui.replaceChildren(testsLogTableBodyElement, testSetElementsArray);
+  ui.addEventListenerToElements(
+    ui.getElements(".do-action"),
+    ["click"],
+    [executeSelectedAction]
+  );
+}
 
-ui.replaceChildren(testsLogTableBodyElement, testSetElementsArray);
+async function executeSelectedAction() {
+  const selectedActionElement = ui.getElementsFromNode(
+    ui.getElements(`tr.set${this.id}`)[0],
+    "option"
+  )[
+    ui.getElementsFromNode(ui.getElements(`tr.set${this.id}`)[0], "select")[0]
+      .selectedIndex
+  ];
+  let selectedAction = ui.getInputValue([selectedActionElement])[0];
+  switch (selectedAction) {
+    case "view":
+      router.goToRoute("quiz-results.html");
+      break;
+    case "modify":
+      router.goToRoute(`quiz-setup.html?mode=edit&id=${this.id}`);
+      break;
+    case "delete":
+      await admin.deleteTest(this.id);
+      router.goToRoute("admin-home.html");
+      break;
+    default:
+      break;
+  }
+}

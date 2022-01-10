@@ -1,19 +1,21 @@
 {
   "testSets": [
     {
-      "amount": "32",
-      "categoryName": "Vehicles",
-      "category": "28",
-      "difficulty": "medium",
+      "amount": "9",
+      "categoryName": "Art",
+      "category": "25",
+      "difficulty": "easy",
       "type": "multiple",
       "timing": "Timed Quiz",
-      "expiryDate": null,
+      "expiryDate": 1642118400000,
       "candidateEmails": [
         "adam@dev.com",
-        " sade@product.com"
+        " sade@product.com",
+        " tunde@jobs.com",
+        " kasope@smartflow.com"
       ],
       "adminToken": "QpwL5tke4Pnpja7X4",
-      "timeStamp": 1641779182924,
+      "timeStamp": 1641787465072,
       "id": 1
     }
   ]

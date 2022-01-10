@@ -31,5 +31,13 @@ export default class API_ServiceClass {
     return resolvedData;
   }
   updatePatch() {}
-  delete() {}
+  async deleteData(url, data) {
+    let resolvedData;
+    const response = await fetch(url, data).catch((error) => {
+      alert("Please check your connection and retry");
+      throw error;
+    });
+    resolvedData = await response.json();
+    return resolvedData;
+  }
 }

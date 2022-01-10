@@ -22,11 +22,11 @@ export class Admin extends User {
   async createTest(testSetData) {
     await testsLogger.addNewTest(testSetData);
   }
-  updateTest(testSetData, resourceId) {
-    testsLogger.editExistingTest(testSetData, resourceId);
+  async updateTest(testSetData, resourceId) {
+    await testsLogger.editExistingTest(testSetData, resourceId);
   }
-  deleteTest() {
-    testsLogger.deleteTest();
+  async deleteTest(resourceId) {
+    await testsLogger.deleteTest(resourceId);
   }
   viewResults() {}
 }

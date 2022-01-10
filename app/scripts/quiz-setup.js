@@ -10,6 +10,7 @@ import ApiServiceClass from "../services/api-service.js";
 import { ClipboardClass } from "../services/user-agent.js";
 import { Admin } from "../modules/user/user.js";
 import { AdminControl } from "../modules/user/user-control.js";
+import TestsLogger from "../modules/tests-logger/tests-logger.js";
 
 // Instantiate business logic classes
 const admin = new Admin();
@@ -19,8 +20,9 @@ const apiService = new ApiServiceClass();
 const quizzerData = new QuizzerDataClass();
 const quizzerDataOperation = new QuizzerDataOperationsClass(quizzerData);
 const inputValidationHelpers = new InputValidationHelpersClass();
-const URL_Helper = new UrlHelperClass();
+const urlHelper = new UrlHelperClass();
 const clipBoardObj = new ClipboardClass();
+const testsLogger = new TestsLogger();
 
 // Import node objects from DOM
 const questionQtyInputElement = ui.getElements("#amountOfQuestions")[0];
@@ -68,6 +70,22 @@ if (
   )
 ) {
   ui.removeElement(ui.getElements(".category-options-spinner")[0]);
+}
+
+//if page is in edit mode, fetch test set data and populate UI
+const params = urlHelper.getParamsFromQueryString(location.search.substr(1));
+if (params.mode == "edit") {
+  const existingTestSet = await testsLogger.getSpecificTest(params.id);
+  quizzerData.updateConfigData(...Object.entries(existingTestSet));
+  categorySelectElement.value = +existingTestSet.category;
+  questionQtyInputElement.value = +existingTestSet.amount;
+  difficultySelectElement.value = existingTestSet.difficulty;
+  typeSelectElement.value = existingTestSet.type;
+  emailTextAreaElement.value = existingTestSet.candidateEmails.join();
+  if (existingTestSet.timeStamp)
+    testExpirationDateElement.value = new Date(existingTestSet.expiryDate)
+      .toISOString()
+      .slice(0, 10);
 }
 
 function checkAndValidateQuantityInput() {
@@ -158,12 +176,16 @@ async function processEmailEntries(candidatesEmails) {
       ["adminToken", admin.token],
       ["timeStamp", new Date().valueOf()]
     );
-    await admin.createTest(quizzerData.getConfigData());
+    if (params.mode == "edit")
+      await admin.updateTest(quizzerData.getConfigData(), params.id);
+    else {
+      await admin.createTest(quizzerData.getConfigData());
+    }
     let index = 0;
     for (let candidateEmail of candidatesEmailsArray) {
       candidateEmail = candidateEmail.trim();
       quizzerData.updateConfigData(["candidateEmail", candidateEmail]);
-      //ui.attachText([modalBodyElement], [location.origin + '/quiz?' + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
+      //ui.attachText([modalBodyElement], [location.origin + '/quiz?' + urlHelper.generateTokenLink(urlHelper.generateQuery(Array.from(quizzerData.getConfigData().entries())))]);
       let candidateEmailAnchorElement = ui.createElements("a");
       ui.setAttributes(
         [candidateEmailAnchorElement],
@@ -179,7 +201,7 @@ async function processEmailEntries(candidatesEmails) {
             clipBoardObj.write(
               location.origin +
                 QUIZ_PAGE_PATH +
-                URL_Helper.generateQuery(
+                urlHelper.generateQuery(
                   Array.from(
                     Object.entries(quizzerData.getConfigDataClone(+this.id))
                   ),
@@ -191,7 +213,7 @@ async function processEmailEntries(candidatesEmails) {
       );
 
       /*
-                ui.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + QUIZ_PAGE_PATH + URL_Helper.generateTokenLink(URL_Helper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())), true))) }
+                ui.addEventListenerToElements([candidateEmailAnchorElement], ['click'], [function () { clipBoardObj.write(location.origin + QUIZ_PAGE_PATH + urlHelper.generateTokenLink(urlHelper.generateQuery(Array.from(Object.entries(quizzerData.getConfigData())), true))) }
                 ]);
                 */
       index++;
