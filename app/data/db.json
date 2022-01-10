@@ -1,6 +1,7 @@
 {
   "testSets": [
     {
+<<<<<<< HEAD
       "amount": "45",
       "categoryName": "Politics",
       "category": "24",
@@ -8,15 +9,40 @@
       "type": "multiple",
       "timing": "Timed Quiz",
       "expiryDate": 1643241600000,
+=======
+      "amount": "10",
+      "categoryName": "General Knowledge",
+      "category": "9",
+      "difficulty": "",
+      "type": "",
+      "timing": "Timed Quiz",
+      "expiryDate": 1642550400000,
+>>>>>>> a3990e6d391d1239acb93874e066eeb116a5ad86
       "candidateEmails": [
-        "adam@dev.com",
-        " sade@product.com",
-        " tunde@jobs.com",
-        " kasope@smartflow.com"
+        "adam@dev.com"
       ],
       "adminToken": "QpwL5tke4Pnpja7X4",
+<<<<<<< HEAD
       "timeStamp": 1641819859008,
+=======
+      "timeStamp": 1641819047642,
+>>>>>>> a3990e6d391d1239acb93874e066eeb116a5ad86
       "id": 1
+    },
+    {
+      "amount": "15",
+      "categoryName": "Politics",
+      "category": "24",
+      "difficulty": "hard",
+      "type": "",
+      "timing": "Timed Quiz",
+      "expiryDate": null,
+      "candidateEmails": [
+        "adam@dev.com"
+      ],
+      "adminToken": "QpwL5tke4Pnpja7X3",
+      "timeStamp": 1641848277632,
+      "id": 2
     }
   ]
 }

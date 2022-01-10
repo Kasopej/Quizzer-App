@@ -29,18 +29,24 @@ export default class UserControl {
     let result = await apiService.postData(LOGIN_URL, data);
     if ("token" in result) {
       this.user.token = result.token;
-      this.user.timeLastLoggedIn = new Date().valueOf();
+      this.user.timeLastLoggedIn = getCurrentTimeInMilliseconds();
       this.user.profile.email = email;
       this.user.isLoggedIn = true;
+      this.user.loginExpiryDate = this.user.timeLastLoggedIn + 6.048e8; //login will expire in one week
       localDataPersistenceService.saveData("loggedUser", this.user);
       return this.user;
     } else if ("error" in result) return false;
   }
   attemptAutoLogin() {
     let loggedUser = localDataPersistenceService.getData("loggedUser");
-    if (loggedUser) {
+    if (
+      loggedUser &&
+      loggedUser.loginExpiryDate > getCurrentTimeInMilliseconds()
+    ) {
       Object.assign(this.user, loggedUser);
-      this.user.timeLastLoggedIn = new Date().valueOf();
+      this.user.timeLastLoggedIn = getCurrentTimeInMilliseconds();
+      this.user.loginExpiryDate = this.user.timeLastLoggedIn + 6.048e8;
+      localDataPersistenceService.saveData("loggedUser", this.user);
     }
   }
   async register(email, password) {
@@ -63,6 +69,7 @@ export default class UserControl {
     let result = await apiService.postData(REGISTER_URL, data);
     if ("token" in result) {
       this.user.token = result.token;
+      this.user.profile.email = email;
       return this.user;
     } else if ("error" in result) {
       //this.user.token = result.error;
@@ -116,4 +123,8 @@ export class AdminControl extends UserControl {
     }
     return false;
   }
+}
+
+function getCurrentTimeInMilliseconds() {
+  return new Date().valueOf();
 }
