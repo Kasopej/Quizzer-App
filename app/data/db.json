@@ -1,21 +1,18 @@
 {
   "testSets": [
     {
-      "amount": "9",
-      "categoryName": "Art",
-      "category": "25",
-      "difficulty": "easy",
-      "type": "multiple",
+      "amount": "10",
+      "categoryName": "General Knowledge",
+      "category": "9",
+      "difficulty": "",
+      "type": "",
       "timing": "Timed Quiz",
-      "expiryDate": 1642118400000,
+      "expiryDate": 1642550400000,
       "candidateEmails": [
-        "adam@dev.com",
-        " sade@product.com",
-        " tunde@jobs.com",
-        " kasope@smartflow.com"
+        "adam@dev.com"
       ],
       "adminToken": "QpwL5tke4Pnpja7X4",
-      "timeStamp": 1641787465072,
+      "timeStamp": 1641819047642,
       "id": 1
     }
   ]

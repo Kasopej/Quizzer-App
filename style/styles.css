@@ -39,8 +39,9 @@ Styling used in quiz.html
 .spinner-border-large {width: 4rem; height: 4rem;}
 #quiz-link-modal .modal-body p a {display: block; padding: 5px;}
 .hidden{display: none;}
+*/
 
-finsihed html page
+/*finsihed html page*/
 html {
     height: 100%;
   }
@@ -84,5 +85,3 @@ html {
      float: left;
     color: black;
   }
-
-  */
