@@ -21,6 +21,15 @@ export default class API_ServiceClass {
     resolvedData = await response.json();
     return resolvedData;
   }
-  update() {}
+  async updatePut(url, data) {
+    let resolvedData;
+    const response = await fetch(url, data).catch((error) => {
+      alert("Please check your connection and retry");
+      throw error;
+    });
+    resolvedData = await response.json();
+    return resolvedData;
+  }
+  updatePatch() {}
   delete() {}
 }

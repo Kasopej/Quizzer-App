@@ -22,8 +22,8 @@ export class Admin extends User {
   createTest(testSetData) {
     testsLogger.addNewTest(testSetData);
   }
-  updateTest(testSetData) {
-    testsLogger.editExistingTest(testSetData);
+  updateTest(testSetData, resourceId) {
+    testsLogger.editExistingTest(testSetData, resourceId);
   }
   deleteTest() {
     testsLogger.deleteTest();

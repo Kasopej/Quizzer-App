@@ -9,3 +9,4 @@ export const QUIZ_PAGE_PATH = "/quiz.html?";
 export const LOGIN_URL = "https://reqres.in/api/login";
 export const REGISTER_URL = "https://reqres.in/api/register";
 export const LIST_USERS_URL = "https://reqres.in/api/users?page=";
+export const TESTS_SETS_RESOURCE_BASEURL = "http://localhost:3000/testsets/";
