@@ -46,8 +46,7 @@
 }
 
 /* modal styles */
-.delteModal {
-  /* display: none; Hidden by default */
+.deleteModal {
   position: fixed; /* Stay in place */
   z-index: 1; /* Sit on top */
   padding-top: 100px; /* Location of the box */
@@ -61,13 +60,14 @@
 }
 
 /* Modal Content */
-.delteModal-content {
+.deleteModalContent {
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
 }
+.display-none{display: none !important;}
 
 /* The Close Button */
 .close {

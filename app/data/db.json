@@ -1,21 +1,6 @@
 {
   "testSets": [
     {
-      "amount": "10",
-      "categoryName": "General Knowledge",
-      "category": "9",
-      "difficulty": "",
-      "type": "",
-      "timing": "Timed Quiz",
-      "expiryDate": 1642550400000,
-      "candidateEmails": [
-        "adam@dev.com"
-      ],
-      "adminToken": "QpwL5tke4Pnpja7X4",
-      "timeStamp": 1641819047642,
-      "id": 1
-    },
-    {
       "amount": "15",
       "categoryName": "Politics",
       "category": "24",

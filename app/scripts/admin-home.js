@@ -29,6 +29,9 @@ const preferredCategoryDisplaElement = ui.getElements(
   ".category-preference"
 )[0];
 const preferredAmountDisplaElement = ui.getElements(".amount-preference")[0];
+const deleteModal = ui.getElements(".deleteModal")[0];
+const cancelBtn = ui.getElements(".cancel-action")[0];
+const confirmBtn = ui.getElements(".confirm-action")[0];
 
 let actionsSelectElement, actionOptionElement;
 adminControl.attemptAutoLogin();
@@ -95,9 +98,9 @@ const categoryOptionElements = Array.from(
 );
 ui.removeElement(ui.getElements(".category-options-spinner")[0]);
 ui.addEventListenerToElements(
-  [ui.getElements(".update-preferences-btn")[0]],
-  ["click"],
-  [savePreferences]
+  [ui.getElements(".update-preferences-btn")[0], cancelBtn, confirmBtn],
+  ["click", "click", "click"],
+  [savePreferences, cancelDeleteTestAction, confirmDeleteTestAction]
 );
 
 //Display admin preferences
@@ -147,10 +150,22 @@ async function executeSelectedAction() {
       router.goToRoute(`quiz-setup.html?mode=edit&id=${this.id}`);
       break;
     case "delete":
+      ui.removeClassFromElements([deleteModal], "display-none");
+      confirmBtn.id = this.id;
+      /*
       await admin.deleteTest(this.id);
-      router.goToRoute("admin-home.html");
+      router.goToRoute("admin-home.html"); */
       break;
     default:
       break;
   }
+}
+
+function cancelDeleteTestAction() {
+  ui.addClassToElements([deleteModal], "display-none");
+}
+async function confirmDeleteTestAction() {
+  ui.addClassToElements([deleteModal], "display-none");
+  await admin.deleteTest(this.id);
+  router.goToRoute("admin-home.html");
 }
