@@ -8,6 +8,25 @@
 .smartflowLogo{
     background-color: white;
 }
-tr:nth-child(even){
+tr:nth-child(odd){
     background-color: #b8c6db;
 }
+.sortIconParent{
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+}
+.scoreTitle{
+    position: absolute;
+    left: -45px;
+    bottom: -8px;
+}
+.sortIconParent i:last-child{
+    position: absolute;
+    bottom: -8px;
+}
+.sortIconParent i:hover{
+    cursor: pointer;
+}
+.goodResult{color: green;}
+.badResult{color: red;}

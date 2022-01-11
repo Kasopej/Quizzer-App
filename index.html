@@ -1,104 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsonwebtoken/8.5.1/index.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link rel="stylesheet" href="style/config.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="Style/bootstrap4.4.min.css">
+    <link rel="stylesheet" href="Style/font-awesome.min.css">
+    <link rel="stylesheet" href="Style/login.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
-
 <body>
-  <div class="mx-3 bg-white px-3 py-2 shadow contentcontainer">
-    <div class="d-flex justify-content-center align-center "><img src="assets/images/smartflow-logo.png"
-        alt="smartflow-logo">
-    </div>
-    <div>
-      <div class="my-3">
-        <h4 class="font-weight-bold welcomeText">Welcome to Smartflow Quiz Assessment Configuration Page!</h4>
-        <p>Carefully make your selection to generate link for Candidate.</p>
+    <nav class="sticky-top navbar navbar-expand-md bg-light shadow navbar-dark d-flex justify-content-between">
+       <!-- Brand -->
+       <div class="logoInNav">
+        <a class="navbar-brand" href="#"><img src="Assets/Images/smartflow-logo.png" alt=""></a>
       </div>
-
-      <form class="was-validated configForm">
-        <div class="form-group">
-          <label for="candidatesEmails">Candidates Emails:</label>
-          <textarea name="candidatesEmails" id="candidatesEmails" rows="2" class="form-control emailTxt" value="emails"
-            title="separate each mail with a comma" placeholder="adam@dev.com, sade@it.com" required></textarea>
-        </div>
-
-        <div class="form-group questionQuantityGroup">
-          <label for="amount">Number of Questions:</label>
-          <input type="number" class="form-control" name="amount" id="amountOfQuestions" value="1" min="1" required>
-          <div class="valid-feedback">Valid.</div>
-          <div class="invalid-feedback">Please fill out this field.</div>
-        </div>
-
-        <div class="my-2 categoryParent">
-          <label for="category">Select Category:</label>
-          <select name="category" class="custom-select" id="categorySelect" required>
-            <option value="0">Any category</option>
-          </select>
-          <span class="spinner-border category-options-spinner text-danger spinnerParent" role="status">
-            <span class="sr-only">Loading...</span>
-          </span>
-        </div>
-
-        <div class="my-2">
-          <label for="difficulty">Select Difficulty:</label>
-          <select name="difficulty" id="difficultySelect" class="custom-select">
-            <option value="">Any Difficulty</option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-          </select>
-        </div>
-
-        <div class="my-2">
-          <label for="type">Select Type:</label>
-          <select name="type" id="typeSelect" class="custom-select">
-            <option value="">Any type</option>
-            <option value="multiple">Multi-Choice</option>
-            <option value="boolean">True / False</option>
-          </select>
-        </div>
-
-        <div class="my-2">
-          <label for="type">Select Timing:</label>
-          <select name="type" id="timingSelect" class="custom-select">
-            <option value="Timed Quiz">Timed</option>
-            <option value="Untimed Quiz">Untimed</option>
-          </select>
-        </div>
-        <div class="my-2">
-          <button type="button" data-toggle="modal" class="btn btn-block btn-primary" id="submitBtn"
-            data-target="#quiz-link-modal">Generate Link</button>
-
-        </div>
-      </form>
-
-      <div id="quiz-link-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-body">
-              <p></p>
+      </nav>
+    <div class="landingPage flex-column" id="loginModal">
+        <div class="w-100 d-flex justify-content-center align-items-center">
+            <div class="formContent shadow loginForm">
+                <div class="formHead">
+                    <b>Login</b>
+                </div>
+                <div class="formBody">
+                  <form>
+                        <div class="formGroup">
+                            <div class="iconCont">
+                                <i class="fa fa-user"></i>
+                            </div>
+                          <input class="email" type="text" placeholder="Email">
+                        </div>
+                        <div class="formGroup">
+                            <div class="iconCont">
+                                <i class="fa fa-lock"></i>
+                            </div>
+                          <input class="password" type="password" placeholder="Password">
+                          <span>Show</span>
+                        </div>
+                      <button class="btn" id="loginSubmit">
+                            <span>Login</span>
+                        </button>
+                      <p class="openModal">Don't have an account? <a href="javascript:void(0)">Signup</a>
+                      </p>
+                    </form>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <!-- <div id="quiz-link-modal">
-        <p></p>
-      </div> -->
-    </div>
+        </div> 
+        <div class="mt-3"><h5 class="CopyrightText text-secondary">Copyright &copy;2021 SmartFlow Technologies Limited</h5></div>  
   </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script type="module" src="app/scripts/quizSetup.js"></script>
+  <div class="cusModal signup" id="signupModal">
+      <div class="formContent signUpForm">
+          <div class="formHead">
+              <span class="closeBtn" onclick="this.parentElement.parentElement.parentElement.classList.remove('cusShow')">
+                  <svg viewBox="0 0 1000 1000" id="icon-x"><path fill="currentColor" d="M588.333 500l393.334-393.333C993.333 95 1000 80 1000 62.5 1000 28.333 971.667 0 937.5 0c-16.667 0-32.5 7.5-44.167 18.333L500 411.667 106.667 18.333C95 7.5 80 0 62.5 0 28.333 0 0 28.333 0 62.5 0 80 7.5 95 18.333 106.667L411.667 500 18.333 893.333C7.5 905 0 920.833 0 937.5c0 34.167 28.333 62.5 62.5 62.5 17.5 0 32.5-6.667 44.167-18.333L500 588.333l393.333 393.334C905 993.333 920.833 1000 937.5 1000c34.167 0 62.5-28.333 62.5-62.5 0-16.667-6.667-32.5-18.333-44.167z"></path></svg>
+              </span>
+              <b>Signup</b>
+          </div>
+          <div class="formBody">
+            <form>
+                  <div class="formGroup">
+                      <div class="iconCont">
+                          <i class="fa fa-user"></i>
+                      </div>
+                      <input type="text" placeholder="First Name">
+                  </div>
+                  <div class="formGroup">
+                      <div class="iconCont">
+                          <i class="fa fa-user"></i>
+                      </div>
+                      <input type="text" placeholder="Last Name">
+                  </div>
+                  <div class="formGroup">
+                      <div class="iconCont">
+                        <i class="fa fa-address-book"></i>
+                      </div>
+                      <input type="text" placeholder="Department">
+                  </div>
+                  <div class="formGroup">
+                      <div class="iconCont">
+                          <i class="fa fa-envelope"></i>
+                      </div>
+                    <input class="email" type="email" placeholder="Email">
+                  </div>
+                  <div class="formGroup">
+                      <div class="iconCont">
+                          <i class="fa fa-lock"></i>
+                      </div>
+                    <input class="password" type="password" placeholder="Password">
+                    <span>Show</span>
+                  </div>
+                  <span id="password-validation-message" class="success-message"></span>
+                <button class="btn" id="signupSubmit">
+                      <span>Signup</span>
+                  </button>
+                <p class="openModal">Already have an account? <a href="javascript:void(0)">Login</a>
+                </p>
+              </form>
+          </div>
+      </div>
+</div>
+<div class="infoAlert" id="infoAlert">
+    <span class="close" id="closeInfoAlert">&times;</span>
+    <div class="infoChild">
+        <h3 style="color:rgb(235, 22, 22); font-size: 28px;" class="bounce animated infoText">Select an
+            option first</h3>
+    </div>
+</div>
+ <script src="App/scripts/index.js" type="module"></script>
 </body>
-
 </html>
