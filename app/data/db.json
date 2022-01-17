@@ -14,6 +14,84 @@
       "adminToken": "QpwL5tke4Pnpja7X3",
       "timeStamp": 1641848277632,
       "id": 2
+    },
+    {
+      "amount": "15",
+      "categoryName": "Politics",
+      "category": "24",
+      "difficulty": "hard",
+      "type": "",
+      "timing": "Untimed Quiz",
+      "expiryDate": null,
+      "candidateEmails": [
+        "ahmed@samrt.com"
+      ],
+      "adminToken": "QpwL5tke4Pnpja7X3",
+      "timeStamp": 1642419087721,
+      "id": 3
+    },
+    {
+      "amount": "15",
+      "categoryName": "Politics",
+      "category": "24",
+      "difficulty": "hard",
+      "type": "",
+      "timing": "Untimed Quiz",
+      "expiryDate": null,
+      "candidateEmails": [
+        "ahmed@samrt.com"
+      ],
+      "adminToken": "QpwL5tke4Pnpja7X3",
+      "timeStamp": 1642419090890,
+      "candidateEmail": "ahmed@samrt.com",
+      "id": 4
+    },
+    {
+      "amount": "5",
+      "categoryName": "Politics",
+      "category": "24",
+      "difficulty": "hard",
+      "type": "",
+      "timing": "Untimed Quiz",
+      "expiryDate": null,
+      "candidateEmails": [
+        "ahmed@smart.com"
+      ],
+      "adminToken": "QpwL5tke4Pnpja7X3",
+      "timeStamp": 1642419554737,
+      "id": 5
+    },
+    {
+      "amount": "15",
+      "categoryName": "Politics",
+      "category": "24",
+      "difficulty": "hard",
+      "type": "",
+      "timing": "Untimed Quiz",
+      "expiryDate": null,
+      "candidateEmails": [
+        "ahmed@smart.com"
+      ],
+      "adminToken": "QpwL5tke4Pnpja7X3",
+      "timeStamp": 1642419616561,
+      "candidateEmail": "ahmed@smart.com",
+      "id": 6
+    },
+    {
+      "amount": "25",
+      "categoryName": "Any category",
+      "category": "0",
+      "difficulty": "hard",
+      "type": "",
+      "timing": "Untimed Quiz",
+      "expiryDate": null,
+      "candidateEmails": [
+        "ahmed@smart.com"
+      ],
+      "adminToken": "QpwL5tke4Pnpja7X3",
+      "timeStamp": 1642419703018,
+      "candidateEmail": "ahmed@smart.com",
+      "id": 7
     }
   ]
 }
